@@ -1,5 +1,6 @@
-/* Storage.js - arithmetic across storage/RAM sizes expressed in different units.
-   Operates on plain byte counts (Number); unit conversion is handled by Calc.Units. */
+/* Storage.js - storage/RAM math on plain byte counts (Number).
+   Unit conversion is handled by Calc.Units; this module only does the arithmetic
+   behind the Storage / RAM tab's "Add it up" and "Compare" tools. */
 window.Calc = window.Calc || {};
 
 Calc.Storage = (function () {
@@ -10,32 +11,31 @@ Calc.Storage = (function () {
     return Calc.Units.toBytes(amount, unit);
   }
 
-  // Apply a binary operator to two byte counts. Division/multiplication by a
-  // plain scalar factor is also supported (pass factor as bytesB with isScalar=true).
-  function apply(operator, bytesA, bytesB, isScalarB) {
-    switch (operator) {
-      case "+": return bytesA + bytesB;
-      case "-": return bytesA - bytesB;
-      case "*": return isScalarB ? bytesA * bytesB : bytesA * bytesB; // size*size is unusual but not blocked
-      case "/":
-        if (bytesB === 0) throw new Error("Cannot divide by zero");
-        return bytesA / bytesB;
-      default:
-        throw new Error(`Unknown operator "${operator}"`);
-    }
+  // Sum a list of {quantity, amount, unit} line items into a total byte count.
+  function total(items) {
+    return items.reduce((sum, item) => {
+      if (!isFinite(item.quantity) || item.quantity < 0) {
+        throw new Error("Quantities must be zero or more");
+      }
+      return sum + item.quantity * toBytesEntry(item.amount, item.unit);
+    }, 0);
   }
 
-  // Reduce a list of {amount, unit, operator} steps into a running total in bytes.
-  // The first entry's operator is ignored (it seeds the total).
-  function reduceSteps(steps) {
-    if (!steps.length) return 0;
-    let total = toBytesEntry(steps[0].amount, steps[0].unit);
-    for (let i = 1; i < steps.length; i++) {
-      const stepBytes = toBytesEntry(steps[i].amount, steps[i].unit);
-      total = apply(steps[i].operator, total, stepBytes);
+  // Compare a capacity (A) against a used amount / item size (B), both in bytes.
+  function compare(bytesA, bytesB) {
+    const result = {
+      differenceBytes: bytesA - bytesB,
+      percentOfA: null, // B as a percentage of A
+      fits: null,       // whole copies of B that fit in A
+      leftoverBytes: null,
+    };
+    if (bytesA > 0) result.percentOfA = (bytesB / bytesA) * 100;
+    if (bytesB > 0 && bytesA >= 0) {
+      result.fits = Math.floor(bytesA / bytesB);
+      result.leftoverBytes = bytesA - result.fits * bytesB;
     }
-    return total;
+    return result;
   }
 
-  return { toBytesEntry, apply, reduceSteps };
+  return { toBytesEntry, total, compare };
 })();

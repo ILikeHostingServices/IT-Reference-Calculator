@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IT Calculator - IP, RAID &amp; Storage</title>
+<title>IT Calculator</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -108,21 +109,66 @@
 
   <!-- ============ Storage / RAM ============ -->
   <section id="tab-storage" class="tab-panel">
-    <h2>Storage / RAM Estimator</h2>
-    <p class="hint">Chain amounts together with +, -, x, / across any mix of units.</p>
-    <div id="storage-rows"></div>
-    <button id="storage-add-row" class="secondary-btn">+ Add row</button>
-    <button id="storage-calc" class="calc-btn">Calculate</button>
-    <p class="error" id="storage-error" hidden></p>
-    <div class="result-box" id="storage-result" hidden></div>
+    <h2>Storage / RAM</h2>
+    <p class="hint">Everything here updates as you type.</p>
+
+    <div class="card">
+      <h3>Convert a size</h3>
+      <div class="form-row">
+        <label for="conv-amount">Size</label>
+        <input type="number" id="conv-amount" min="0" step="any" value="4">
+        <select id="conv-unit"></select>
+      </div>
+      <p class="muted-msg" id="conv-empty" hidden>Enter a size to convert.</p>
+      <div class="unit-grid" id="conv-results">
+        <div>
+          <h4>Binary <span>(1024) - what Windows, Linux &amp; RAM use</span></h4>
+          <table class="result-table unit-table" id="conv-binary"><tbody></tbody></table>
+        </div>
+        <div>
+          <h4>Decimal <span>(1000) - what drive labels &amp; macOS use</span></h4>
+          <table class="result-table unit-table" id="conv-decimal"><tbody></tbody></table>
+        </div>
+      </div>
+      <p class="notes">Why does a "4 TB" drive show up as 3.64 TB? The box uses decimal units, but Windows counts in binary (TiB) while still labeling it "TB". RAM is always binary: a "16 GB" stick is 16 GiB.</p>
+    </div>
+
+    <div class="card">
+      <h3>Add it up</h3>
+      <p class="hint">Total up a server's RAM or a set of drives. Each line is quantity &times; size.</p>
+      <div class="preset-chips" id="storage-presets"></div>
+      <div id="storage-items"></div>
+      <button id="storage-add-item" class="secondary-btn">+ Add line</button>
+      <p class="error" id="storage-error" hidden></p>
+      <div class="result-box" id="storage-total"></div>
+    </div>
+
+    <div class="card">
+      <h3>Compare two sizes</h3>
+      <p class="hint">How much space is left, what percent is used, or how many items fit.</p>
+      <div class="form-row">
+        <label for="cmp-a-amount">Capacity (A)</label>
+        <input type="number" id="cmp-a-amount" min="0" step="any" value="2">
+        <select id="cmp-a-unit"></select>
+      </div>
+      <div class="form-row">
+        <label for="cmp-b-amount">Used / item size (B)</label>
+        <input type="number" id="cmp-b-amount" min="0" step="any" value="750">
+        <select id="cmp-b-unit"></select>
+      </div>
+      <p class="muted-msg" id="cmp-empty" hidden>Enter both sizes to compare.</p>
+      <table class="result-table" id="cmp-results"><tbody></tbody></table>
+    </div>
   </section>
 
 </main>
 
 <footer class="app-footer">
-  <p>Runs entirely in your browser - no data leaves your device.</p>
+  <p>It will not get any easier than this</p>
+  <p class="build-info" id="build-info"></p>
 </footer>
 
+<script src="js/version.js"></script>
 <script src="js/units.js"></script>
 <script src="js/ipv4.js"></script>
 <script src="js/ipv6.js"></script>

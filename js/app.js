@@ -45,8 +45,8 @@
   function populateUnitSelect(selectEl, defaultUnit) {
     selectEl.innerHTML = "";
     const groups = [
-      { label: "Binary (preferred)", units: Calc.Units.BINARY },
-      { label: "Decimal", units: Calc.Units.DECIMAL },
+      { label: "Binary (OS / RAM)", units: Calc.Units.BINARY },
+      { label: "Decimal (drive labels)", units: Calc.Units.DECIMAL },
     ];
     groups.forEach(g => {
       const optgroup = document.createElement("optgroup");
@@ -184,76 +184,217 @@
     }
   });
 
-  /* ---------- Storage / RAM estimator ---------- */
-  const storageRowsEl = document.getElementById("storage-rows");
-  const storageError = document.getElementById("storage-error");
-  const storageResult = document.getElementById("storage-result");
-  let storageRowCount = 0;
-
-  function addStorageRow() {
-    const isFirst = storageRowCount === 0;
-    const rowId = storageRowCount++;
-    const row = document.createElement("div");
-    row.className = "storage-row";
-    row.dataset.rowId = rowId;
-
-    let html = "";
-    if (isFirst) {
-      html += `<span style="flex:0 0 64px; color:var(--text-muted); font-size:0.9rem;">Start</span>`;
-    } else {
-      html += `<select class="operator-select">
-        <option value="+">+</option>
-        <option value="-">-</option>
-        <option value="*">x</option>
-        <option value="/">/</option>
-      </select>`;
-    }
-    html += `<input type="number" class="amount-input" step="any" value="1">`;
-    html += `<select class="unit-select"></select>`;
-    if (!isFirst) {
-      html += `<button type="button" class="remove-row" title="Remove row">&times;</button>`;
-    }
-    row.innerHTML = html;
-    storageRowsEl.appendChild(row);
-
-    populateUnitSelect(row.querySelector(".unit-select"), "GiB");
-
-    const removeBtn = row.querySelector(".remove-row");
-    if (removeBtn) {
-      removeBtn.addEventListener("click", () => row.remove());
-    }
+  /* ---------- Storage / RAM ---------- */
+  // Parse a number input; returns null when empty or not a valid non-negative number.
+  function readAmount(inputEl) {
+    if (inputEl.value.trim() === "") return null;
+    const n = Number(inputEl.value);
+    return isFinite(n) && n >= 0 ? n : null;
   }
 
-  document.getElementById("storage-add-row").addEventListener("click", addStorageRow);
-  addStorageRow(); // seed with first row
-  addStorageRow(); // and one operation row for convenience
+  // Human-friendly number for unit tables: grouped digits, tiny values in exponent form.
+  function formatAmount(value) {
+    if (value !== 0 && Math.abs(value) < 0.0001) return value.toExponential(3);
+    return value.toLocaleString(undefined, { maximumFractionDigits: 4 });
+  }
 
-  document.getElementById("storage-calc").addEventListener("click", () => {
+  function formatBothLine(bytes) {
+    const both = Calc.Units.formatBoth(bytes);
+    return `${both.binary} (${both.decimal})`;
+  }
+
+  /* Convert */
+  const convAmount = document.getElementById("conv-amount");
+  const convUnit = document.getElementById("conv-unit");
+  const convResults = document.getElementById("conv-results");
+  const convEmpty = document.getElementById("conv-empty");
+  populateUnitSelect(convUnit, "TB");
+
+  function renderUnitTable(tableEl, units, bytes) {
+    const best = Calc.Units.bestUnit(bytes, units === Calc.Units.DECIMAL ? "decimal" : "binary");
+    const tbody = tableEl.querySelector("tbody");
+    tbody.innerHTML = "";
+    units.filter(u => u.key !== "B").forEach(u => {
+      const tr = document.createElement("tr");
+      if (u.key === best) tr.className = "best";
+      const tdValue = document.createElement("td");
+      const tdUnit = document.createElement("td");
+      tdValue.textContent = formatAmount(Calc.Units.fromBytes(bytes, u.key));
+      tdUnit.textContent = u.key;
+      tr.append(tdValue, tdUnit);
+      tbody.appendChild(tr);
+    });
+  }
+
+  function updateConvert() {
+    const amount = readAmount(convAmount);
+    convEmpty.hidden = amount !== null;
+    convResults.hidden = amount === null;
+    if (amount === null) return;
+    const bytes = Calc.Units.toBytes(amount, convUnit.value);
+    renderUnitTable(document.getElementById("conv-binary"), Calc.Units.BINARY, bytes);
+    renderUnitTable(document.getElementById("conv-decimal"), Calc.Units.DECIMAL, bytes);
+  }
+  convAmount.addEventListener("input", updateConvert);
+  convUnit.addEventListener("change", updateConvert);
+  updateConvert();
+
+  /* Add it up */
+  const storageItemsEl = document.getElementById("storage-items");
+  const storageError = document.getElementById("storage-error");
+  const storageTotal = document.getElementById("storage-total");
+  const PRESETS = [
+    { label: "16 GiB DIMM", amount: 16, unit: "GiB" },
+    { label: "32 GiB DIMM", amount: 32, unit: "GiB" },
+    { label: "64 GiB DIMM", amount: 64, unit: "GiB" },
+    { label: "1 TB SSD", amount: 1, unit: "TB" },
+    { label: "4 TB HDD", amount: 4, unit: "TB" },
+    { label: "8 TB HDD", amount: 8, unit: "TB" },
+  ];
+
+  function addStorageItem(quantity, amount, unit, label) {
+    const row = document.createElement("div");
+    row.className = "storage-row";
+    row.innerHTML = `
+      <input type="number" class="qty-input" min="0" step="1" aria-label="Quantity">
+      <span class="times">&times;</span>
+      <input type="number" class="amount-input" min="0" step="any" aria-label="Size">
+      <select class="unit-select" aria-label="Unit"></select>
+      <input type="text" class="label-input" placeholder="Label (optional)" aria-label="Label">
+      <button type="button" class="remove-row" title="Remove line" aria-label="Remove line">&times;</button>`;
+    row.querySelector(".qty-input").value = quantity;
+    row.querySelector(".amount-input").value = amount;
+    row.querySelector(".label-input").value = label || "";
+    populateUnitSelect(row.querySelector(".unit-select"), unit);
+    row.querySelector(".remove-row").addEventListener("click", () => {
+      row.remove();
+      updateTotal();
+    });
+    storageItemsEl.appendChild(row);
+    updateTotal();
+    return row;
+  }
+
+  // Presets bump the quantity of a matching line instead of adding duplicates.
+  PRESETS.forEach(p => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "chip";
+    chip.textContent = `+ ${p.label}`;
+    chip.addEventListener("click", () => {
+      const match = [...storageItemsEl.querySelectorAll(".storage-row")].find(r =>
+        Number(r.querySelector(".amount-input").value) === p.amount &&
+        r.querySelector(".unit-select").value === p.unit);
+      if (match) {
+        const qty = match.querySelector(".qty-input");
+        qty.value = (Number(qty.value) || 0) + 1;
+        updateTotal();
+      } else {
+        addStorageItem(1, p.amount, p.unit, p.label);
+      }
+    });
+    document.getElementById("storage-presets").appendChild(chip);
+  });
+
+  function updateTotal() {
     hideError(storageError);
-    storageResult.hidden = true;
+    const rowEls = [...storageItemsEl.querySelectorAll(".storage-row")];
+    if (rowEls.length === 0) {
+      storageTotal.innerHTML = `<div class="secondary">Add a line or tap a preset above.</div>`;
+      return;
+    }
     try {
-      const rowEls = [...storageRowsEl.querySelectorAll(".storage-row")];
-      if (rowEls.length === 0) throw new Error("Add at least one row");
-
-      const steps = rowEls.map(rowEl => {
-        const opSelect = rowEl.querySelector(".operator-select");
-        const amount = Number(rowEl.querySelector(".amount-input").value);
-        const unit = rowEl.querySelector(".unit-select").value;
-        if (!isFinite(amount)) throw new Error("All amounts must be valid numbers");
-        return { operator: opSelect ? opSelect.value : "+", amount, unit };
-      });
-
-      const totalBytes = Calc.Storage.reduceSteps(steps);
+      const items = rowEls.map(rowEl => ({
+        quantity: Number(rowEl.querySelector(".qty-input").value),
+        amount: readAmount(rowEl.querySelector(".amount-input")) ?? NaN,
+        unit: rowEl.querySelector(".unit-select").value,
+      }));
+      if (items.some(i => isNaN(i.amount))) throw new Error("Every line needs a size of zero or more");
+      const totalBytes = Calc.Storage.total(items);
       const both = Calc.Units.formatBoth(totalBytes);
-
-      storageResult.innerHTML = `
+      const count = items.reduce((n, i) => n + i.quantity, 0);
+      storageTotal.innerHTML = `
+        <div class="label">Total of ${count.toLocaleString()} item${count === 1 ? "" : "s"}</div>
         <div class="primary">${both.binary}</div>
-        <div class="secondary">${both.decimal}</div>
-        <div class="secondary">${totalBytes.toLocaleString()} bytes</div>
-      `;
-      storageResult.hidden = false;
+        <div class="secondary">${both.decimal} &middot; ${totalBytes.toLocaleString()} bytes</div>`;
     } catch (e) {
       showError(storageError, e.message);
     }
+  }
+  storageItemsEl.addEventListener("input", updateTotal);
+  storageItemsEl.addEventListener("change", updateTotal);
+  document.getElementById("storage-add-item").addEventListener("click", () => {
+    addStorageItem(1, 1, "TB").querySelector(".amount-input").select();
+  });
+  addStorageItem(4, 32, "GiB", "DIMM"); // example line so the tool isn't blank
+
+  /* Compare */
+  const cmpA = document.getElementById("cmp-a-amount");
+  const cmpAUnit = document.getElementById("cmp-a-unit");
+  const cmpB = document.getElementById("cmp-b-amount");
+  const cmpBUnit = document.getElementById("cmp-b-unit");
+  const cmpResults = document.getElementById("cmp-results");
+  const cmpEmpty = document.getElementById("cmp-empty");
+  populateUnitSelect(cmpAUnit, "TB");
+  populateUnitSelect(cmpBUnit, "GB");
+
+  function updateCompare() {
+    const a = readAmount(cmpA);
+    const b = readAmount(cmpB);
+    const ready = a !== null && b !== null;
+    cmpEmpty.hidden = ready;
+    cmpResults.hidden = !ready;
+    if (!ready) return;
+
+    const bytesA = Calc.Units.toBytes(a, cmpAUnit.value);
+    const bytesB = Calc.Units.toBytes(b, cmpBUnit.value);
+    const r = Calc.Storage.compare(bytesA, bytesB);
+    const rows = [
+      r.differenceBytes >= 0
+        ? ["Left over (A - B)", formatBothLine(r.differenceBytes)]
+        : ["Short by (B - A)", formatBothLine(-r.differenceBytes)],
+    ];
+    if (r.percentOfA !== null) rows.push(["B uses this much of A", `${Calc.Units.trimNumber(r.percentOfA, 2)}%`]);
+    if (r.fits !== null) {
+      rows.push(["Whole copies of B that fit in A", r.fits.toLocaleString()]);
+      if (r.fits > 0) rows.push(["Space left after those copies", formatBothLine(r.leftoverBytes)]);
+    }
+    renderTable(cmpResults, rows);
+  }
+  [cmpA, cmpB].forEach(el => el.addEventListener("input", updateCompare));
+  [cmpAUnit, cmpBUnit].forEach(el => el.addEventListener("change", updateCompare));
+  updateCompare();
+
+  /* ---------- Footer: version + build time ---------- */
+  // No build step, so "build time" is the newest Last-Modified across the page's own
+  // files as served (i.e. when they were last deployed/edited). Shown in US Eastern time.
+  function formatEastern(date) {
+    const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZoneName: "short",
+    }).formatToParts(date).map(p => [p.type, p.value]));
+    return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute} ${parts.timeZoneName}`;
+  }
+
+  async function newestAssetDate() {
+    if (location.protocol === "file:") return new Date(document.lastModified);
+    const urls = [
+      location.href.split("#")[0],
+      ...[...document.querySelectorAll("link[rel=stylesheet][href], link[rel=icon][href], script[src]")]
+        .map(el => el.href || el.src),
+    ];
+    const dates = await Promise.all(urls.map(url =>
+      fetch(url, { method: "HEAD", cache: "no-cache" })
+        .then(res => res.headers.get("Last-Modified"))
+        .then(h => (h ? new Date(h) : null))
+        .catch(() => null)));
+    const valid = dates.filter(d => d && !isNaN(d));
+    return valid.length ? new Date(Math.max(...valid)) : null;
+  }
+
+  const buildInfo = document.getElementById("build-info");
+  buildInfo.textContent = `${Calc.APP_NAME} - v${Calc.VERSION}`;
+  newestAssetDate().then(date => {
+    if (date) buildInfo.textContent += ` - Built ${formatEastern(date)}`;
   });
 })();
