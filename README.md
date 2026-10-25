@@ -1,6 +1,6 @@
-README.md v1.1.0 (Last Rev: 2026-09-26)
+README.md v1.2.0 (Last Rev: 2026-10-25)
 
-# IT Calculator
+# IT Reference Calculator
 
 ## Overview
 
@@ -13,12 +13,15 @@ A static, browser-only calculator for everyday IT math. Nothing is sent to a ser
   - **Convert a size** into every binary (KiB..EiB) and decimal (KB..EB) unit side by side.
   - **Add it up** - total quantity x size line items (RAM sticks, drives), with one-click presets.
   - **Compare two sizes** - space left over, percent used, and how many copies of B fit in A.
+- **Resolutions** - two live tools:
+  - **Find The Aspect Ratio** - type a resolution (`1920x1080`, `1920 x 1080`, `1920*1080`, `1920 by 1080`) to get the exact reduced ratio, decimal ratio, nearest standard ratio, orientation, pixel count, and the standard name and use case when it is a known resolution.
+  - **Standard Resolutions** - pick an aspect ratio (16:9, 16:10, 21:9, 32:9, 4:3, 5:4, 3:2, 17:9 DCI, 9:16, 1:1) to list its standard resolutions with names and typical use cases. Tap a row to look it up.
 
 ## Files
 
 | Path | Purpose |
 | --- | --- |
-| `index.html` | Page markup for all four tabs and the footer. |
+| `index.html` | Page markup for all five tabs and the footer. |
 | `favicon.svg` | Site icon (calculator glyph). |
 | `css/style.css` | All styles; light/dark via `prefers-color-scheme`. |
 | `js/version.js` | App name and version shown in the footer. Bump on every functional change. |
@@ -26,6 +29,7 @@ A static, browser-only calculator for everyday IT math. Nothing is sent to a ser
 | `js/ipv4.js`, `js/ipv6.js` | Subnet math. |
 | `js/raid.js` | RAID level definitions and capacity math. |
 | `js/storage.js` | Storage/RAM totals and comparisons (bytes in, bytes out). |
+| `js/resolution.js` | Standard resolutions grouped by aspect ratio, and resolution to aspect ratio lookup. |
 | `js/app.js` | DOM wiring for every tab, plus the footer build time. |
 
 ## Quick Start
@@ -41,6 +45,7 @@ Then open `http://localhost:8931`. Opening `index.html` directly from disk also 
 ## After Install Configuration
 
 - **Version:** edit `Calc.VERSION` in `js/version.js`.
+- **Resolution list:** edit the `GROUPS` table in `js/resolution.js`. Mark a resolution `nominal: true` when it is sold under a ratio it does not reduce to exactly (for example 3440x1440 as 21:9).
 - **Build time in the footer:** computed in the browser as the newest `Last-Modified` header across the page, stylesheet, favicon, and scripts, shown in US Eastern time as `YYYY-MM-DD HH:MM`. It reflects when the deployed files were last written, so no stamping step is needed.
 
 ## Troubleshooting
