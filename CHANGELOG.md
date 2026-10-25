@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here, newest first.
 
+## [1.2.0] - 2026-10-25
+
+### Added
+- **Resolutions** tab: pick an aspect ratio to list its standard resolutions with names and use cases, or type a resolution (for example `3440x1440`) to get its exact and decimal aspect ratio, the nearest standard ratio (flagging nominal ratios such as ultrawide "21:9"), orientation, pixel count, and its standard name and use case. Tapping a listed resolution looks it up.
+
+### Changed
+- Rebranded from "IT Calculator" to "IT Reference Calculator" (page title, header, footer, docs) to go with the repository rename from `calculator` to `IT-Reference-Calculator`.
+
 ## [1.1.0] - 2026-09-26
 
 ### Changed

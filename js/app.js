@@ -1,4 +1,4 @@
-/* app.js - DOM wiring for the IT Calculator UI. Depends on units.js, ipv4.js, ipv6.js, raid.js, storage.js. */
+/* app.js - DOM wiring for the IT Reference Calculator UI. Depends on units.js, ipv4.js, ipv6.js, raid.js, storage.js, resolution.js. */
 (function () {
   "use strict";
 
@@ -364,6 +364,110 @@
   [cmpA, cmpB].forEach(el => el.addEventListener("input", updateCompare));
   [cmpAUnit, cmpBUnit].forEach(el => el.addEventListener("change", updateCompare));
   updateCompare();
+
+  /* ---------- Resolutions ---------- */
+  const resInput = document.getElementById("res-input");
+  const resError = document.getElementById("res-error");
+  const resResults = document.getElementById("res-results");
+  const resShowGroup = document.getElementById("res-show-group");
+  const resGroupSelect = document.getElementById("res-group");
+  const resGroupSummary = document.getElementById("res-group-summary");
+  const resGroupTable = document.getElementById("res-group-table");
+  // Ultrawide "21:9" panels run up to ~2.9% off true 21:9; standard groups are 6%+ apart.
+  const MARKETED_TOLERANCE_PCT = 3;
+
+  Calc.Resolution.listGroups().forEach(g => {
+    const opt = document.createElement("option");
+    opt.value = g.key;
+    opt.textContent = g.label;
+    resGroupSelect.appendChild(opt);
+  });
+
+  // The group's own ratio reduced, e.g. 16:10 -> 8:5, so exact matches can be recognized.
+  function reducedKey(w, h) {
+    const r = Calc.Resolution.lookup(w, h);
+    return `${r.ratioW}:${r.ratioH}`;
+  }
+
+  function updateResGroup() {
+    const group = Calc.Resolution.getGroup(resGroupSelect.value);
+    resGroupSummary.textContent = group.summary;
+    const tbody = resGroupTable.querySelector("tbody");
+    tbody.innerHTML = "";
+    group.resolutions.forEach(r => {
+      const tr = document.createElement("tr");
+      tr.tabIndex = 0;
+      tr.title = "Look up this resolution";
+      [`${r.w} x ${r.h}${r.nominal ? " *" : ""}`, r.name, r.use].forEach(text => {
+        const td = document.createElement("td");
+        td.textContent = text;
+        tr.appendChild(td);
+      });
+      const pick = () => {
+        resInput.value = `${r.w}x${r.h}`;
+        updateResLookup();
+        resInput.scrollIntoView({ behavior: "smooth", block: "center" });
+      };
+      tr.addEventListener("click", pick);
+      tr.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
+      tbody.appendChild(tr);
+    });
+  }
+
+  function updateResLookup() {
+    hideError(resError);
+    resResults.hidden = true;
+    resShowGroup.hidden = true;
+    if (resInput.value.trim() === "") return;
+    try {
+      const { w, h } = Calc.Resolution.parse(resInput.value);
+      const r = Calc.Resolution.lookup(w, h);
+      const exact = `${r.ratioW}:${r.ratioH}`;
+      const near = r.nearest.group;
+      const nearLabel = r.nearest.rotated ? `${near.h}:${near.w}, portrait ${near.label}` : near.label;
+      const nearReduced = r.nearest.rotated ? reducedKey(near.h, near.w) : reducedKey(near.w, near.h);
+
+      let standard;
+      if (exact === nearReduced) standard = `${nearLabel} - exact match`;
+      else if (r.nearest.diffPct <= MARKETED_TOLERANCE_PCT) standard = `${nearLabel} - nominal match (${Calc.Units.trimNumber(r.nearest.diffPct, 2)}% off)`;
+      else standard = `No standard ratio (closest is ${nearLabel}, ${Calc.Units.trimNumber(r.nearest.diffPct, 1)}% off)`;
+
+      const rows = [
+        ["Exact aspect ratio", exact],
+        ["Decimal ratio", `${Calc.Units.trimNumber(r.decimal, 3)}:1`],
+        ["Standard ratio", standard],
+        ["Orientation", r.orientation],
+        ["Total pixels", `${r.totalPixels.toLocaleString()} (${Calc.Units.trimNumber(r.megapixels, 2)} MP)`],
+      ];
+      if (r.known) {
+        rows.push(["Standard name", `${r.known.res.name}${r.known.rotated ? ` (rotated to ${r.orientation.toLowerCase()})` : ""}`]);
+        rows.push(["Typical use", r.known.res.use]);
+      } else {
+        rows.push(["Standard name", "Not in the standard list"]);
+      }
+      renderTable(resResults, rows);
+
+      // Offer to list the matching group when the result is within the "marketed as" tolerance.
+      const showKey = r.known ? r.known.group.key : r.nearest.diffPct <= MARKETED_TOLERANCE_PCT ? near.key : null;
+      if (showKey) {
+        resShowGroup.textContent = `Show All ${Calc.Resolution.getGroup(showKey).label} Resolutions`;
+        resShowGroup.dataset.group = showKey;
+        resShowGroup.hidden = false;
+      }
+    } catch (e) {
+      showError(resError, e.message);
+    }
+  }
+
+  resShowGroup.addEventListener("click", () => {
+    resGroupSelect.value = resShowGroup.dataset.group;
+    updateResGroup();
+    resGroupSelect.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+  resInput.addEventListener("input", updateResLookup);
+  resGroupSelect.addEventListener("change", updateResGroup);
+  updateResGroup();
+  updateResLookup();
 
   /* ---------- Footer: version + build time ---------- */
   // No build step, so "build time" is the newest Last-Modified across the page's own
