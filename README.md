@@ -1,4 +1,4 @@
-README.md v1.2.0 (Last Rev: 2026-10-25)
+README.md v1.2.0 (Last Rev: 2026-10-29)
 
 # IT Reference Calculator
 
@@ -30,6 +30,9 @@ A static, browser-only calculator for everyday IT math. Nothing is sent to a ser
 | `js/raid.js` | RAID level definitions and capacity math. |
 | `js/storage.js` | Storage/RAM totals and comparisons (bytes in, bytes out). |
 | `js/resolution.js` | Standard resolutions grouped by aspect ratio, and resolution to aspect ratio lookup. |
+| `wrangler.jsonc` | Cloudflare Workers config (Worker name, assets, primary hostname). |
+| `worker/index.js` | Worker: redirects other hostnames to the primary one, adds `Last-Modified`, serves the static files. |
+| `.assetsignore` | Files Wrangler must not publish (docs, config, `.git`, Worker source). |
 | `js/app.js` | DOM wiring for every tab, plus the footer build time. |
 
 ## Quick Start
@@ -42,11 +45,19 @@ python -m http.server 8931
 
 Then open `http://localhost:8931`. Opening `index.html` directly from disk also works.
 
+## Deployment (Cloudflare Workers)
+
+The Worker named `calculator` is connected to this repo through Workers Builds. Pushes to `main` run `npx wrangler deploy`; other branches run `npx wrangler versions upload`. Both read `wrangler.jsonc`, which publishes the repo root as static assets (minus everything in `.assetsignore`).
+
+- **Primary domain:** `PRIMARY_HOST` in `wrangler.jsonc` (currently `calc.ilhs.app`). Any other custom domain attached to the Worker gets a 301 redirect to it. Set it to an empty string to serve every domain directly.
+- **Custom domains** are added in the Cloudflare dashboard (Worker > Settings > Domains & Routes), not in `wrangler.jsonc`.
+- **Test locally with the Worker:** `npx wrangler dev --var PRIMARY_HOST:127.0.0.1`, then open `http://127.0.0.1:8787`.
+
 ## After Install Configuration
 
 - **Version:** edit `Calc.VERSION` in `js/version.js`.
 - **Resolution list:** edit the `GROUPS` table in `js/resolution.js`. Mark a resolution `nominal: true` when it is sold under a ratio it does not reduce to exactly (for example 3440x1440 as 21:9).
-- **Build time in the footer:** computed in the browser as the newest `Last-Modified` header across the page, stylesheet, favicon, and scripts, shown in US Eastern time as `YYYY-MM-DD HH:MM`. It reflects when the deployed files were last written, so no stamping step is needed.
+- **Build time in the footer:** computed in the browser as the newest `Last-Modified` header across the page, stylesheet, favicon, and scripts, shown in US Eastern time as `YYYY-MM-DD HH:MM`. It reflects when the deployed files were last written, so no stamping step is needed. On Cloudflare the Worker supplies `Last-Modified` from the deploy time.
 
 ## Troubleshooting
 

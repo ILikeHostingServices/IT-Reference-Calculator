@@ -2,10 +2,13 @@
 
 All notable changes to this project are documented here, newest first.
 
-## [1.2.0] - 2026-10-25
+## [1.2.0] - 2026-10-29
 
 ### Added
 - **Resolutions** tab: pick an aspect ratio to list its standard resolutions with names and use cases, or type a resolution (for example `3440x1440`) to get its exact and decimal aspect ratio, the nearest standard ratio (flagging nominal ratios such as ultrawide "21:9"), orientation, pixel count, and its standard name and use case. Tapping a listed resolution looks it up.
+- Cloudflare Workers deploy config: `wrangler.jsonc`, `.assetsignore`, and a small Worker (`worker/index.js`). Fixes the Workers Builds failure "Missing entry-point to Worker script or to assets directory".
+- `calc.ilhs.app` is the primary domain: every other custom domain on the Worker 301-redirects to it, keeping path and query (`PRIMARY_HOST` in `wrangler.jsonc`).
+- The Worker adds a `Last-Modified` header (the deployed version's upload time), so the footer build time shows on Cloudflare, whose static assets send only an `ETag`.
 
 ### Changed
 - Rebranded from "IT Calculator" to "IT Reference Calculator" (page title, header, footer, docs) to go with the repository rename from `calculator` to `IT-Reference-Calculator`.
