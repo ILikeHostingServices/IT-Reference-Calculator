@@ -1,0 +1,24 @@
+// Cloudflare Workers config. Workers Builds runs `npx wrangler versions upload` (branches)
+// and `npx wrangler deploy` (main) against this file. "name" must match the Worker in the
+// dashboard. Custom domains are managed in the dashboard, not here.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "calculator",
+  "compatibility_date": "2026-10-19",
+  "main": "worker/index.js",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    // Run the Worker on every request so non-primary hostnames get redirected.
+    "run_worker_first": true
+  },
+  // Match the dashboard: workers.dev and preview URLs are turned off.
+  "workers_dev": false,
+  "preview_urls": false,
+  // Upload/deploy time of this version; the Worker sends it as Last-Modified for the footer.
+  "version_metadata": { "binding": "CF_VERSION_METADATA" },
+  "vars": {
+    // Every other custom domain on this Worker 301-redirects here. Empty disables redirects.
+    "PRIMARY_HOST": "calc.ilhs.app"
+  }
+}
