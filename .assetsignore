@@ -9,3 +9,6 @@ wrangler.jsonc
 .assetsignore
 .gitignore
 *.md
+docs
+tests
+package.json

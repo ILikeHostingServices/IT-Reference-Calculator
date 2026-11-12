@@ -2,4 +2,4 @@
 window.Calc = window.Calc || {};
 
 Calc.APP_NAME = "IT Reference Calculator";
-Calc.VERSION = "1.2.0";
+Calc.VERSION = "2.0.0";
