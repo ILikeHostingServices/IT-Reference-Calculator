@@ -1,0 +1,11 @@
+# Files Wrangler must not publish as static assets (the site is the repo root).
+.git
+.github
+.claude
+.wrangler
+node_modules
+worker
+wrangler.jsonc
+.assetsignore
+.gitignore
+*.md

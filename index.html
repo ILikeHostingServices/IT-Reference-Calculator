@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IT Calculator</title>
+<title>IT Reference Calculator</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <header class="app-header">
-  <h1>IT Calculator</h1>
-  <p class="subtitle">IP subnetting, RAID sizing, and storage/RAM math</p>
+  <h1>IT Reference Calculator</h1>
+  <p class="subtitle">IP subnetting, RAID sizing, storage/RAM math, and display resolutions</p>
 </header>
 
 <nav class="tabs" role="tablist">
@@ -19,6 +19,7 @@
   <button class="tab-btn" data-tab="ipv6" role="tab" aria-selected="false">IPv6</button>
   <button class="tab-btn" data-tab="raid" role="tab" aria-selected="false">RAID</button>
   <button class="tab-btn" data-tab="storage" role="tab" aria-selected="false">Storage / RAM</button>
+  <button class="tab-btn" data-tab="resolution" role="tab" aria-selected="false">Resolutions</button>
 </nav>
 
 <main>
@@ -161,6 +162,37 @@
     </div>
   </section>
 
+  <!-- ============ Resolutions ============ -->
+  <section id="tab-resolution" class="tab-panel">
+    <h2>Resolutions By Aspect Ratio</h2>
+    <p class="hint">Everything here updates as you type.</p>
+
+    <div class="card">
+      <h3>Find The Aspect Ratio</h3>
+      <div class="form-row">
+        <label for="res-input">Resolution (width x height)</label>
+        <input type="text" id="res-input" placeholder="1920x1080" value="3440x1440" autocomplete="off" spellcheck="false">
+      </div>
+      <p class="error" id="res-error" hidden></p>
+      <table class="result-table res-lookup" id="res-results"><tbody></tbody></table>
+      <button id="res-show-group" class="secondary-btn" hidden></button>
+    </div>
+
+    <div class="card">
+      <h3>Standard Resolutions</h3>
+      <div class="form-row">
+        <label for="res-group">Aspect ratio</label>
+        <select id="res-group"></select>
+      </div>
+      <p class="hint" id="res-group-summary"></p>
+      <table class="result-table res-table" id="res-group-table">
+        <thead><tr><th>Resolution</th><th>Name</th><th>Use Case</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="notes">Tap a row to look it up above. Rows marked * are sold under this ratio but do not reduce to it exactly.</p>
+    </div>
+  </section>
+
 </main>
 
 <footer class="app-footer">
@@ -174,6 +206,7 @@
 <script src="js/ipv6.js"></script>
 <script src="js/raid.js"></script>
 <script src="js/storage.js"></script>
+<script src="js/resolution.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
