@@ -1,3 +1,4 @@
+/* js/mailheaders.js v1.0.0 (Last Rev: 2026-11-13) */
 /* Mailheaders.js - parse raw email headers: the hop-by-hop Received path with delays, the
    authentication results (SPF, DKIM, DMARC), and common phishing red flags. Runs locally. */
 window.Calc = window.Calc || {};

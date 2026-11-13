@@ -1,3 +1,4 @@
+/* worker/index.js v1.0.0 (Last Rev: 2026-11-13) */
 /* Worker entry point. Serves the static site from the ASSETS binding and:
    - 301-redirects any hostname other than PRIMARY_HOST (set in wrangler.jsonc) to it, keeping path and query;
    - adds a Last-Modified header from the deployed version's upload time (static assets carry none, so the

@@ -1,3 +1,4 @@
+/* js/timefmt.js v1.0.0 (Last Rev: 2026-11-13) */
 /* Timefmt.js - decode and convert timestamps: Unix seconds/milliseconds, Windows FILETIME and
    Active Directory values (pwdLastSet, lastLogonTimestamp, accountExpires), and date text. */
 window.Calc = window.Calc || {};

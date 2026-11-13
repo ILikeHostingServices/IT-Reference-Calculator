@@ -1,3 +1,4 @@
+/* js/bits.js v1.0.0 (Last Rev: 2026-11-13) */
 /* Bits.js - Unix permission (chmod) conversion and number base conversion (BigInt, any size). */
 window.Calc = window.Calc || {};
 

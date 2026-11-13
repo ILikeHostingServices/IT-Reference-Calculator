@@ -1,3 +1,4 @@
+/* js/ui/capacity.js v1.0.0 (Last Rev: 2026-11-13) */
 /* UI: Storage, capacity, and infrastructure tools - RAID (with rebuild risk), Storage / RAM,
    transfer time, backup storage, camera/NVR storage, uptime/SLA, and PoE/UPS. */
 (function () {

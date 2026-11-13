@@ -1,3 +1,4 @@
+/* js/ui/dnsmail.js v1.0.0 (Last Rev: 2026-11-13) */
 /* UI: DNS and email tools - DNS lookup, SPF/DKIM/DMARC checker and builders, header analyzer.
    Lookups run only when a button is pressed (or a shared link names a domain), never on typing. */
 (function () {
@@ -161,22 +162,23 @@
   });
 
   /* ---------- Header analyzer ---------- */
-  const SAMPLE = `Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+  // Sample uses example domains and documentation IP ranges only (ILHS brand: never real hostnames).
+  const SAMPLE = `Received: from mail-out.example.org (mail-out.example.org [192.0.2.25])
 	by mx.example.net (Postfix) with ESMTPS id 4XyZ123
-	for <it@example.net>; Wed, 11 Nov 2026 14:32:09 -0500 (EST)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e5;
+	for <alex.morgan@example.net>; Wed, 11 Nov 2026 14:32:09 -0500 (EST)
+Received: by mail-out.example.org with SMTP id 00721157ae682-6e5;
         Wed, 11 Nov 2026 11:32:05 -0800 (PST)
 Received: from [192.168.1.23] ([198.51.100.7])
-        by smtp.gmail.com with ESMTPSA id abc123;
+        by smtp.example.org with ESMTPSA id abc123;
         Wed, 11 Nov 2026 11:31:58 -0800 (PST)
-Authentication-Results: mx.example.net; spf=pass smtp.mailfrom=vendor-billing.com; dkim=pass header.d=gmail.com; dmarc=fail (p=REJECT) header.from=vendor.com
-From: "Accounts Payable" <ap@vendor.com>
-Reply-To: ap-desk@vendor-billing.com
-Return-Path: <someone@vendor-billing.com>
-To: it@example.net
+Authentication-Results: mx.example.net; spf=pass smtp.mailfrom=northwind-billing.example; dkim=pass header.d=example.org; dmarc=fail (p=REJECT) header.from=northwind.example
+From: "Northwind Traders Accounts" <ap@northwind.example>
+Reply-To: ap-desk@northwind-billing.example
+Return-Path: <billing@northwind-billing.example>
+To: alex.morgan@example.net
 Subject: Updated bank details for invoice 4471
 Date: Wed, 11 Nov 2026 11:31:57 -0800
-Message-ID: <CAF=abc123@mail.gmail.com>`;
+Message-ID: <CAF=abc123@smtp.example.org>`;
 
   function fmtDelay(ms) {
     if (ms === null) return "";
@@ -208,7 +210,7 @@ Message-ID: <CAF=abc123@mail.gmail.com>`;
             ["From", s.from], ["Reply-To", s.replyTo], ["Return-Path", s.returnPath], ["To", s.to], ["Subject", s.subject],
             ["Date", s.date], ["Message-ID", s.messageId], ["Mailer", s.mailer], ["Originating IP", s.originatingIp], ["Spam verdict", s.spam],
           ].filter(([, v]) => v));
-          out.appendChild(U.el("h4", "section-subheading", `Delivery Path (${r.hops.length} hops${r.totalMs !== null ? `, ${fmtDelay(r.totalMs)} total` : ""})`));
+          out.appendChild(U.el("h3", "section-subheading", `Delivery Path (${r.hops.length} hops${r.totalMs !== null ? `, ${fmtDelay(r.totalMs)} total` : ""})`));
           U.renderData(out, ["#", "From", "By", "Protocol", "Time (UTC)", "Delay"], r.hops.map(h => [
             String(h.index), [h.from, h.ip && !h.from.includes(h.ip) ? `[${h.ip}]` : ""].filter(Boolean).join(" "), h.by, h.with,
             h.date === null ? "?" : new Date(h.date).toISOString().replace("T", " ").replace(/\.\d+Z$/, " UTC"), fmtDelay(h.delayMs),

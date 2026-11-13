@@ -1,4 +1,4 @@
-README.md v2.0.0 (Last Rev: 2026-11-12)
+README.md v2.0.1 (Last Rev: 2026-11-13)
 
 # IT Reference Calculator
 
@@ -31,7 +31,7 @@ The look follows the ILHS brand used on ilhs.app: same colors, fonts, header, an
 | `js/vendor/` | `qrcode.js` (Kazuhiko Arase, MIT) and `eff-wordlist.js` (EFF Large Wordlist, CC BY 3.0 US). |
 | `sw.js`, `manifest.webmanifest` | Offline support and "install as an app". |
 | `assets/` | ILHS fonts (with their OFL licenses), ILHS mark, app icons. |
-| `tests/` | Unit and site-integrity tests (`node --test tests/*.test.js`). |
+| `tests/` | Unit and site-integrity tests (`node --test tests/*.test.js`), plus browser checks (`browser-conformance.js` for the ILHS sizing spec and WCAG, `browser-e2e.js`) that run against `wrangler dev`. |
 | `wrangler.jsonc`, `worker/index.js`, `.assetsignore` | Cloudflare Workers deploy: primary-domain redirect, security headers, `Last-Modified`, and what not to publish. |
 | `docs/shared/ilhs-sizing-tokens.css` | Pinned copy of the ILHS Shared Sizing Spec token block. |
 

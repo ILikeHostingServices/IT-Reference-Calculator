@@ -1,3 +1,4 @@
+/* js/mac.js v1.0.0 (Last Rev: 2026-11-13) */
 /* MAC.js - MAC address parsing and formatting, address-type bits, and IPv6 EUI-64 interface IDs. */
 window.Calc = window.Calc || {};
 

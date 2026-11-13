@@ -1,3 +1,4 @@
+/* js/ipv6plan.js v1.0.0 (Last Rev: 2026-11-13) */
 /* IPv6plan.js - IPv6 subnet planning on top of Calc.IPv6: split a prefix into smaller ones and
    build an address from a /64 prefix plus a MAC (EUI-64). BigInt throughout. */
 window.Calc = window.Calc || {};

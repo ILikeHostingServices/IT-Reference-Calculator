@@ -1,3 +1,4 @@
+/* js/ui/core.js v1.0.0 (Last Rev: 2026-11-13) */
 /* UI core - shared DOM helpers for every tool: errors, key/value and data tables with copy buttons,
    unit pickers, editable row lists, clipboard, toasts, and the tool registry that app.js drives.
    Tool files (js/ui/*.js) call Calc.UI.register(id, { init, getState, setState }). */
@@ -8,6 +9,14 @@ Calc.UI = (function () {
 
   const $ = id => document.getElementById(id);
   const tools = {};
+
+  // ILHS brand: Title Case for UI labels (every word capitalized). Leaves units and terms such as
+  // "(s)", "MB/s", "x", "chmod", and anything already capitalized or containing digits untouched.
+  const KEEP_LOWER = new Set(["s", "ms", "x", "l", "setuid", "setgid", "chmod", "ls", "vs", "i"]);
+  function titleCase(text) {
+    return String(text).replace(/(^|[\s(]|(?<=[A-Za-z])-)([a-z][a-z']*)(?![A-Za-z0-9.])/g,
+      (m, pre, word) => (KEEP_LOWER.has(word) ? m : pre + word[0].toUpperCase() + word.slice(1)));
+  }
 
   function register(id, def) {
     tools[id] = def;
@@ -115,7 +124,7 @@ Calc.UI = (function () {
       const tdL = document.createElement("td");
       const tdV = document.createElement("td");
       const tdC = document.createElement("td");
-      tdL.textContent = label;
+      tdL.textContent = titleCase(label);
       tdV.textContent = value;
       tdC.className = "copy-cell";
       if (!(opts && opts.copy === false) && String(value) !== "") tdC.appendChild(copyButton(() => String(value)));
@@ -130,6 +139,10 @@ Calc.UI = (function () {
   function renderData(container, headers, rows, { monoCols = [], caption } = {}) {
     const wrap = document.createElement("div");
     wrap.className = "table-scroll";
+    // Keyboard users must be able to scroll a wide table (WCAG 2.1.1): make the region focusable.
+    wrap.tabIndex = 0;
+    wrap.setAttribute("role", "region");
+    wrap.setAttribute("aria-label", caption || "Scrollable table");
     const table = document.createElement("table");
     table.className = "result-table data-table";
     if (caption) {
@@ -140,7 +153,7 @@ Calc.UI = (function () {
     }
     const thead = document.createElement("thead");
     const htr = document.createElement("tr");
-    headers.forEach(h => { const th = document.createElement("th"); th.textContent = h; htr.appendChild(th); });
+    headers.forEach(h => { const th = document.createElement("th"); th.textContent = titleCase(h); htr.appendChild(th); });
     thead.appendChild(htr);
     const tbody = document.createElement("tbody");
     rows.forEach(r => {
@@ -176,7 +189,7 @@ Calc.UI = (function () {
   // Big result box: [{ label, primary, secondary }] -> label / big value / note.
   function renderBox(el, { label, primary, secondary }) {
     el.innerHTML = "";
-    if (label) { const d = document.createElement("div"); d.className = "label"; d.textContent = label; el.appendChild(d); }
+    if (label) { const d = document.createElement("div"); d.className = "label"; d.textContent = titleCase(label); el.appendChild(d); }
     const p = document.createElement("div");
     p.className = "primary";
     p.textContent = primary;
@@ -306,7 +319,7 @@ Calc.UI = (function () {
   }
 
   return {
-    $, tools, register, showError, hideError, live, num, need, toast, copyText, copyButton,
+    $, tools, register, titleCase, showError, hideError, live, num, need, toast, copyText, copyButton,
     renderKV, renderData, renderIssues, renderBox, el, populateUnitSelect, populateRateSelect, rateFactor,
     formatBps, formatBoth, fmt, makeList, debounce,
   };

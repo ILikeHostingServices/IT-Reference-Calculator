@@ -1,3 +1,4 @@
+/* js/capacity.js v1.0.0 (Last Rev: 2026-11-13) */
 /* Capacity.js - planning math: transfer time and bandwidth, backup repository size, camera/NVR
    storage, uptime and SLA, PoE budget, UPS runtime, RAID rebuild time and read-error risk, and
    display pixel density. Sizes are bytes, rates are bits per second unless a name says otherwise. */

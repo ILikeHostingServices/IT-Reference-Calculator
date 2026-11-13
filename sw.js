@@ -1,3 +1,4 @@
+/* sw.js v1.0.0 (Last Rev: 2026-11-13) */
 /* sw.js - offline support. Precaches every file the page needs, then serves same-origin GET
    requests stale-while-revalidate: instant from cache, refreshed in the background. DNS lookups
    (other origins) and HEAD requests (the footer build time) always go to the network.

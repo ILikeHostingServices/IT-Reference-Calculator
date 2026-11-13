@@ -1,3 +1,4 @@
+/* js/ui/utilities.js v1.0.0 (Last Rev: 2026-11-13) */
 /* UI: Utilities - time decoder, cron explainer, chmod, number bases, password generator,
    encode/decode/hash, and Wi-Fi QR codes. All local; nothing is sent anywhere. */
 (function () {
@@ -48,7 +49,7 @@
       const zones = BROWSER_TZ && !ZONES.includes(BROWSER_TZ) ? [BROWSER_TZ, ...ZONES] : ZONES;
       zones.forEach(z => { const o = document.createElement("option"); o.value = z; o.textContent = z.replace(/_/g, " "); tz.appendChild(o); });
       tz.value = "America/New_York";
-      [["Every 5 minutes", "*/5 * * * *"], ["Weekdays 2:15", "15 2 * * 1-5"], ["Sundays 3:00", "0 3 * * 0"], ["1st of month", "0 0 1 * *"], ["Every 6 hours", "0 */6 * * *"], ["@daily", "@daily"]].forEach(([label, v]) => {
+      [["Every 5 Minutes", "*/5 * * * *"], ["Weekdays 02:15", "15 2 * * 1-5"], ["Sundays 03:00", "0 3 * * 0"], ["1st Of The Month", "0 0 1 * *"], ["Every 6 Hours", "0 */6 * * *"], ["@daily", "@daily"]].forEach(([label, v]) => {
         const c = U.el("button", "chip", label);
         c.type = "button";
         c.addEventListener("click", () => { expr.value = v; expr.dispatchEvent(new Event("input", { bubbles: true })); });
@@ -86,7 +87,7 @@
         });
         tbody.appendChild(tr);
       });
-      const specials = [[4, "setuid (run as owner)"], [2, "setgid (inherit group)"], [1, "sticky (only owners delete)"]];
+      const specials = [[4, "setuid (Run As Owner)"], [2, "setgid (Inherit Group)"], [1, "Sticky (Only Owners Delete)"]];
       specials.forEach(([bit, label]) => {
         const l = document.createElement("label");
         const cb = document.createElement("input");

@@ -1,3 +1,4 @@
+/* js/ipv6.js v1.0.0 (Last Rev: 2026-11-13) */
 /* IPv6.js - IPv6 address / subnet math using BigInt (128-bit addresses exceed safe Number range). */
 window.Calc = window.Calc || {};
 

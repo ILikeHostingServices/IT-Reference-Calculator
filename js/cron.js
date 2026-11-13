@@ -1,3 +1,4 @@
+/* js/cron.js v1.0.0 (Last Rev: 2026-11-13) */
 /* Cron.js - parse standard 5-field cron expressions (minute hour day-of-month month day-of-week),
    describe them in plain English, and list upcoming run times in a chosen time zone.
    Supports *, lists, ranges, steps, month/day names, 7 = Sunday, and @hourly-style macros.

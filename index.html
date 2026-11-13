@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- index.html v2.0.0 (Last Rev: 2026-11-13) -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -55,11 +56,11 @@
       <div class="tool-head"><h2>IPv4 Subnet Calculator</h2></div>
       <div class="card">
         <div class="form-row">
-          <label for="ipv4-address">IP address</label>
+          <label for="ipv4-address">IP Address</label>
           <input type="text" id="ipv4-address" class="mono-input" placeholder="192.168.1.10" value="192.168.1.10" autocomplete="off" spellcheck="false">
         </div>
         <div class="form-row">
-          <label for="ipv4-prefix">Prefix length (CIDR)</label>
+          <label for="ipv4-prefix">Prefix Length (CIDR)</label>
           <input type="number" id="ipv4-prefix" min="0" max="32" value="24">
         </div>
         <p class="hint">Tip: type 10.0.0.5/22 in the address box to set both at once.</p>
@@ -68,6 +69,7 @@
       </div>
       <div class="card">
         <h3>Common Public DNS Resolvers (IPv4)</h3>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table">
         <table class="result-table data-table">
           <thead><tr><th>Provider</th><th>Primary</th><th>Secondary</th></tr></thead>
           <tbody>
@@ -77,6 +79,7 @@
             <tr><td>OpenDNS</td><td class="mono">208.67.222.222</td><td class="mono">208.67.220.220</td></tr>
           </tbody>
         </table>
+        </div>
       </div>
     </section>
 
@@ -86,7 +89,7 @@
       <div class="card">
         <h3>Plan Subnets (VLSM)</h3>
         <div class="form-row">
-          <label for="planner-base">Address block</label>
+          <label for="planner-base">Address Block</label>
           <input type="text" id="planner-base" class="mono-input" value="10.20.0.0/22" spellcheck="false" autocomplete="off">
         </div>
         <p class="hint">One line per subnet: a name and how many devices it needs to hold.</p>
@@ -98,6 +101,7 @@
       <div class="card">
         <h3>Summarize Routes</h3>
         <p class="hint">Paste networks (one per line or comma separated) to find the fewest routes that cover exactly them, and the single smallest supernet.</p>
+        <label class="sr-only" for="planner-summ">Networks To Summarize</label>
         <textarea class="field" id="planner-summ" rows="5" spellcheck="false">192.168.0.0/24
 192.168.1.0/24
 192.168.2.0/24
@@ -112,15 +116,15 @@
       <div class="card-grid">
         <div class="card">
           <h3>Is This IP In That Subnet?</h3>
-          <div class="form-row"><label for="v4tools-ip">IP address</label><input type="text" id="v4tools-ip" class="mono-input" value="10.1.3.77" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="v4tools-ip">IP Address</label><input type="text" id="v4tools-ip" class="mono-input" value="10.1.3.77" spellcheck="false" autocomplete="off"></div>
           <div class="form-row"><label for="v4tools-net">Subnet (CIDR)</label><input type="text" id="v4tools-net" class="mono-input" value="10.1.0.0/22" spellcheck="false" autocomplete="off"></div>
           <p class="error" id="v4tools-in-error" hidden></p>
           <div class="result-box" id="v4tools-in-out" hidden></div>
         </div>
         <div class="card">
           <h3>IP Range To CIDR Blocks</h3>
-          <div class="form-row"><label for="v4tools-start">First address</label><input type="text" id="v4tools-start" class="mono-input" value="192.168.1.10" spellcheck="false" autocomplete="off"></div>
-          <div class="form-row"><label for="v4tools-end">Last address</label><input type="text" id="v4tools-end" class="mono-input" value="192.168.1.40" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="v4tools-start">First Address</label><input type="text" id="v4tools-start" class="mono-input" value="192.168.1.10" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="v4tools-end">Last Address</label><input type="text" id="v4tools-end" class="mono-input" value="192.168.1.40" spellcheck="false" autocomplete="off"></div>
           <p class="error" id="v4tools-range-error" hidden></p>
           <pre class="output" id="v4tools-range-out" hidden></pre>
         </div>
@@ -138,11 +142,11 @@
       <div class="tool-head"><h2>IPv6 Subnet Calculator</h2></div>
       <div class="card">
         <div class="form-row">
-          <label for="ipv6-address">IP address</label>
+          <label for="ipv6-address">IP Address</label>
           <input type="text" id="ipv6-address" class="mono-input" placeholder="2001:db8::1" value="2001:db8::1" autocomplete="off" spellcheck="false">
         </div>
         <div class="form-row">
-          <label for="ipv6-prefix">Prefix length</label>
+          <label for="ipv6-prefix">Prefix Length</label>
           <input type="number" id="ipv6-prefix" min="0" max="128" value="64">
         </div>
         <p class="error" id="ipv6-error" hidden></p>
@@ -150,7 +154,7 @@
       </div>
       <div class="card">
         <h3>Common Public DNS Resolvers (IPv6)</h3>
-        <div class="table-scroll">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table">
           <table class="result-table data-table">
             <thead><tr><th>Provider</th><th>Primary</th><th>Secondary</th></tr></thead>
             <tbody>
@@ -168,8 +172,8 @@
       <div class="tool-head"><h2>IPv6 Planner</h2></div>
       <div class="card">
         <h3>Split A Prefix</h3>
-        <div class="form-row"><label for="v6plan-net">Prefix you have</label><input type="text" id="v6plan-net" class="mono-input" value="2001:db8:abcd::/48" spellcheck="false" autocomplete="off"></div>
-        <div class="form-row"><label for="v6plan-new">Split into</label><input type="number" id="v6plan-new" min="1" max="128" value="64"></div>
+        <div class="form-row"><label for="v6plan-net">Prefix You Have</label><input type="text" id="v6plan-net" class="mono-input" value="2001:db8:abcd::/48" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="v6plan-new">Split Into</label><input type="number" id="v6plan-new" min="1" max="128" value="64"></div>
         <p class="hint">Splitting on a multiple of 4 bits (for example /48 into /52, /56, or /64) keeps each subnet on a clean hex digit.</p>
         <p class="error" id="v6plan-error" hidden></p>
         <div id="v6plan-out"></div>
@@ -177,8 +181,8 @@
       <div class="card">
         <h3>EUI-64 Address From A MAC</h3>
         <p class="hint">The address SLAAC builds when privacy extensions are off.</p>
-        <div class="form-row"><label for="v6plan-prefix">/64 prefix</label><input type="text" id="v6plan-prefix" class="mono-input" value="2001:db8:abcd:12::" spellcheck="false" autocomplete="off"></div>
-        <div class="form-row"><label for="v6plan-mac">MAC address</label><input type="text" id="v6plan-mac" class="mono-input" value="00:1A:2B:3C:4D:5E" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="v6plan-prefix">/64 Prefix</label><input type="text" id="v6plan-prefix" class="mono-input" value="2001:db8:abcd:12::" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="v6plan-mac">MAC Address</label><input type="text" id="v6plan-mac" class="mono-input" value="00:1A:2B:3C:4D:5E" spellcheck="false" autocomplete="off"></div>
         <p class="error" id="v6plan-eui-error" hidden></p>
         <table class="result-table kv" id="v6plan-eui-results" hidden><tbody></tbody></table>
       </div>
@@ -187,7 +191,7 @@
     <section class="tool" id="t-mac" data-tool="mac" data-group="Network" data-title="MAC Address" data-keywords="mac hardware address format cisco dotted colon dash oui vendor multicast locally administered randomized">
       <div class="tool-head"><h2>MAC Address Tool</h2></div>
       <div class="card">
-        <div class="form-row"><label for="mac-input">MAC address</label><input type="text" id="mac-input" class="mono-input" value="00-1a-2b-3c-4d-5e" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="mac-input">MAC Address</label><input type="text" id="mac-input" class="mono-input" value="00-1a-2b-3c-4d-5e" spellcheck="false" autocomplete="off"></div>
         <p class="hint">Any format works: colons, dashes, Cisco dots, or no separators.</p>
         <p class="error" id="mac-error" hidden></p>
         <table class="result-table kv" id="mac-results" hidden><tbody></tbody></table>
@@ -200,7 +204,7 @@
       <div class="card">
         <div class="form-row"><label for="ports-q">Search</label><input type="search" id="ports-q" placeholder="Port number, service, or keyword (for example 3389, smb, vpn)" autocomplete="off"></div>
         <p class="hint" id="ports-count"></p>
-        <div class="table-scroll">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table">
           <table class="result-table data-table port-table" id="ports-table">
             <thead><tr><th>Port</th><th>Protocol</th><th>Service</th><th>Notes</th></tr></thead>
             <tbody></tbody>
@@ -214,8 +218,8 @@
       <div class="tool-head"><h2>DNS Lookup</h2></div>
       <p class="privacy-note">Looks up live DNS through Cloudflare's public DNS-over-HTTPS resolver (Google's as a backup). Only the name and record type are sent.</p>
       <div class="card">
-        <div class="form-row"><label for="dns-name">Domain or IP</label><input type="text" id="dns-name" class="mono-input" placeholder="example.com or 8.8.8.8" spellcheck="false" autocomplete="off"></div>
-        <div class="form-row"><label for="dns-type">Record type</label><select id="dns-type"></select></div>
+        <div class="form-row"><label for="dns-name">Domain Or IP</label><input type="text" id="dns-name" class="mono-input" placeholder="example.com or 8.8.8.8" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="dns-type">Record Type</label><select id="dns-type"></select></div>
         <div class="btn-row"><button type="button" class="btn primary" id="dns-go">Look Up</button><button type="button" class="btn" id="dns-all">Look Up Common Types</button></div>
         <p class="hint">Entering an IP address looks up its PTR (reverse DNS) name.</p>
         <p class="error" id="dns-error" hidden></p>
@@ -229,7 +233,7 @@
       <div class="card">
         <h3>Check A Domain</h3>
         <div class="form-row"><label for="email-domain">Domain</label><input type="text" id="email-domain" class="mono-input" placeholder="example.com" spellcheck="false" autocomplete="off"></div>
-        <div class="form-row"><label for="email-selectors">DKIM selectors (optional)</label><input type="text" id="email-selectors" class="mono-input" placeholder="Leave blank to try common ones (selector1, google, k1, ...)" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="email-selectors">DKIM Selectors (Optional)</label><input type="text" id="email-selectors" class="mono-input" placeholder="Leave blank to try common ones (selector1, google, k1, ...)" spellcheck="false" autocomplete="off"></div>
         <div class="btn-row"><button type="button" class="btn primary" id="email-go">Check Domain</button></div>
         <p class="error" id="email-error" hidden></p>
         <div id="email-out"></div>
@@ -240,12 +244,12 @@
           <div class="checks">
             <label><input type="checkbox" id="email-spf-m365"> Microsoft 365</label>
             <label><input type="checkbox" id="email-spf-google"> Google Workspace</label>
-            <label><input type="checkbox" id="email-spf-mx"> This domain's MX servers</label>
-            <label><input type="checkbox" id="email-spf-a"> This domain's A record</label>
+            <label><input type="checkbox" id="email-spf-mx"> This Domain's MX Servers</label>
+            <label><input type="checkbox" id="email-spf-a"> This Domain's A Record</label>
           </div>
-          <div class="form-row"><label for="email-spf-inc">Other includes</label><input type="text" id="email-spf-inc" class="mono-input" placeholder="sendgrid.net, mailgun.org" spellcheck="false" autocomplete="off"></div>
-          <div class="form-row"><label for="email-spf-ip">IP addresses</label><input type="text" id="email-spf-ip" class="mono-input" placeholder="203.0.113.10, 2001:db8::25" spellcheck="false" autocomplete="off"></div>
-          <div class="form-row"><label for="email-spf-all">Everything else</label>
+          <div class="form-row"><label for="email-spf-inc">Other Includes</label><input type="text" id="email-spf-inc" class="mono-input" placeholder="sendgrid.net, mailgun.org" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="email-spf-ip">IP Addresses</label><input type="text" id="email-spf-ip" class="mono-input" placeholder="203.0.113.10, 2001:db8::25" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="email-spf-all">Everything Else</label>
             <select id="email-spf-all"><option value="-">Fail (-all, recommended)</option><option value="~">Soft fail (~all)</option></select>
           </div>
           <pre class="output" id="email-spf-out"></pre>
@@ -256,15 +260,15 @@
           <div class="form-row"><label for="email-dm-p">Policy</label>
             <select id="email-dm-p"><option value="none">none (monitor only)</option><option value="quarantine" selected>quarantine (send to spam)</option><option value="reject">reject (refuse)</option></select>
           </div>
-          <div class="form-row"><label for="email-dm-sp">Subdomain policy</label>
+          <div class="form-row"><label for="email-dm-sp">Subdomain Policy</label>
             <select id="email-dm-sp"><option value="">Same as policy</option><option value="none">none</option><option value="quarantine">quarantine</option><option value="reject">reject</option></select>
           </div>
-          <div class="form-row"><label for="email-dm-pct">Percent of mail</label><input type="number" id="email-dm-pct" min="1" max="100" value="100"></div>
-          <div class="form-row"><label for="email-dm-rua">Aggregate reports to</label><input type="text" id="email-dm-rua" placeholder="dmarc@example.com" spellcheck="false" autocomplete="off"></div>
-          <div class="form-row"><label for="email-dm-ruf">Failure reports to</label><input type="text" id="email-dm-ruf" placeholder="Optional" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="email-dm-pct">Percent Of Mail</label><input type="number" id="email-dm-pct" min="1" max="100" value="100"></div>
+          <div class="form-row"><label for="email-dm-rua">Aggregate Reports To</label><input type="text" id="email-dm-rua" placeholder="dmarc@example.com" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="email-dm-ruf">Failure Reports To</label><input type="text" id="email-dm-ruf" placeholder="Optional" spellcheck="false" autocomplete="off"></div>
           <div class="checks">
-            <label><input type="checkbox" id="email-dm-adkim"> Strict DKIM alignment</label>
-            <label><input type="checkbox" id="email-dm-aspf"> Strict SPF alignment</label>
+            <label><input type="checkbox" id="email-dm-adkim"> Strict DKIM Alignment</label>
+            <label><input type="checkbox" id="email-dm-aspf"> Strict SPF Alignment</label>
           </div>
           <p class="hint">Publish as a TXT record named <code>_dmarc</code> on your domain.</p>
           <pre class="output" id="email-dm-out"></pre>
@@ -276,7 +280,7 @@
       <div class="tool-head"><h2>Email Header Analyzer</h2></div>
       <p class="tool-intro">Paste a message's full headers to see the path it took, how long each hop took, and whether it passed SPF, DKIM, and DMARC. Nothing leaves your browser.</p>
       <div class="card">
-        <label class="sr-only" for="headers-raw">Email headers</label>
+        <label class="sr-only" for="headers-raw">Email Headers</label>
         <textarea class="field" id="headers-raw" rows="10" spellcheck="false" placeholder="Outlook: open the message, File > Properties > Internet headers. Gmail: More > Show original." data-nostate></textarea>
         <div class="btn-row"><button type="button" class="btn" id="headers-sample">Load A Sample</button><button type="button" class="btn" id="headers-clear">Clear</button></div>
         <p class="error" id="headers-error" hidden></p>
@@ -288,12 +292,12 @@
     <section class="tool" id="t-raid" data-tool="raid" data-group="Storage And Capacity" data-title="RAID / JBOD" data-keywords="raid 0 1 5 6 10 50 60 jbod array usable capacity parity fault tolerance rebuild ure">
       <div class="tool-head"><h2>RAID / JBOD Calculator</h2></div>
       <div class="card">
-        <div class="form-row"><label for="raid-level">RAID level</label><select id="raid-level"></select></div>
-        <div class="form-row"><label for="raid-disks">Number of disks</label><input type="number" id="raid-disks" min="1" value="4"></div>
-        <div class="form-row"><label for="raid-size">Size per disk</label>
+        <div class="form-row"><label for="raid-level">RAID Level</label><select id="raid-level"></select></div>
+        <div class="form-row"><label for="raid-disks">Number Of Disks</label><input type="number" id="raid-disks" min="1" value="4"></div>
+        <div class="form-row"><label for="raid-size">Size Per Disk</label>
           <div class="unit-pair"><input type="number" id="raid-size" min="0" step="any" value="4" aria-label="Size per disk"><select id="raid-size-unit" aria-label="Unit"></select></div>
         </div>
-        <div class="form-row" id="raid-groups-row" hidden><label for="raid-groups">Number of groups (nested arrays)</label><input type="number" id="raid-groups" min="2" value="2"></div>
+        <div class="form-row" id="raid-groups-row" hidden><label for="raid-groups">Number Of Groups (Nested Arrays)</label><input type="number" id="raid-groups" min="2" value="2"></div>
         <p class="error" id="raid-error" hidden></p>
         <table class="result-table kv" id="raid-results" hidden><tbody></tbody></table>
         <p class="notes" id="raid-notes" hidden></p>
@@ -301,8 +305,8 @@
       <div class="card">
         <h3>Rebuild Time And Read Error Risk</h3>
         <p class="hint">Uses the disk size above. A rebuild reads every surviving disk in full.</p>
-        <div class="form-row"><label for="raid-speed">Rebuild speed (MB/s)</label><input type="number" id="raid-speed" min="1" value="120"></div>
-        <div class="form-row"><label for="raid-ure">Drive read error spec</label>
+        <div class="form-row"><label for="raid-speed">Rebuild Speed (MB/s)</label><input type="number" id="raid-speed" min="1" value="120"></div>
+        <div class="form-row"><label for="raid-ure">Drive Read Error Spec</label>
           <select id="raid-ure"><option value="14">1 in 10^14 bits (consumer HDD)</option><option value="15" selected>1 in 10^15 bits (NAS / enterprise HDD)</option><option value="16">1 in 10^16 bits (enterprise SSD)</option><option value="17">1 in 10^17 bits (high-end SSD)</option></select>
         </div>
         <p class="error" id="raid-rb-error" hidden></p>
@@ -346,7 +350,7 @@
         <div class="form-row"><label for="cmp-a-amount">Capacity (A)</label>
           <div class="unit-pair"><input type="number" id="cmp-a-amount" min="0" step="any" value="2" aria-label="Capacity"><select id="cmp-a-unit" aria-label="Unit"></select></div>
         </div>
-        <div class="form-row"><label for="cmp-b-amount">Used / item size (B)</label>
+        <div class="form-row"><label for="cmp-b-amount">Used / Item Size (B)</label>
           <div class="unit-pair"><input type="number" id="cmp-b-amount" min="0" step="any" value="750" aria-label="Used or item size"><select id="cmp-b-unit" aria-label="Unit"></select></div>
         </div>
         <p class="muted-msg" id="cmp-empty" hidden>Enter both sizes to compare.</p>
@@ -359,10 +363,10 @@
       <div class="card-grid">
         <div class="card">
           <h3>How Long Will It Take?</h3>
-          <div class="form-row"><label for="transfer-size">Data size</label>
+          <div class="form-row"><label for="transfer-size">Data Size</label>
             <div class="unit-pair"><input type="number" id="transfer-size" min="0" step="any" value="2" aria-label="Data size"><select id="transfer-unit" aria-label="Unit"></select></div>
           </div>
-          <div class="form-row"><label for="transfer-speed">Link speed</label>
+          <div class="form-row"><label for="transfer-speed">Link Speed</label>
             <div class="unit-pair"><input type="number" id="transfer-speed" min="0" step="any" value="1" aria-label="Link speed"><select id="transfer-rate" aria-label="Rate unit"></select></div>
           </div>
           <div class="form-row"><label for="transfer-eff">Efficiency (%)</label><input type="number" id="transfer-eff" min="1" max="100" value="80"></div>
@@ -372,10 +376,10 @@
         </div>
         <div class="card">
           <h3>What Speed Do I Need?</h3>
-          <div class="form-row"><label for="transfer-need-size">Data size</label>
+          <div class="form-row"><label for="transfer-need-size">Data Size</label>
             <div class="unit-pair"><input type="number" id="transfer-need-size" min="0" step="any" value="500" aria-label="Data size"><select id="transfer-need-unit" aria-label="Unit"></select></div>
           </div>
-          <div class="form-row"><label for="transfer-window">Time window (hours)</label><input type="number" id="transfer-window" min="0" step="any" value="8"></div>
+          <div class="form-row"><label for="transfer-window">Time Window (Hours)</label><input type="number" id="transfer-window" min="0" step="any" value="8"></div>
           <div class="form-row"><label for="transfer-need-eff">Efficiency (%)</label><input type="number" id="transfer-need-eff" min="1" max="100" value="80"></div>
           <p class="error" id="transfer-need-error" hidden></p>
           <div class="result-box" id="transfer-need-out" hidden></div>
@@ -387,16 +391,16 @@
       <div class="tool-head"><h2>Backup Storage Estimator</h2></div>
       <p class="tool-intro">A rough repository size for a forever-incremental plan with periodic fulls (GFS). Your backup product's own sizing tool is the final word.</p>
       <div class="card">
-        <div class="form-row"><label for="backup-source">Data being backed up</label>
+        <div class="form-row"><label for="backup-source">Data Being Backed Up</label>
           <div class="unit-pair"><input type="number" id="backup-source" min="0" step="any" value="2" aria-label="Data being backed up"><select id="backup-unit" aria-label="Unit"></select></div>
         </div>
-        <div class="form-row"><label for="backup-change">Daily change rate (%)</label><input type="number" id="backup-change" min="0" max="100" step="any" value="5"></div>
-        <div class="form-row"><label for="backup-daily">Daily restore points kept</label><input type="number" id="backup-daily" min="0" value="14"></div>
-        <div class="form-row"><label for="backup-weekly">Weekly fulls kept</label><input type="number" id="backup-weekly" min="0" value="4"></div>
-        <div class="form-row"><label for="backup-monthly">Monthly fulls kept</label><input type="number" id="backup-monthly" min="0" value="12"></div>
-        <div class="form-row"><label for="backup-ratio">Data reduction ratio (x : 1)</label><input type="number" id="backup-ratio" min="1" step="any" value="1.5"></div>
-        <div class="form-row"><label for="backup-growth">Yearly data growth (%)</label><input type="number" id="backup-growth" min="0" step="any" value="15"></div>
-        <div class="form-row"><label for="backup-years">Plan for (years)</label><input type="number" id="backup-years" min="0" step="any" value="3"></div>
+        <div class="form-row"><label for="backup-change">Daily Change Rate (%)</label><input type="number" id="backup-change" min="0" max="100" step="any" value="5"></div>
+        <div class="form-row"><label for="backup-daily">Daily Restore Points Kept</label><input type="number" id="backup-daily" min="0" value="14"></div>
+        <div class="form-row"><label for="backup-weekly">Weekly Fulls Kept</label><input type="number" id="backup-weekly" min="0" value="4"></div>
+        <div class="form-row"><label for="backup-monthly">Monthly Fulls Kept</label><input type="number" id="backup-monthly" min="0" value="12"></div>
+        <div class="form-row"><label for="backup-ratio">Data Reduction Ratio (x : 1)</label><input type="number" id="backup-ratio" min="1" step="any" value="1.5"></div>
+        <div class="form-row"><label for="backup-growth">Yearly Data Growth (%)</label><input type="number" id="backup-growth" min="0" step="any" value="15"></div>
+        <div class="form-row"><label for="backup-years">Plan For (Years)</label><input type="number" id="backup-years" min="0" step="any" value="3"></div>
         <p class="hint">Reduction ratio covers compression and dedupe: about 1.5 to 2 for mixed file servers, less for media or already-compressed data. Synthetic or block-cloned fulls take far less space than this estimate assumes.</p>
         <p class="error" id="backup-error" hidden></p>
         <table class="result-table kv" id="backup-results" hidden><tbody></tbody></table>
@@ -407,11 +411,11 @@
       <div class="tool-head"><h2>Camera / NVR Storage</h2></div>
       <div class="card">
         <div class="form-row"><label for="nvr-cameras">Cameras</label><input type="number" id="nvr-cameras" min="1" value="16"></div>
-        <div class="form-row"><label for="nvr-preset">Typical stream</label><select id="nvr-preset"></select></div>
-        <div class="form-row"><label for="nvr-bitrate">Bitrate per camera (Mbps)</label><input type="number" id="nvr-bitrate" min="0" step="any" value="4"></div>
-        <div class="form-row"><label for="nvr-hours">Recording hours per day</label><input type="number" id="nvr-hours" min="1" max="24" value="24"></div>
-        <div class="form-row"><label for="nvr-motion">Share of time recording (%)</label><input type="number" id="nvr-motion" min="1" max="100" value="100"></div>
-        <div class="form-row"><label for="nvr-days">Days to keep</label><input type="number" id="nvr-days" min="1" value="30"></div>
+        <div class="form-row"><label for="nvr-preset">Typical Stream</label><select id="nvr-preset"></select></div>
+        <div class="form-row"><label for="nvr-bitrate">Bitrate Per Camera (Mbps)</label><input type="number" id="nvr-bitrate" min="0" step="any" value="4"></div>
+        <div class="form-row"><label for="nvr-hours">Recording Hours Per Day</label><input type="number" id="nvr-hours" min="1" max="24" value="24"></div>
+        <div class="form-row"><label for="nvr-motion">Share Of Time Recording (%)</label><input type="number" id="nvr-motion" min="1" max="100" value="100"></div>
+        <div class="form-row"><label for="nvr-days">Days To Keep</label><input type="number" id="nvr-days" min="1" value="30"></div>
         <p class="hint">Motion-only recording often lands at 30 to 60% depending on the scene. Send the total to the RAID tab to pick drives.</p>
         <p class="error" id="nvr-error" hidden></p>
         <table class="result-table kv" id="nvr-results" hidden><tbody></tbody></table>
@@ -431,7 +435,7 @@
         </div>
         <div class="card">
           <h3>Availability From Downtime</h3>
-          <div class="form-row"><label for="sla-down">Downtime (minutes)</label><input type="number" id="sla-down" min="0" step="any" value="45"></div>
+          <div class="form-row"><label for="sla-down">Downtime (Minutes)</label><input type="number" id="sla-down" min="0" step="any" value="45"></div>
           <div class="form-row"><label for="sla-period">Per</label><select id="sla-period"><option value="month">Month</option><option value="year">Year</option><option value="week">Week</option><option value="day">Day</option></select></div>
           <p class="error" id="sla-rev-error" hidden></p>
           <div class="result-box" id="sla-rev-out" hidden></div>
@@ -451,7 +455,7 @@
       <div class="tool-head"><h2>PoE Budget And UPS Runtime</h2></div>
       <div class="card">
         <h3>PoE Budget</h3>
-        <div class="form-row"><label for="power-budget">Switch PoE budget (W)</label><input type="number" id="power-budget" min="0" step="any" value="370"></div>
+        <div class="form-row"><label for="power-budget">Switch PoE Budget (W)</label><input type="number" id="power-budget" min="0" step="any" value="370"></div>
         <p class="hint">Use the power each device actually draws if you know it; the class value is the worst case the switch reserves.</p>
         <div id="power-list"></div>
         <button type="button" class="btn small" id="power-add">+ Add Device Type</button>
@@ -461,10 +465,10 @@
       <div class="card">
         <h3>UPS Runtime (Estimate)</h3>
         <div class="form-row"><label for="power-load">Load (W)</label><input type="number" id="power-load" min="0" step="any" value="450"></div>
-        <div class="form-row"><label for="power-ups">UPS rating (W)</label><input type="number" id="power-ups" min="0" step="any" value="900"></div>
-        <div class="form-row"><label for="power-wh">Battery capacity (Wh)</label><input type="number" id="power-wh" min="0" step="any" value="216"></div>
-        <div class="form-row"><label for="power-eff">Inverter efficiency (%)</label><input type="number" id="power-eff" min="1" max="100" value="90"></div>
-        <div class="form-row"><label for="power-age">Battery wear (%)</label><input type="number" id="power-age" min="0" max="90" value="20"></div>
+        <div class="form-row"><label for="power-ups">UPS Rating (W)</label><input type="number" id="power-ups" min="0" step="any" value="900"></div>
+        <div class="form-row"><label for="power-wh">Battery Capacity (Wh)</label><input type="number" id="power-wh" min="0" step="any" value="216"></div>
+        <div class="form-row"><label for="power-eff">Inverter Efficiency (%)</label><input type="number" id="power-eff" min="1" max="100" value="90"></div>
+        <div class="form-row"><label for="power-age">Battery Wear (%)</label><input type="number" id="power-age" min="0" max="90" value="20"></div>
         <p class="hint">Battery Wh is volts x amp-hours x battery count (for example 2 x 12 V 9 Ah = 216 Wh). Add the PoE total above to the load if the switch is on this UPS.</p>
         <p class="error" id="power-ups-error" hidden></p>
         <table class="result-table kv" id="power-ups-results" hidden><tbody></tbody></table>
@@ -477,7 +481,7 @@
       <div class="tool-head"><h2>Resolutions By Aspect Ratio</h2></div>
       <div class="card">
         <h3>Find The Aspect Ratio</h3>
-        <div class="form-row"><label for="res-input">Resolution (width x height)</label><input type="text" id="res-input" class="mono-input" placeholder="1920x1080" value="3440x1440" autocomplete="off" spellcheck="false"></div>
+        <div class="form-row"><label for="res-input">Resolution (Width x Height)</label><input type="text" id="res-input" class="mono-input" placeholder="1920x1080" value="3440x1440" autocomplete="off" spellcheck="false"></div>
         <p class="error" id="res-error" hidden></p>
         <table class="result-table kv" id="res-results" hidden><tbody></tbody></table>
         <button type="button" id="res-show-group" class="btn small" hidden></button>
@@ -485,15 +489,15 @@
       <div class="card">
         <h3>Pixel Density (PPI)</h3>
         <p class="hint">Uses the resolution above.</p>
-        <div class="form-row"><label for="res-diag">Screen size (diagonal inches)</label><input type="number" id="res-diag" min="1" step="any" value="34"></div>
+        <div class="form-row"><label for="res-diag">Screen Size (Diagonal Inches)</label><input type="number" id="res-diag" min="1" step="any" value="34"></div>
         <p class="error" id="res-ppi-error" hidden></p>
         <table class="result-table kv" id="res-ppi-results" hidden><tbody></tbody></table>
       </div>
       <div class="card">
         <h3>Standard Resolutions</h3>
-        <div class="form-row"><label for="res-group">Aspect ratio</label><select id="res-group"></select></div>
+        <div class="form-row"><label for="res-group">Aspect Ratio</label><select id="res-group"></select></div>
         <p class="hint" id="res-group-summary"></p>
-        <div class="table-scroll">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table">
           <table class="result-table data-table res-table" id="res-group-table">
             <thead><tr><th>Resolution</th><th>Name</th><th>Use Case</th></tr></thead>
             <tbody></tbody>
@@ -507,8 +511,8 @@
     <section class="tool" id="t-time" data-tool="time" data-group="Utilities" data-title="Time Decoder" data-keywords="unix epoch timestamp filetime active directory pwdlastset lastlogontimestamp accountexpires iso 8601 utc convert time zone">
       <div class="tool-head"><h2>Time Decoder</h2></div>
       <div class="card">
-        <div class="form-row"><label for="time-input">Timestamp or date</label><input type="text" id="time-input" class="mono-input" value="133758144000000000" spellcheck="false" autocomplete="off"></div>
-        <div class="form-row"><label for="time-format">Read as</label>
+        <div class="form-row"><label for="time-input">Timestamp Or Date</label><input type="text" id="time-input" class="mono-input" value="133758144000000000" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="time-format">Read As</label>
           <select id="time-format"><option value="auto">Detect automatically</option><option value="unix">Unix seconds</option><option value="unixms">Unix milliseconds</option><option value="filetime">Windows FILETIME / Active Directory</option><option value="text">Date text (ISO 8601 and others)</option></select>
         </div>
         <div class="btn-row"><button type="button" class="btn small" id="time-now">Use Current Time</button></div>
@@ -521,8 +525,8 @@
     <section class="tool" id="t-cron" data-tool="cron" data-group="Utilities" data-title="Cron Explainer" data-keywords="cron crontab schedule expression next run explain linux job">
       <div class="tool-head"><h2>Cron Explainer</h2></div>
       <div class="card">
-        <div class="form-row"><label for="cron-expr">Cron expression</label><input type="text" id="cron-expr" class="mono-input" value="15 2 * * 1-5" spellcheck="false" autocomplete="off"></div>
-        <div class="form-row"><label for="cron-tz">Time zone</label><select id="cron-tz"></select></div>
+        <div class="form-row"><label for="cron-expr">Cron Expression</label><input type="text" id="cron-expr" class="mono-input" value="15 2 * * 1-5" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="cron-tz">Time Zone</label><select id="cron-tz"></select></div>
         <div class="preset-chips" id="cron-presets"></div>
         <p class="hint">Fields: minute (0-59), hour (0-23), day of month (1-31), month (1-12 or jan-dec), day of week (0-7 or sun-sat; 0 and 7 are Sunday).</p>
         <p class="error" id="cron-error" hidden></p>
@@ -536,7 +540,7 @@
       <div class="card">
         <div class="form-row"><label for="chmod-octal">Octal</label><input type="text" id="chmod-octal" class="mono-input" value="755" spellcheck="false" autocomplete="off" inputmode="numeric"></div>
         <div class="form-row"><label for="chmod-symbolic">Symbolic</label><input type="text" id="chmod-symbolic" class="mono-input" value="rwxr-xr-x" spellcheck="false" autocomplete="off" data-nostate></div>
-        <div class="table-scroll">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table">
           <table class="result-table data-table" id="chmod-grid">
             <thead><tr><th>Who</th><th>Read</th><th>Write</th><th>Execute</th></tr></thead>
             <tbody></tbody>
@@ -573,7 +577,7 @@
             <label><input type="checkbox" id="password-upper" checked> A-Z</label>
             <label><input type="checkbox" id="password-digits" checked> 0-9</label>
             <label><input type="checkbox" id="password-symbols" checked> Symbols</label>
-            <label><input type="checkbox" id="password-ambig"> Avoid look-alikes (O 0 l 1)</label>
+            <label><input type="checkbox" id="password-ambig"> Avoid Look-Alikes (O 0 l 1)</label>
           </div>
           <div class="btn-row"><button type="button" class="btn primary" id="password-gen">Generate</button></div>
           <p class="error" id="password-error" hidden></p>
@@ -584,8 +588,8 @@
           <div class="form-row"><label for="password-words">Words</label><input type="number" id="password-words" min="3" max="20" value="5"></div>
           <div class="form-row"><label for="password-sep">Separator</label><select id="password-sep"><option value="-">Hyphen (-)</option><option value=" ">Space</option><option value=".">Period (.)</option><option value="_">Underscore (_)</option><option value="">None</option></select></div>
           <div class="checks">
-            <label><input type="checkbox" id="password-cap" checked> Capitalize words</label>
-            <label><input type="checkbox" id="password-num"> Add a number</label>
+            <label><input type="checkbox" id="password-cap" checked> Capitalize Words</label>
+            <label><input type="checkbox" id="password-num"> Add A Number</label>
           </div>
           <div class="btn-row"><button type="button" class="btn primary" id="password-gen-phrase">Generate</button></div>
           <p class="error" id="password-phrase-error" hidden></p>
@@ -599,8 +603,8 @@
       <div class="tool-head"><h2>Encode, Decode, And Hash</h2></div>
       <p class="privacy-note">Runs entirely in your browser. Text you type here is not saved in share links.</p>
       <div class="card">
-        <label class="sr-only" for="encode-input">Input text</label>
-        <textarea class="field" id="encode-input" rows="5" spellcheck="false" data-nostate>Hello, world!</textarea>
+        <label class="sr-only" for="encode-input">Input Text</label>
+        <textarea class="field" id="encode-input" rows="5" spellcheck="false" data-nostate>Hello, world.</textarea>
         <div class="form-row"><label for="encode-codec">Encoding</label><select id="encode-codec"></select></div>
         <div class="btn-row"><button type="button" class="btn primary" id="encode-enc">Encode</button><button type="button" class="btn" id="encode-dec">Decode</button><button type="button" class="btn" id="encode-jwt">Decode JWT</button></div>
         <p class="error" id="encode-error" hidden></p>
@@ -618,10 +622,10 @@
       <div class="tool-head"><h2>Wi-Fi QR Code</h2></div>
       <p class="privacy-note">Built in your browser. The password is never sent anywhere or put in share links.</p>
       <div class="card">
-        <div class="form-row"><label for="wifiqr-ssid">Network name (SSID)</label><input type="text" id="wifiqr-ssid" value="Guest WiFi" autocomplete="off" spellcheck="false"></div>
+        <div class="form-row"><label for="wifiqr-ssid">Network Name (SSID)</label><input type="text" id="wifiqr-ssid" value="Guest WiFi" autocomplete="off" spellcheck="false"></div>
         <div class="form-row"><label for="wifiqr-pass">Password</label><input type="text" id="wifiqr-pass" autocomplete="off" spellcheck="false" data-nostate></div>
         <div class="form-row"><label for="wifiqr-sec">Security</label><select id="wifiqr-sec"><option value="WPA">WPA / WPA2 / WPA3</option><option value="WEP">WEP (outdated)</option><option value="nopass">None (open network)</option></select></div>
-        <div class="checks"><label><input type="checkbox" id="wifiqr-hidden"> Hidden network</label></div>
+        <div class="checks"><label><input type="checkbox" id="wifiqr-hidden"> Hidden Network</label></div>
         <p class="error" id="wifiqr-error" hidden></p>
         <div class="qr-box" id="wifiqr-box" hidden>
           <canvas id="wifiqr-canvas" width="256" height="256" role="img" aria-label="Wi-Fi QR code"></canvas>
@@ -637,7 +641,7 @@
 </div>
 
 <dialog class="palette" id="palette" aria-label="Search tools">
-  <label class="sr-only" for="palette-input">Search tools</label>
+  <label class="sr-only" for="palette-input">Search Tools</label>
   <input type="text" id="palette-input" placeholder="Search tools (subnet, raid, spf, cron...)" autocomplete="off" spellcheck="false" role="combobox" aria-controls="palette-list" aria-expanded="true">
   <ul id="palette-list" role="listbox"></ul>
 </dialog>
