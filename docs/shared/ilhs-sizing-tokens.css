@@ -1,0 +1,36 @@
+/* ilhs-sizing-tokens.css v1.0.1 (Last Rev: 2026-10-30 00:30 EDT)
+   Pinned copy of the ILHS Shared Sizing Spec token block. The spec itself lives in the private
+   ILikeHostingServices/ilhs-internal repository at org/brand/SIZING.md, and is the only source of truth.
+   tools/build.py fails if site/assets/css/site.css does not contain this block exactly.
+   To update: copy the new block from the spec into this file and into site.css, in one pull request into staging. */
+
+/* ILHS Shared Sizing Spec v1.0.1 start: from ilhs-internal org/brand/SIZING.md, do not edit here */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Phones 0.85x -> 1x at 800 px; 1x to 1920 px; then up to 1.25x at 3840 x 2160. */
+  font-size: max(clamp(0.85rem, 0.7rem + 0.6vw, 1rem), min(0.75rem + 0.2083vw, 0.75rem + 0.3704vh, 1.25rem));
+}
+:root {
+  --fs-small: clamp(0.8125rem, 0.7851rem + 0.112vw, 0.875rem);   /* 13 -> 14 px */
+  --fs-label: 0.8125rem;                                          /* 13 px */
+  --fs-nav: clamp(0.875rem, 0.8476rem + 0.112vw, 0.9375rem);     /* 14 -> 15 px */
+  --fs-body: clamp(1rem, 0.9726rem + 0.112vw, 1.0625rem);        /* 16 -> 17 px */
+  --fs-lede: clamp(1.0625rem, 1.008rem + 0.225vw, 1.1875rem);    /* 17 -> 19 px */
+  --fs-h3: clamp(1.125rem, 1.07rem + 0.225vw, 1.25rem);          /* 18 -> 20 px */
+  --fs-card: clamp(1.25rem, 1.195rem + 0.225vw, 1.375rem);       /* 20 -> 22 px */
+  --fs-h2: clamp(1.5rem, 1.281rem + 0.899vw, 2rem);              /* 24 -> 32 px */
+  --fs-h1: clamp(1.875rem, 1.492rem + 1.57vw, 2.75rem);          /* 30 -> 44 px */
+  --fs-hero: clamp(2.125rem, 1.522rem + 2.47vw, 3.5rem);         /* 34 -> 56 px */
+
+  --wrap-max: 75rem;                                              /* 1200 px with gutters */
+  --measure: 42rem;                                              /* 672 px reading width */
+  --gutter: clamp(1rem, 0.3427rem + 2.7vw, 2.5rem);              /* 16 -> 40 px */
+  --section-pad: clamp(2.5rem, 1.404rem + 4.49vw, 5rem);         /* 40 -> 80 px */
+  --hero-pad: clamp(2.5rem, 0.9663rem + 6.29vw, 6rem);           /* 40 -> 96 px */
+  --card-pad: clamp(1rem, 0.5618rem + 1.8vw, 2rem);              /* 16 -> 32 px */
+  --inset-pad: clamp(0.875rem, 0.6011rem + 1.12vw, 1.5rem);      /* 14 -> 24 px */
+  --gap: clamp(0.75rem, 0.4213rem + 1.35vw, 1.5rem);             /* 12 -> 24 px */
+  --tap: max(2.75rem, 44px);
+}
+/* ILHS Shared Sizing Spec v1.0.1 end */

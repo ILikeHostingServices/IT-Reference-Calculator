@@ -1,3 +1,4 @@
+/* js/resolution.js v1.0.0 (Last Rev: 2026-11-13) */
 /* Resolution.js - standard display resolutions grouped by aspect ratio, plus
    width x height -> aspect ratio lookup. Some marketing ratios are nominal: 21:9
    panels are really 64:27, 43:18 or 12:5, and 1366x768 is only roughly 16:9, so

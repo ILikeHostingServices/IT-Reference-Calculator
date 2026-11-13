@@ -1,0 +1,6 @@
+<!-- ilhs-mark.svg v1.0.0 (Last Rev: 2026-10-28 19:44 EDT) ILHS terminal prompt mark. See docs/BRANDING.md. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ILHS">
+  <rect x="1" y="1" width="62" height="62" rx="14" fill="#0b0f14" stroke="#263241" stroke-width="2"/>
+  <path d="M16 20 L29 32 L16 44" fill="none" stroke="#2dd4bf" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="34" y="40" width="16" height="6" rx="1.5" fill="#2dd4bf"/>
+</svg>

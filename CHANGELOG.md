@@ -2,6 +2,27 @@
 
 All notable changes to this project are documented here, newest first.
 
+## [2.0.0] - 2026-11-13
+
+### Added
+- 20 new tools, grouped in a side menu: Subnet Planner (VLSM and route summarization), IPv4 Toolkit (IP in subnet, range to CIDR, ACL wildcards), IPv6 Planner (prefix splits, EUI-64), MAC Address, Port Reference, DNS Lookup, Email Security (SPF with lookup counting, DKIM, DMARC, MX, MTA-STS, TLS-RPT, BIMI, plus SPF and DMARC builders), Email Header Analyzer, Transfer Time, Backup Storage, Camera / NVR Storage, Uptime / SLA, PoE Budget and UPS Runtime, Time Decoder, Cron Explainer, chmod Permissions, Number Bases, Password and Passphrase Generator, Encode / Decode / Hash, and Wi-Fi QR Code.
+- RAID rebuild time and read-error risk; pixel density (PPI) on the Resolutions tool.
+- Share links: every tool keeps its inputs in the URL (`#tool?field=value`) with a Copy Link button. Passwords, pasted headers, and encoder input are never put in links.
+- Copy Results per tool and a copy button on every result row.
+- Search all tools with Ctrl K or /.
+- Works offline (service worker) and can be installed as an app (web manifest, icons).
+- Unit and site-integrity tests (`node --test tests/*.test.js`) and a GitHub Actions workflow that runs them.
+- Security headers from the Worker, matching ilhs.app's policy.
+- Feedback line in the footer pointing to info@ilhs.app; link to the SSL Certificate Checker.
+- Browser checks for future sessions: `tests/browser-conformance.js` (ILHS sizing conformance and axe-core WCAG 2.2 AA) and `tests/browser-e2e.js`.
+
+### Changed
+- ILHS branding: the ilhs.app colors, fonts, header with the ILHS mark, and the ILHS Shared Sizing Spec. The favicon keeps the calculator glyph in ILHS colors.
+- Passed the ILHS brand check (Brand Guide section 10) and the Sizing Spec Conformance Checklist: brand palette only (dropped a non-brand green), Title Case UI labels, buttons sized per the spec, every button and link at least 44 x 44 px, tool titles at the 44 px page-title size, example data on example domains and documentation IP ranges, no exclamation marks, no drop shadows, and file headers with versions. No horizontal scroll or clipping at all 22 test sizes plus 320 px in both themes; zoom grows the page at every step; axe-core WCAG 2.2 AA passes on all 25 tools in both themes (added a missing label and keyboard-focusable scrolling tables).
+- IPv4, IPv6, and RAID now update as you type (no Calculate buttons), like the rest of the tools.
+- RAID disk size defaults to TB (drive label units).
+- Code split into logic modules (`js/*.js`) and per-group page wiring (`js/ui/*.js`).
+
 ## [1.2.0] - 2026-10-29
 
 ### Added
