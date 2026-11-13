@@ -12,6 +12,7 @@ All notable changes to this project are documented here, newest first.
 
 ### Changed
 - Releases go staging first: pull requests into `staging`, the owner tests on calc-staging.ilhs.app, then `staging` into `main` (see `CLAUDE.md`).
+- Previews off on both Workers (ILHS website baseline v1.2.0 rule 13): `docs/DEPLOYMENT.md` now requires turning off non-production branch builds on the live and staging Workers, with a check that no preview links remain; `SITE.md` records the baseline version.
 - Tests workflow on `actions/checkout@v7` and `actions/setup-node@v7`, runs on pushes to `staging` too, with a 5 minute limit.
 - File header and changelog dates for 2026-11-12 work corrected to US Eastern (they had used the UTC date).
 

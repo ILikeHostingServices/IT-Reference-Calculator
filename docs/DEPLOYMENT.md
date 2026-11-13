@@ -1,4 +1,4 @@
-DEPLOYMENT.md v1.0.0 (Last Rev: 2026-11-12 23:25 EST)
+DEPLOYMENT.md v1.1.0 (Last Rev: 2026-11-12 23:55 EST)
 
 # Deploying calc.ilhs.app (Live And Staging)
 
@@ -20,8 +20,10 @@ How changes flow (required, see `CLAUDE.md`): branch from `staging`, open a pull
 The `staging` branch was created from `main` on 2026-11-12. In GitHub > IT-Reference-Calculator > Settings > Branches (or Rules > Rulesets), for both `main` and `staging`:
 
 1. Require a pull request before merging.
-2. Require status checks to pass: `test` (the Tests workflow). Add `Workers Builds: calculator` only if you keep preview builds on (Step 2.4).
+2. Require status checks to pass: `test` (the Tests workflow).
 3. Block force pushes and deletions.
+
+GitHub only offers branch protection on private repositories with a paid plan. If it is not available, the release flow is kept by process (as on ilhs.app): record "no branch protection (free plan)" as an exception in `SITE.md`.
 
 ## Step 2: Tidy The Live Worker (calculator)
 
@@ -31,7 +33,7 @@ The `staging` branch was created from `main` on 2026-11-12. In GitHub > IT-Refer
    - **API token:** one token that can deploy this Worker only. Do not reuse a personal all-access token or the sslchecker token (this Worker used the "sslchecker build token" in October; replace it).
 2. Settings > Domains & Routes: check that `calc.ilhs.app` and the seven redirect domains above are listed, and that the `workers.dev` and Preview URL toggles are off (`wrangler.jsonc` sets both off, so a deploy keeps them off).
 3. Check after the next deploy (Quick Checks below): every redirect domain answers `301` with `location: https://calc.ilhs.app/...`.
-4. **Branch previews:** turn off builds for non-production branches (Settings > Build > Branch control: production branch only). Staging replaces previews, and `preview_urls` is false, so preview builds only add a pull request check with nothing to look at. If you keep them, protect them with Cloudflare Access like ilhs.app does.
+4. **Previews off (ILHS website baseline rule 13, owner 2026-11-12):** Settings > Build > Branch control: turn off builds for non-production branches, so only `main` builds. `wrangler.jsonc` already sets `preview_urls: false`. No Previews Base token and no preview domain are needed. Then check that no `*.workers.dev` preview links are still generated (Quick Checks).
 
 ## Step 3: Create The Staging Worker (calculator-staging)
 
@@ -40,6 +42,7 @@ The `staging` branch was created from `main` on 2026-11-12. In GitHub > IT-Refer
    - **Production branch:** `staging`.
    - **Build command:** empty. **Deploy command:** `npx wrangler deploy --env staging`. **Root directory:** `/`.
    - **API token:** create a new token for this Worker only.
+   - **Branch control:** turn off builds for non-production branches, so only `staging` builds (previews are off for every ILHS site, baseline rule 13).
 2. Let the first build finish. Do not attach a domain yet.
 
 ## Step 4: Require A Login For Staging (Before The Domain)
@@ -76,6 +79,9 @@ for h in calc.syshost.app calculator.syshost.app itcalc.syshost.app itcalculator
 | calc-staging: `302` with `location: https://...cloudflareaccess.com/...` | Staging login is working |
 | calc-staging: `200` with no login | Access app missing: remove the domain and fix Step 4 now |
 | Cloudflare error 522, 523, 530, or 1016 | Hostname is not attached to a Worker |
+| A pull request still gets a Cloudflare comment with a "Preview URL" or "Branch Preview URL" | Non-production branch builds are still on: turn them off (Step 2.4 and Step 3) |
+
+Previews check: in each Worker, Deployments should list builds of `main` (live) or `staging` (staging) only, and Settings > Domains & Routes should show the `workers.dev` and Preview URL toggles off. On the next pull request, the `Workers Builds: calculator` check and the Cloudflare bot comment should no longer appear.
 
 ## Rollback
 
