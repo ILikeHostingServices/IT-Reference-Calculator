@@ -1,4 +1,4 @@
-/* js/ipv4.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/ipv4.js v1.0.0 (Last Rev: 2026-11-12) */
 /* IPv4.js - IPv4 address / subnet math. Plain 32-bit integers (fits safely in Number). */
 window.Calc = window.Calc || {};
 

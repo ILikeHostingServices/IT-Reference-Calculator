@@ -1,4 +1,4 @@
-/* tests/browser-conformance.js v1.0.0 (Last Rev: 2026-11-13) */
+/* tests/browser-conformance.js v1.0.0 (Last Rev: 2026-11-12) */
 /* ILHS Shared Sizing Spec Conformance Checklist and axe-core WCAG 2.2 AA check for every tool, dark and light.
    Not part of node --test or CI (needs Playwright and a running site). Usage:
      npx wrangler dev --port 8790 --var PRIMARY_HOST:127.0.0.1

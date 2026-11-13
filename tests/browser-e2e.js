@@ -1,4 +1,4 @@
-/* tests/browser-e2e.js v1.0.0 (Last Rev: 2026-11-13) */
+/* tests/browser-e2e.js v1.0.0 (Last Rev: 2026-11-12) */
 /* End-to-end browser checks: share links, copy buttons, search, DNS and email tools against mocked DNS over HTTPS,
    header analyzer, secrets kept out of links, QR, offline mode. Not part of node --test or CI. Usage:
      npx wrangler dev --port 8790 --var PRIMARY_HOST:127.0.0.1

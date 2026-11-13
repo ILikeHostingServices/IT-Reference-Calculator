@@ -1,4 +1,4 @@
-/* js/ui/display.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/ui/display.js v1.0.0 (Last Rev: 2026-11-12) */
 /* UI: Display - resolutions by aspect ratio, resolution to aspect ratio lookup, and pixel density. */
 (function () {
   "use strict";

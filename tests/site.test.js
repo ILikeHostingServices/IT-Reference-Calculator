@@ -1,4 +1,4 @@
-/* tests/site.test.js v1.0.0 (Last Rev: 2026-11-13) */
+/* tests/site.test.js v1.0.0 (Last Rev: 2026-11-12) */
 "use strict";
 /* Site integrity: brand sizing block, offline cache list, script order, and the no-dash writing rule. */
 const test = require("node:test");

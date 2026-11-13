@@ -1,4 +1,4 @@
-/* js/encode.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/encode.js v1.0.0 (Last Rev: 2026-11-12) */
 /* Encode.js - text encodings (Base64, Base64URL, URL, hex, HTML entities) and hashes via the
    browser's Web Crypto API. Everything runs locally. */
 window.Calc = window.Calc || {};

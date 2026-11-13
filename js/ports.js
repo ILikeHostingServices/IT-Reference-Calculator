@@ -1,4 +1,4 @@
-/* js/ports.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/ports.js v1.0.0 (Last Rev: 2026-11-12) */
 /* Ports.js - common TCP/UDP ports for the searchable Port Reference. Each entry: port (number or
    "a-b" range), protocol, service, and a short note. Keep entries factual and short. */
 window.Calc = window.Calc || {};

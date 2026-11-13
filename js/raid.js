@@ -1,4 +1,4 @@
-/* js/raid.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/raid.js v1.0.0 (Last Rev: 2026-11-12) */
 /* RAID.js - RAID / JBOD capacity and fault-tolerance calculations.
    Assumes uniform per-disk size (standard assumption for this kind of calculator),
    except JBOD which also supports mixed sizes via rawTotalBytes when provided. */

@@ -1,4 +1,4 @@
-/* js/ui/utilities.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/ui/utilities.js v1.0.0 (Last Rev: 2026-11-12) */
 /* UI: Utilities - time decoder, cron explainer, chmod, number bases, password generator,
    encode/decode/hash, and Wi-Fi QR codes. All local; nothing is sent anywhere. */
 (function () {

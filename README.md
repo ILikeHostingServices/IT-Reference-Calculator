@@ -1,4 +1,4 @@
-README.md v2.0.1 (Last Rev: 2026-11-13)
+README.md v2.1.0 (Last Rev: 2026-11-12)
 
 # IT Reference Calculator
 
@@ -34,6 +34,10 @@ The look follows the ILHS brand used on ilhs.app: same colors, fonts, header, an
 | `tests/` | Unit and site-integrity tests (`node --test tests/*.test.js`), plus browser checks (`browser-conformance.js` for the ILHS sizing spec and WCAG, `browser-e2e.js`) that run against `wrangler dev`. |
 | `wrangler.jsonc`, `worker/index.js`, `.assetsignore` | Cloudflare Workers deploy: primary-domain redirect, security headers, `Last-Modified`, and what not to publish. |
 | `docs/shared/ilhs-sizing-tokens.css` | Pinned copy of the ILHS Shared Sizing Spec token block. |
+| `docs/DEPLOYMENT.md` | Cloudflare live and staging setup, quick checks, rollback. |
+| `SECURITY.md`, `.well-known/security.txt` | How to report a security problem. |
+| `SITE.md` | This site's entry for the ILHS website baseline (hosts, Workers, exceptions). |
+| `LICENSE` | MIT, plus the licenses of the vendored files and fonts. |
 
 ## Quick Start
 
@@ -47,7 +51,14 @@ npx wrangler dev --var PRIMARY_HOST:127.0.0.1   # run it as Cloudflare serves it
 
 ## Deployment (Cloudflare Workers)
 
-The Worker named `calculator` is connected to this repo through Workers Builds. Pushes to `main` run `npx wrangler deploy`; other branches run `npx wrangler versions upload`. Both read `wrangler.jsonc`, which publishes the repo root as static assets (minus everything in `.assetsignore`).
+Two Workers are built from this repository by Workers Builds, both from `wrangler.jsonc`, which publishes the repo root as static assets (minus everything in `.assetsignore`):
+
+| Branch | Site | Worker | Who can see it |
+| --- | --- | --- | --- |
+| `staging` | https://calc-staging.ilhs.app | `calculator-staging` | Approved emails only (Cloudflare Access) |
+| `main` | https://calc.ilhs.app | `calculator` | Everyone |
+
+Changes go into `staging` by pull request, are tested on the staging site, and then go live with a pull request from `staging` into `main`. The Cloudflare setup, checks, and rollback are in `docs/DEPLOYMENT.md`; security reports go to info@ilhs.app (`SECURITY.md`).
 
 - **Primary domain:** `PRIMARY_HOST` in `wrangler.jsonc` (currently `calc.ilhs.app`). Any other custom domain attached to the Worker gets a 301 redirect to it.
 - **Custom domains** are added in the Cloudflare dashboard (Worker > Settings > Domains & Routes), not in `wrangler.jsonc`.

@@ -1,4 +1,4 @@
-/* js/ui/core.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/ui/core.js v1.0.0 (Last Rev: 2026-11-12) */
 /* UI core - shared DOM helpers for every tool: errors, key/value and data tables with copy buttons,
    unit pickers, editable row lists, clipboard, toasts, and the tool registry that app.js drives.
    Tool files (js/ui/*.js) call Calc.UI.register(id, { init, getState, setState }). */

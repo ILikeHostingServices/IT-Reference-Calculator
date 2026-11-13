@@ -1,4 +1,4 @@
-/* js/ui/network.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/ui/network.js v1.0.0 (Last Rev: 2026-11-12) */
 /* UI: Network tools - IPv4 subnet, subnet planner (VLSM and summarization), IPv4 toolkit,
    IPv6 subnet, IPv6 planner, MAC address, and port reference. */
 (function () {
