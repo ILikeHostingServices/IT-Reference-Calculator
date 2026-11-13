@@ -1,0 +1,13 @@
+# .github/dependabot.yml v1.0.0 (Last Rev: 2026-11-12)
+# Opens a monthly pull request when a GitHub Action used in .github/workflows/ has a newer version.
+# Pull requests go to staging first (ILHS website baseline rule 11; release flow in CLAUDE.md).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: staging
+    schedule:
+      interval: monthly
+    groups:
+      github-actions:
+        patterns: ["*"]

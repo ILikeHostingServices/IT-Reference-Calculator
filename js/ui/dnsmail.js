@@ -1,4 +1,4 @@
-/* js/ui/dnsmail.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/ui/dnsmail.js v1.0.0 (Last Rev: 2026-11-12) */
 /* UI: DNS and email tools - DNS lookup, SPF/DKIM/DMARC checker and builders, header analyzer.
    Lookups run only when a button is pressed (or a shared link names a domain), never on typing. */
 (function () {

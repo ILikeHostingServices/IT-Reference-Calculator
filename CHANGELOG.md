@@ -2,7 +2,20 @@
 
 All notable changes to this project are documented here, newest first.
 
-## [2.0.0] - 2026-11-13
+## [2.1.0] - 2026-11-12
+
+### Added
+- Staging site setup for the ILHS website baseline: a `staging` branch, a `calculator-staging` Worker in `wrangler.jsonc` (`env.staging`, served at calc-staging.ilhs.app behind Cloudflare Access), and `docs/DEPLOYMENT.md` with the owner's Cloudflare steps. The staging Worker sends `X-Robots-Tag: noindex, nofollow` and a disallow-all `robots.txt`.
+- `SECURITY.md` and `/.well-known/security.txt` (expires 2027-11-12), `robots.txt`, `SITE.md`, and an MIT `LICENSE` (owner decision 2026-11-12).
+- Dependabot for GitHub Actions, aimed at `staging`.
+- `tests/worker.test.js`: every redirect domain 301s to calc.ilhs.app with the path kept, security headers on every response, and staging noindex.
+
+### Changed
+- Releases go staging first: pull requests into `staging`, the owner tests on calc-staging.ilhs.app, then `staging` into `main` (see `CLAUDE.md`).
+- Tests workflow on `actions/checkout@v7` and `actions/setup-node@v7`, runs on pushes to `staging` too, with a 5 minute limit.
+- File header and changelog dates for 2026-11-12 work corrected to US Eastern (they had used the UTC date).
+
+## [2.0.0] - 2026-11-12
 
 ### Added
 - 20 new tools, grouped in a side menu: Subnet Planner (VLSM and route summarization), IPv4 Toolkit (IP in subnet, range to CIDR, ACL wildcards), IPv6 Planner (prefix splits, EUI-64), MAC Address, Port Reference, DNS Lookup, Email Security (SPF with lookup counting, DKIM, DMARC, MX, MTA-STS, TLS-RPT, BIMI, plus SPF and DMARC builders), Email Header Analyzer, Transfer Time, Backup Storage, Camera / NVR Storage, Uptime / SLA, PoE Budget and UPS Runtime, Time Decoder, Cron Explainer, chmod Permissions, Number Bases, Password and Passphrase Generator, Encode / Decode / Hash, and Wi-Fi QR Code.

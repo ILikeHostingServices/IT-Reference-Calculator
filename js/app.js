@@ -1,4 +1,4 @@
-/* js/app.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/app.js v1.0.0 (Last Rev: 2026-11-12) */
 /* app.js - page shell: builds the grouped tool menu from the <section class="tool"> elements, routes
    between tools with the URL hash (#tool?field=value), keeps share links in sync with the inputs,
    adds Copy Link / Copy Results buttons, runs the Ctrl+K search, and fills in the footer.
