@@ -1,4 +1,4 @@
-/* js/ui/core.js v1.0.0 (Last Rev: 2026-11-12) */
+/* js/ui/core.js v1.0.1 (Last Rev: 2026-11-25) */
 /* UI core - shared DOM helpers for every tool: errors, key/value and data tables with copy buttons,
    unit pickers, editable row lists, clipboard, toasts, and the tool registry that app.js drives.
    Tool files (js/ui/*.js) call Calc.UI.register(id, { init, getState, setState }). */
@@ -241,13 +241,11 @@ Calc.UI = (function () {
   function formatBps(bps) {
     const units = [["Tbps", 1e12], ["Gbps", 1e9], ["Mbps", 1e6], ["Kbps", 1e3], ["bps", 1]];
     for (const [u, f] of units) if (bps >= f || u === "bps") return `${Calc.Units.trimNumber(bps / f, 2)} ${u}`;
-    return `${bps} bps`;
   }
   function formatBoth(bytes) {
     const b = Calc.Units.formatBoth(bytes);
     return `${b.binary} (${b.decimal})`;
   }
-  const fmt = (n, d = 2) => Number(n).toLocaleString(undefined, { maximumFractionDigits: d });
 
   // ---- Editable row lists (subnets, SLA components, PoE devices) ----
   // fields: [{ key, type: "text"|"number"|"select", cls, placeholder, label, options: [[value, text]], min, step }]
@@ -321,6 +319,6 @@ Calc.UI = (function () {
   return {
     $, tools, register, titleCase, showError, hideError, live, num, need, toast, copyText, copyButton,
     renderKV, renderData, renderIssues, renderBox, el, populateUnitSelect, populateRateSelect, rateFactor,
-    formatBps, formatBoth, fmt, makeList, debounce,
+    formatBps, formatBoth, makeList, debounce,
   };
 })();

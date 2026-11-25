@@ -1,9 +1,9 @@
-/* sw.js v1.0.0 (Last Rev: 2026-11-12) */
+/* sw.js v1.0.1 (Last Rev: 2026-11-25) */
 /* sw.js - offline support. Precaches every file the page needs, then serves same-origin GET
    requests stale-while-revalidate: instant from cache, refreshed in the background. DNS lookups
    (other origins) and HEAD requests (the footer build time) always go to the network.
    The cache name follows Calc.VERSION, so bumping the version replaces the cache.
-   tests/sw.test.js fails if a file the page loads is missing from ASSETS. */
+   tests/site.test.js fails if a file the page loads is missing from ASSETS. */
 self.window = self;
 importScripts("js/version.js");
 

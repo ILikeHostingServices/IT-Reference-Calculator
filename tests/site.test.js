@@ -1,4 +1,4 @@
-/* tests/site.test.js v1.0.0 (Last Rev: 2026-11-12) */
+/* tests/site.test.js v1.0.1 (Last Rev: 2026-11-25) */
 "use strict";
 /* Site integrity: brand sizing block, offline cache list, script order, and the no-dash writing rule. */
 const test = require("node:test");
@@ -7,7 +7,8 @@ const fs = require("fs");
 const path = require("path");
 
 const root = path.join(__dirname, "..");
-const read = f => fs.readFileSync(path.join(root, f), "utf8");
+// Line endings normalized: a Windows checkout (core.autocrlf) may have CRLF in some files and LF in others.
+const read = f => fs.readFileSync(path.join(root, f), "utf8").replace(/\r\n/g, "\n");
 const html = read("index.html");
 
 test("style.css carries the pinned ILHS Shared Sizing Spec block unchanged", () => {

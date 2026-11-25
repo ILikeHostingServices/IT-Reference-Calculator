@@ -1,4 +1,4 @@
-/* js/app.js v1.0.0 (Last Rev: 2026-11-12) */
+/* js/app.js v1.0.1 (Last Rev: 2026-11-25) */
 /* app.js - page shell: builds the grouped tool menu from the <section class="tool"> elements, routes
    between tools with the URL hash (#tool?field=value), keeps share links in sync with the inputs,
    adds Copy Link / Copy Results buttons, runs the Ctrl+K search, and fills in the footer.
@@ -157,13 +157,11 @@
   });
 
   function parseHash() {
-    const raw = decodeURIComponent(location.hash.slice(1));
     const [tool, query] = location.hash.slice(1).split("?");
     const params = Object.fromEntries(new URLSearchParams(query || ""));
     // Old links and legacy tab names keep working.
     const aliases = { "": DEFAULT_TOOL, resolutions: "resolution", subnet: "ipv4", vlsm: "planner" };
-    const id = toolIds.includes(tool) ? tool : aliases[tool] || (raw ? null : DEFAULT_TOOL);
-    return { id: id || DEFAULT_TOOL, params };
+    return { id: toolIds.includes(tool) ? tool : aliases[tool] || DEFAULT_TOOL, params };
   }
 
   function activate(id, { focus } = {}) {

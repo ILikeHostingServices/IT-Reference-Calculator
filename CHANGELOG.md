@@ -1,8 +1,32 @@
+CHANGELOG.md v2.2.0 (Last Rev: 2026-11-25)
+
 # Changelog
 
-All notable changes to this project are documented here, newest first.
+Newest first. Versions are Major.Minor.Patch, always three places. Dates are YYYY-MM-DD.
 
-## [2.1.0] - 2026-11-12
+## v2.2.0 - 2026-11-25
+
+### Added
+- Wi-Fi QR Code prints as a one-page sign: a heading you choose, the code, the network name, and the password (optional, on by default). Network names over 32 bytes and WPA passwords over 63 characters are now flagged; a 64 digit hex key is accepted.
+- IPv6 Subnet shows the address type (global unicast, unique local, link-local, multicast with its scope, documentation, NAT64, 6to4, Teredo, IPv4-mapped, loopback, and more), any embedded IPv4 address, the reverse DNS (ip6.arpa) name, and how many /64 networks a shorter prefix holds. It accepts zone IDs (fe80::1%eth0), square brackets, and dotted IPv4 tails (::ffff:192.0.2.1).
+- IPv6 Planner lists subnets with their number and hex subnet ID, and can start at any subnet number (for example subnet 43 of a /48 split into /64s).
+- "Run It Yourself" in README.md: run locally, run the tests, and host your own copy on any static web server or your own Cloudflare Worker.
+- Standard repository files: AGENTS.md, docs/ARCHITECTURE.md, docs/DESIGN.md, docs/DECISIONS.md, docs/ROADMAP.md, docs/RUNBOOK.md, and .gitattributes (LF line endings).
+
+### Changed
+- Form field borders meet the WCAG 1.4.11 non-text contrast minimum of 3:1 in both themes (they were about 1.4:1).
+- Printing always uses the light palette, so a page printed from dark mode no longer comes out with light text on white paper. Menus, buttons, and notes are left off printouts.
+- On phones, key/value results put the label above the value, so addresses such as 192.168.1.10 no longer break in the middle; data tables keep whole words and scroll instead of splitting words letter by letter.
+- CLAUDE.md is now a thin wrapper around AGENTS.md; MEMORY.md was retired (decisions moved to docs/DECISIONS.md, open questions to docs/ROADMAP.md).
+
+### Fixed
+- `tests/worker.test.js` failed on Windows (a drive-letter path passed to `import()`); `tests/site.test.js` failed when a Windows checkout mixed line endings.
+- A malformed link such as `#%E0` stopped the page from routing (`decodeURIComponent` threw); unknown links now open the first tool.
+
+### Removed
+- Unused code: `Calc.Units.convert`, `Calc.UI.fmt`, an unreachable return in `formatBps`, `totalAddressesStr` in IPv6 results, and duplicate change listeners in chmod and Number Bases.
+
+## v2.1.0 - 2026-11-12
 
 ### Added
 - Staging site setup for the ILHS website baseline: a `staging` branch, a `calculator-staging` Worker in `wrangler.jsonc` (`env.staging`, served at calc-staging.ilhs.app behind Cloudflare Access), and `docs/DEPLOYMENT.md` with the owner's Cloudflare steps. The staging Worker sends `X-Robots-Tag: noindex, nofollow` and a disallow-all `robots.txt`.
@@ -16,7 +40,7 @@ All notable changes to this project are documented here, newest first.
 - Tests workflow on `actions/checkout@v7` and `actions/setup-node@v7`, runs on pushes to `staging` too, with a 5 minute limit.
 - File header and changelog dates for 2026-11-12 work corrected to US Eastern (they had used the UTC date).
 
-## [2.0.0] - 2026-11-12
+## v2.0.0 - 2026-11-12
 
 ### Added
 - 20 new tools, grouped in a side menu: Subnet Planner (VLSM and route summarization), IPv4 Toolkit (IP in subnet, range to CIDR, ACL wildcards), IPv6 Planner (prefix splits, EUI-64), MAC Address, Port Reference, DNS Lookup, Email Security (SPF with lookup counting, DKIM, DMARC, MX, MTA-STS, TLS-RPT, BIMI, plus SPF and DMARC builders), Email Header Analyzer, Transfer Time, Backup Storage, Camera / NVR Storage, Uptime / SLA, PoE Budget and UPS Runtime, Time Decoder, Cron Explainer, chmod Permissions, Number Bases, Password and Passphrase Generator, Encode / Decode / Hash, and Wi-Fi QR Code.
@@ -37,7 +61,7 @@ All notable changes to this project are documented here, newest first.
 - RAID disk size defaults to TB (drive label units).
 - Code split into logic modules (`js/*.js`) and per-group page wiring (`js/ui/*.js`).
 
-## [1.2.0] - 2026-10-29
+## v1.2.0 - 2026-10-29
 
 ### Added
 - **Resolutions** tab: pick an aspect ratio to list its standard resolutions with names and use cases, or type a resolution (for example `3440x1440`) to get its exact and decimal aspect ratio, the nearest standard ratio (flagging nominal ratios such as ultrawide "21:9"), orientation, pixel count, and its standard name and use case. Tapping a listed resolution looks it up.
@@ -48,7 +72,7 @@ All notable changes to this project are documented here, newest first.
 ### Changed
 - Rebranded from "IT Calculator" to "IT Reference Calculator" (page title, header, footer, docs) to go with the repository rename from `calculator` to `IT-Reference-Calculator`.
 
-## [1.1.0] - 2026-09-26
+## v1.1.0 - 2026-09-26
 
 ### Changed
 - Rebuilt the Storage / RAM tab as three live tools (no Calculate button): **Convert a size** (all binary and decimal units side by side, best unit highlighted), **Add it up** (quantity x size line items with presets for common DIMMs and drives), and **Compare two sizes** (left over, percent used, how many fit).
@@ -64,7 +88,7 @@ All notable changes to this project are documented here, newest first.
 ### Fixed
 - The old storage chain calculator multiplied and divided sizes by sizes (e.g. `1 GiB x 1 GiB`), producing meaningless results displayed as bytes.
 
-## [1.0.0] - 2026-09-07
+## v1.0.0 - 2026-09-07
 
 ### Added
 - Initial release: IPv4/IPv6 subnetting, public DNS resolver tables, RAID/JBOD sizing, and storage/RAM unit math.
