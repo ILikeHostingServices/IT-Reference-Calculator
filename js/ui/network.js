@@ -1,4 +1,4 @@
-/* js/ui/network.js v1.0.0 (Last Rev: 2026-11-12) */
+/* js/ui/network.js v1.1.0 (Last Rev: 2026-11-25) */
 /* UI: Network tools - IPv4 subnet, subnet planner (VLSM and summarization), IPv4 toolkit,
    IPv6 subnet, IPv6 planner, MAC address, and port reference. */
 (function () {
@@ -136,6 +136,8 @@
         }
         const info = Calc.IPv6.subnetInfo(ip, p);
         U.renderKV(out, [
+          ["Address type", info.type, { copy: false }],
+          ...(info.embeddedIPv4 ? [["Embedded IPv4 address", info.embeddedIPv4]] : []),
           ["Expanded address", info.expanded],
           ["Compressed address", info.compressed],
           ["Prefix length", `/${info.prefix}`],
@@ -143,7 +145,9 @@
           ["Network (expanded)", info.networkExpanded],
           ["Last address (compressed)", info.lastAddress],
           ["Last address (expanded)", info.lastAddressExpanded],
-          ["Addresses in subnet", BigInt(info.totalAddressesStr).toLocaleString()],
+          ["Addresses in subnet", info.totalAddresses.toLocaleString()],
+          ...(info.subnets64 ? [["/64 networks in this prefix", info.subnets64.toLocaleString(), { copy: false }]] : []),
+          ["Reverse DNS (PTR) name", info.ptr],
         ]);
       }, err);
     },
@@ -152,17 +156,16 @@
   /* ---------- IPv6 Planner ---------- */
   U.register("v6plan", {
     init() {
-      const net = $("v6plan-net"), np = $("v6plan-new"), err = $("v6plan-error"), out = $("v6plan-out");
-      U.live([net, np], () => {
+      const net = $("v6plan-net"), np = $("v6plan-new"), from = $("v6plan-from"), err = $("v6plan-error"), out = $("v6plan-out");
+      U.live([net, np, from], () => {
         out.innerHTML = "";
         const [addr, p] = net.value.trim().split("/");
         if (p === undefined) throw new Error("Include the prefix length, for example 2001:db8:abcd::/48");
-        const r = Calc.IPv6Plan.split(addr, Number(p), U.need(np, "the new prefix length"));
+        const r = Calc.IPv6Plan.split(addr, Number(p), U.need(np, "the new prefix length"), 16, U.num(from) || 1);
         out.appendChild(U.el("p", "notes", `${r.base} holds ${r.count.toLocaleString()} subnets of /${np.value}, each with ${r.perSubnet.toLocaleString()} addresses.${r.nibbleAligned ? "" : " Not on a 4-bit boundary, so subnets do not line up with hex digits."}`));
-        const lines = [...r.subnets];
-        if (r.last) lines.push("...", r.last);
-        const pre = U.el("pre", "output", lines.join("\n"));
-        out.appendChild(pre);
+        const rows = [...r.subnets];
+        if (r.last) rows.push({ number: "...", id: "", cidr: "" }, r.last);
+        U.renderData(out, ["Number", "Subnet ID (hex)", "Subnet"], rows.map(s => [s.number.toLocaleString(), s.id, s.cidr]), { monoCols: [1, 2], caption: "IPv6 subnets" });
       }, err);
 
       const pfx = $("v6plan-prefix"), mac = $("v6plan-mac"), eErr = $("v6plan-eui-error"), eOut = $("v6plan-eui-results");

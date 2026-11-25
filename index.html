@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- index.html v2.0.0 (Last Rev: 2026-11-12) -->
+<!-- index.html v2.2.0 (Last Rev: 2026-11-25) -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -138,7 +138,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-ipv6" data-tool="ipv6" data-group="Network" data-title="IPv6 Subnet" data-keywords="ipv6 v6 expand compress prefix network dns resolver">
+    <section class="tool" id="t-ipv6" data-tool="ipv6" data-group="Network" data-title="IPv6 Subnet" data-keywords="ipv6 v6 expand compress prefix network dns resolver ptr reverse ip6.arpa ula link local multicast nat64 mapped">
       <div class="tool-head"><h2>IPv6 Subnet Calculator</h2></div>
       <div class="card">
         <div class="form-row">
@@ -174,7 +174,8 @@
         <h3>Split A Prefix</h3>
         <div class="form-row"><label for="v6plan-net">Prefix You Have</label><input type="text" id="v6plan-net" class="mono-input" value="2001:db8:abcd::/48" spellcheck="false" autocomplete="off"></div>
         <div class="form-row"><label for="v6plan-new">Split Into</label><input type="number" id="v6plan-new" min="1" max="128" value="64"></div>
-        <p class="hint">Splitting on a multiple of 4 bits (for example /48 into /52, /56, or /64) keeps each subnet on a clean hex digit.</p>
+        <div class="form-row"><label for="v6plan-from">Start At Subnet Number</label><input type="number" id="v6plan-from" min="1" step="1" value="1"></div>
+        <p class="hint">Splitting on a multiple of 4 bits (for example /48 into /52, /56, or /64) keeps each subnet on a clean hex digit. The subnet ID is the hex value that goes in those bits, so subnet ID 2a of a /48 split into /64s is 2001:db8:abcd:2a::/64.</p>
         <p class="error" id="v6plan-error" hidden></p>
         <div id="v6plan-out"></div>
       </div>
@@ -625,15 +626,22 @@
         <div class="form-row"><label for="wifiqr-ssid">Network Name (SSID)</label><input type="text" id="wifiqr-ssid" value="Guest WiFi" autocomplete="off" spellcheck="false"></div>
         <div class="form-row"><label for="wifiqr-pass">Password</label><input type="text" id="wifiqr-pass" autocomplete="off" spellcheck="false" data-nostate></div>
         <div class="form-row"><label for="wifiqr-sec">Security</label><select id="wifiqr-sec"><option value="WPA">WPA / WPA2 / WPA3</option><option value="WEP">WEP (outdated)</option><option value="nopass">None (open network)</option></select></div>
-        <div class="checks"><label><input type="checkbox" id="wifiqr-hidden"> Hidden Network</label></div>
+        <div class="form-row"><label for="wifiqr-heading">Sign Heading</label><input type="text" id="wifiqr-heading" value="Guest Wi-Fi" autocomplete="off" maxlength="40"></div>
+        <div class="checks"><label><input type="checkbox" id="wifiqr-hidden"> Hidden Network</label><label><input type="checkbox" id="wifiqr-showpass" checked> Show The Password On The Printed Sign</label></div>
         <p class="error" id="wifiqr-error" hidden></p>
         <div class="qr-box" id="wifiqr-box" hidden>
           <canvas id="wifiqr-canvas" width="256" height="256" role="img" aria-label="Wi-Fi QR code"></canvas>
           <div>
-            <p class="hint">Point a phone camera at the code to join. Print it for a guest room, front desk, or conference room.</p>
-            <div class="btn-row"><a class="btn" id="wifiqr-download" download="wifi-qr.png" href="#">Download PNG</a><button type="button" class="btn" id="wifiqr-print">Print</button></div>
+            <p class="hint">Point a phone camera at the code to join. Print makes a one-page sign (code, network name, and the password if chosen) for a guest room, front desk, or conference room.</p>
+            <div class="btn-row"><a class="btn" id="wifiqr-download" download="wifi-qr.png" href="#">Download PNG</a><button type="button" class="btn" id="wifiqr-print">Print Sign</button></div>
           </div>
         </div>
+      </div>
+      <div class="wifi-sign print-only" id="wifiqr-sign">
+        <p class="sign-title" id="wifiqr-sign-title"></p>
+        <img id="wifiqr-sign-img" alt="">
+        <dl><dt>Network</dt><dd id="wifiqr-sign-ssid"></dd><dt id="wifiqr-sign-pass-label">Password</dt><dd id="wifiqr-sign-pass"></dd></dl>
+        <p>Point your phone camera at the code to join.</p>
       </div>
     </section>
 

@@ -1,4 +1,4 @@
-# .assetsignore v1.1.0 (Last Rev: 2026-11-12)
+# .assetsignore v1.2.0 (Last Rev: 2026-11-25)
 # Files Wrangler must not publish as static assets (the site is the repo root).
 .git
 .github
@@ -14,3 +14,4 @@ docs
 tests
 package.json
 LICENSE
+.gitattributes

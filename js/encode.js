@@ -1,4 +1,4 @@
-/* js/encode.js v1.0.0 (Last Rev: 2026-11-12) */
+/* js/encode.js v1.1.0 (Last Rev: 2026-11-25) */
 /* Encode.js - text encodings (Base64, Base64URL, URL, hex, HTML entities) and hashes via the
    browser's Web Crypto API. Everything runs locally. */
 window.Calc = window.Calc || {};
@@ -99,5 +99,14 @@ Calc.Encode = (function () {
     return `WIFI:T:${sec};S:${esc(ssid)};${sec === "nopass" ? "" : `P:${esc(pass)};`}${hidden ? "H:true;" : ""};`;
   }
 
-  return { CODECS, run, hashes, decodeJwt, HASHES, wifiString };
+  // What is wrong with these Wi-Fi settings, or "" when a code can be made. WPA passphrases are 8 to 63
+  // characters, or exactly 64 hex digits (a raw key), per IEEE 802.11i.
+  function wifiProblem({ ssid, pass, sec }) {
+    if (!ssid) return "Enter the network name";
+    if (new TextEncoder().encode(ssid).length > 32) return "Network names are at most 32 bytes";
+    if (sec === "WPA" && pass && !/^[0-9a-f]{64}$/i.test(pass) && (pass.length < 8 || pass.length > 63)) return "WPA passwords are 8 to 63 characters (or a 64 digit hex key)";
+    return "";
+  }
+
+  return { CODECS, run, hashes, decodeJwt, HASHES, wifiString, wifiProblem };
 })();

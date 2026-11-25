@@ -1,4 +1,4 @@
-/* js/ipv6plan.js v1.0.0 (Last Rev: 2026-11-12) */
+/* js/ipv6plan.js v1.1.0 (Last Rev: 2026-11-25) */
 /* IPv6plan.js - IPv6 subnet planning on top of Calc.IPv6: split a prefix into smaller ones and
    build an address from a /64 prefix plus a MAC (EUI-64). BigInt throughout. */
 window.Calc = window.Calc || {};
@@ -8,24 +8,27 @@ Calc.IPv6Plan = (function () {
 
   const V6 = Calc.IPv6;
 
-  // Split network/prefix into /newPrefix subnets. Lists up to `limit` from the start (and the
-  // last one), since a /48 holds 65,536 /64s.
-  function split(networkText, prefix, newPrefix, limit = 16) {
+  // Split network/prefix into /newPrefix subnets. Lists up to `limit` starting at subnet number `from`
+  // (1 = the first), plus the last one, since a /48 holds 65,536 /64s. Each entry carries its number
+  // and its subnet ID in hex (the bits between the two prefix lengths).
+  function split(networkText, prefix, newPrefix, limit = 16, from = 1) {
     if (!Number.isInteger(newPrefix) || newPrefix <= prefix || newPrefix > 128) {
       throw new Error("The new prefix must be longer (bigger number) than the current one, up to /128");
     }
     const base = V6.parseIp(networkText) & V6.prefixToMask(prefix);
     const count = 1n << BigInt(newPrefix - prefix);
     const step = 1n << BigInt(128 - newPrefix);
-    const shown = count < BigInt(limit) ? Number(count) : limit;
+    const start = BigInt(from) - 1n;
+    if (start < 0n || start >= count) throw new Error(`Start at a subnet number from 1 to ${count.toLocaleString()}`);
+    const end = start + BigInt(limit) < count ? start + BigInt(limit) : count;
+    const entry = i => ({ number: i + 1n, id: i.toString(16), cidr: `${V6.compress(base + step * i)}/${newPrefix}` });
     const subnets = [];
-    for (let i = 0; i < shown; i++) subnets.push(`${V6.compress(base + step * BigInt(i))}/${newPrefix}`);
-    const last = `${V6.compress(base + step * (count - 1n))}/${newPrefix}`;
+    for (let i = start; i < end; i++) subnets.push(entry(i));
     return {
       base: `${V6.compress(base)}/${prefix}`,
       count,
       subnets,
-      last: count > BigInt(shown) ? last : null,
+      last: end < count ? entry(count - 1n) : null,
       nibbleAligned: (newPrefix - prefix) % 4 === 0,
       perSubnet: step,
     };

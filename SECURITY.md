@@ -1,4 +1,4 @@
-SECURITY.md v1.0.0 (Last Rev: 2026-11-12 23:20 EST)
+SECURITY.md v1.0.1 (Last Rev: 2026-11-25)
 
 # Security Policy
 
@@ -43,7 +43,7 @@ We will credit you when the fix goes live, unless you ask us not to.
 - **Strict response headers** from the Worker: a Content Security Policy with no inline scripts or styles, no third-party scripts, and no framing; HSTS; `nosniff`; and same-origin opener and resource policies.
 - **Staging behind a login.** calc-staging.ilhs.app is protected by Cloudflare Access with an email one-time code, a 1 hour session, `noindex`, and no `workers.dev` address.
 - **One deploy token per Worker.** The live and staging Workers each have their own Cloudflare API token, scoped to deploying that Worker only. No secrets are stored in this repository.
-- **Staging first and checks on every pull request.** Every change is tested on staging before it reaches calc.ilhs.app (see `CLAUDE.md`). The Tests workflow runs with read-only permissions, and Dependabot keeps its Actions current.
+- **Staging first and checks on every pull request.** Every change is tested on staging before it reaches calc.ilhs.app (see `AGENTS.md`). The Tests workflow runs with read-only permissions, and Dependabot keeps its Actions current.
 
 ## Keeping This Current
 

@@ -1,8 +1,8 @@
-/* style.css v2.0.1 (Last Rev: 2026-11-12)
+/* style.css v2.1.0 (Last Rev: 2026-11-25)
    IT Reference Calculator styles. Colors, fonts, header, and buttons follow the ILHS brand as used on
    ilhs.app (ILikeHostingServices/ILHS-Primary-Website site/assets/css/site.css). Dark first; light follows
    the system setting. Every size comes from the ILHS Shared Sizing Spec block below, pinned in
-   docs/shared/ilhs-sizing-tokens.css; tests/brand.test.js fails if the two differ. Never edit the block in place. */
+   docs/shared/ilhs-sizing-tokens.css; tests/site.test.js fails if the two differ. Never edit the block in place. */
 
 @font-face { font-family: "Familjen Grotesk"; font-weight: 500; font-display: swap; src: url("../assets/fonts/familjen-grotesk-500.woff2") format("woff2"); }
 @font-face { font-family: "Familjen Grotesk"; font-weight: 700; font-display: swap; src: url("../assets/fonts/familjen-grotesk-700.woff2") format("woff2"); }
@@ -57,6 +57,10 @@ html {
   --display: "Familjen Grotesk", "Segoe UI", system-ui, sans-serif;
   --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", Consolas, "SFMono-Regular", monospace;
+
+  /* Form field borders: --line alone is about 1.4:1 against the page, under the 3:1 that WCAG 1.4.11
+     asks of input boundaries, so fields mix in --muted (3:1 or more in both themes). */
+  --field-line: color-mix(in srgb, var(--muted) 65%, var(--line));
 
   --radius: 0.625rem;
   --sidebar: 15rem;
@@ -156,7 +160,7 @@ kbd { font-size: var(--fs-label); border: 1px solid var(--line); border-bottom-w
 .form-row > label:first-child { flex: 0 0 13rem; font-size: var(--fs-small); color: var(--muted); }
 .form-row input, .form-row select, .form-row textarea, .field {
   flex: 1 1 10rem; min-width: 0; min-height: var(--tap); padding: 0.5rem 0.75rem;
-  border: 1px solid var(--line); border-radius: 0.5rem; background: var(--bg); color: var(--text); font: inherit;
+  border: 1px solid var(--field-line); border-radius: 0.5rem; background: var(--bg); color: var(--text); font: inherit;
 }
 .form-row select { flex-grow: 0.5; }
 .form-row input[type="checkbox"], .form-row input[type="radio"] { flex: 0 0 auto; min-height: 0; width: 1.125rem; height: 1.125rem; accent-color: var(--accent); }
@@ -193,12 +197,13 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 .result-table tr:last-child td { border-bottom: none; }
 .result-table tbody tr:nth-child(even) { background: color-mix(in srgb, var(--surface-2) 60%, transparent); }
 .kv td:first-child { color: var(--muted); width: 40%; }
-.kv td:nth-child(2) { font-family: var(--mono); word-break: break-word; }
+.kv td:nth-child(2) { font-family: var(--mono); overflow-wrap: anywhere; }
 .kv td.copy-cell { width: 1%; white-space: nowrap; text-align: right; padding-block: 0.25rem; }
 .copy-btn { border: 1px solid transparent; background: none; color: var(--muted); font: inherit; font-size: var(--fs-label); cursor: pointer; border-radius: 0.375rem; padding: 0.25rem 0.625rem; min-height: var(--tap); min-width: var(--tap); }
 .copy-btn:hover, .copy-btn:focus-visible { color: var(--accent); border-color: var(--line); }
 .copy-btn.done { color: var(--accent); }
-.data-table td { word-break: break-word; }
+/* overflow-wrap, not word-break: a narrow column keeps whole words and the table scrolls instead. */
+.data-table td { overflow-wrap: break-word; }
 .data-table td.mono, .data-table .mono { font-family: var(--mono); white-space: nowrap; word-break: normal; }
 .table-scroll { overflow-x: auto; }
 .table-scroll .result-table { min-width: 34rem; }
@@ -240,7 +245,7 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 .chip { min-height: var(--tap); min-width: var(--tap); padding: 0.25rem 0.75rem; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--text); font: inherit; font-size: var(--fs-small); cursor: pointer; }
 .chip:hover { border-color: var(--accent); color: var(--accent); }
 .storage-row, .list-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
-.storage-row input, .storage-row select, .list-row input, .list-row select { min-height: var(--tap); padding: 0.5rem 0.625rem; border: 1px solid var(--line); border-radius: 0.5rem; background: var(--bg); color: var(--text); font: inherit; min-width: 0; }
+.storage-row input, .storage-row select, .list-row input, .list-row select { min-height: var(--tap); padding: 0.5rem 0.625rem; border: 1px solid var(--field-line); border-radius: 0.5rem; background: var(--bg); color: var(--text); font: inherit; min-width: 0; }
 .storage-row .qty-input, .list-row .qty-input { flex: 0 0 4.5rem; }
 .storage-row .times { color: var(--muted); }
 .storage-row .amount-input { flex: 1 1 5rem; }
@@ -287,12 +292,40 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 @media (max-width: 599px) {
   .unit-grid { grid-template-columns: 1fr; }
   .form-row > label:first-child { flex-basis: 100%; }
-  .kv td:first-child { width: 45%; }
+  /* Phones: label on its own line, value and copy button under it, so addresses do not break mid-value. */
+  .kv tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; border-bottom: 1px solid var(--line); }
+  .kv tr:last-child { border-bottom: 0; }
+  .kv td { border-bottom: 0; }
+  .kv td:first-child { grid-column: 1 / -1; width: auto; padding-bottom: 0; }
+  .kv td:nth-child(2) { align-self: center; }
   .storage-row, .list-row { padding-bottom: 0.5rem; border-bottom: 1px dashed var(--line); }
 }
 
+/* ---------- Wi-Fi sign (print only) ---------- */
+.print-only { display: none; }
+
 @media print {
-  .top, .toolnav-wrap, .tool-actions, .app-footer, .copy-btn, .copy-cell { display: none !important; }
-  .layout { display: block; }
-  body { background: #fff; color: #000; }
+  /* Print in the light palette whatever the screen theme, so text never comes out light on white paper. */
+  /* Selectors match the specificity of the theme rules above so these win by coming later. */
+  :root:not([data-theme="none"]), :root[data-theme] {
+    --bg: #ffffff; --surface: #ffffff; --surface-2: #ffffff; --line: #d5dde6;
+    --text: #111820; --muted: #4f5d6e; --accent: #0f766e; --accent-ink: #ffffff;
+    --accent-soft: #e0f4f1; --amber: #9a5b00; --red: #b42318;
+    color-scheme: light;
+  }
+  .top, .toolnav-wrap, .tool-actions, .app-footer, .copy-btn, .copy-cell, .skip, .btn-row, .privacy-note { display: none !important; }
+  .layout { display: block; padding: 0; }
+  .card, .result-box, .result-table { break-inside: avoid; }
+  .table-scroll { overflow: visible; }
+
+  /* Wi-Fi QR Code prints as a sign: the code, the network name, and (if chosen) the password. */
+  #t-wifiqr.active > :not(.wifi-sign) { display: none !important; }
+  #t-wifiqr.active > .wifi-sign { display: block; }
 }
+.wifi-sign { text-align: center; padding-top: 0.5in; color: var(--text); }
+.wifi-sign .sign-title { font: 700 var(--fs-hero)/1.15 var(--display); margin: 0 0 0.25in; color: var(--text); }
+.wifi-sign img { width: 3.5in; height: 3.5in; image-rendering: pixelated; }
+.wifi-sign dl { display: grid; grid-template-columns: auto auto; justify-content: center; gap: 0.1in 0.25in; margin: 0.3in 0 0; font-size: var(--fs-h2); text-align: left; }
+.wifi-sign dt { color: var(--muted); }
+.wifi-sign dd { margin: 0; font-family: var(--mono); font-weight: 700; overflow-wrap: anywhere; }
+.wifi-sign > p:last-child { margin-top: 0.3in; font-size: var(--fs-lede); color: var(--muted); }

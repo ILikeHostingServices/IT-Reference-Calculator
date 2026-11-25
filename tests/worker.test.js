@@ -1,4 +1,4 @@
-/* tests/worker.test.js v1.0.0 (Last Rev: 2026-11-12) */
+/* tests/worker.test.js v1.0.1 (Last Rev: 2026-11-25) */
 /* Cloudflare Worker behavior (worker/index.js) with a fake ASSETS binding: every custom domain attached to the
    live Worker 301-redirects to calc.ilhs.app with path and query kept, the security headers are always sent,
    and staging sends noindex and a disallow-all robots.txt. */
@@ -7,7 +7,9 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const path = require("path");
 
-const load = () => import(path.join(__dirname, "..", "worker", "index.js")).then(m => m.default);
+const { pathToFileURL } = require("url");
+// import() needs a file:// URL; a bare path breaks on Windows (drive letter read as a URL scheme).
+const load = () => import(pathToFileURL(path.join(__dirname, "..", "worker", "index.js")).href).then(m => m.default);
 const ASSETS = { fetch: async req => new Response(`asset ${new URL(req.url).pathname}`, { status: 200, headers: { "Content-Type": "text/html" } }) };
 const LIVE = { PRIMARY_HOST: "calc.ilhs.app", NOINDEX: "", ASSETS, CF_VERSION_METADATA: { timestamp: "2026-11-13T02:10:00Z" } };
 const STAGING = { PRIMARY_HOST: "calc-staging.ilhs.app", NOINDEX: "1", ASSETS };

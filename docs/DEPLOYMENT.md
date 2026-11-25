@@ -1,4 +1,4 @@
-DEPLOYMENT.md v1.1.0 (Last Rev: 2026-11-12 23:55 EST)
+DEPLOYMENT.md v1.1.1 (Last Rev: 2026-11-25)
 
 # Deploying calc.ilhs.app (Live And Staging)
 
@@ -13,7 +13,7 @@ How the IT Reference Calculator is hosted on Cloudflare Workers, how live and st
 
 The live Worker also answers seven older domains and 301-redirects them to calc.ilhs.app, keeping the path: `calc.syshost.app`, `calculator.syshost.app`, `itcalc.syshost.app`, `itcalculator.syshost.app`, `calculator.ilhs.app`, `itcalc.ilhs.app`, `itcalculator.ilhs.app`. `tests/worker.test.js` checks the redirect for each.
 
-How changes flow (required, see `CLAUDE.md`): branch from `staging`, open a pull request into `staging`, test on calc-staging.ilhs.app, and only after the owner approves, open a pull request from `staging` into `main` to go live.
+How changes flow (required, see `AGENTS.md`): branch from `staging`, open a pull request into `staging`, test on calc-staging.ilhs.app, and only after the owner approves, open a pull request from `staging` into `main` to go live.
 
 ## Step 1: Protect The Branches (GitHub)
 
