@@ -1,4 +1,4 @@
-/* js/app.js v1.1.0 (Last Rev: 2026-11-25) */
+/* js/app.js v1.2.0 (Last Rev: 2026-11-25) */
 /* app.js - page shell: builds the grouped tool menu from the <section class="tool"> elements, routes
    between tools with the URL hash (#tool?field=value), keeps share links in sync with the inputs,
    adds Copy Link / Copy Results buttons, runs the Ctrl+K search, and fills in the footer.
@@ -48,6 +48,7 @@
   // The menu is always open beside the tools on wide screens and collapsible on narrow ones.
   const navWrap = $("toolnav-wrap");
   const wide = window.matchMedia("(min-width: 960px)");
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   const syncNav = () => { navWrap.open = wide.matches; };
   wide.addEventListener("change", syncNav);
   syncNav();
@@ -163,6 +164,9 @@
     section.addEventListener("click", e => { if (e.target.closest(".remove-row, .chip, [id$='-add']")) syncHash(); });
   });
 
+  // Static reference tables (IP Reference) get their header labels for the stacked phone layout.
+  document.querySelectorAll(".data-table").forEach(U.labelCells);
+
   /* ---------- Init every tool, then route ---------- */
   sections.forEach(section => {
     const def = U.tools[section.dataset.tool];
@@ -193,7 +197,9 @@
     document.title = `${section.dataset.title} | IT Reference Calculator | ILHS`;
     if (!wide.matches) navWrap.open = false;
     if (focus) {
-      const first = section.querySelector("input:not([type=checkbox]), textarea, select");
+      // Jump straight into the first box only with a mouse or trackpad; on touch screens focusing a box
+      // opens the keyboard on every tool change, so focus the page content instead.
+      const first = finePointer.matches && section.querySelector("input:not([type=checkbox]), textarea, select");
       (first || $("main")).focus({ preventScroll: true });
       window.scrollTo({ top: 0 });
     }

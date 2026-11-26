@@ -1,4 +1,4 @@
-/* style.css v2.2.0 (Last Rev: 2026-11-25)
+/* style.css v2.3.0 (Last Rev: 2026-11-25)
    IT Reference Calculator styles. Colors, fonts, header, and buttons follow the ILHS brand as used on
    ilhs.app (ILikeHostingServices/ILHS-Primary-Website site/assets/css/site.css). Dark first; light follows
    the system setting. Every size comes from the ILHS Shared Sizing Spec block below, pinned in
@@ -213,7 +213,10 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 .copy-btn.done { color: var(--accent); }
 /* overflow-wrap, not word-break: a narrow column keeps whole words and the table scrolls instead. */
 .data-table td { overflow-wrap: break-word; }
-.data-table td.mono, .data-table .mono { font-family: var(--mono); white-space: nowrap; word-break: normal; }
+/* JetBrains Mono looks about one step larger than Source Sans at the same size, so mono values in tables
+   use the next token down to sit evenly beside the text around them. */
+.data-table td.mono, .data-table .mono { font-family: var(--mono); font-size: var(--fs-small); white-space: nowrap; word-break: normal; }
+.kv td:nth-child(2), .unit-table td { font-size: var(--fs-small); }
 .table-scroll { overflow-x: auto; }
 .table-scroll .result-table { min-width: 34rem; }
 
@@ -307,6 +310,20 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 .app-footer .feedback a { color: var(--muted); display: inline-flex; align-items: center; min-height: var(--tap); }
 
 @media (max-width: 599px) {
+  /* Phones: data tables become stacked rows (first cell as the row title, then "Header: value" lines), so
+     nothing scrolls sideways. The labels come from Calc.UI.labelCells. The chmod checkbox grid stays a grid. */
+  .table-scroll .result-table { min-width: 0; }
+  .data-table:not(#chmod-grid) thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .data-table:not(#chmod-grid), .data-table:not(#chmod-grid) tbody, .data-table:not(#chmod-grid) tr { display: block; }
+  .data-table:not(#chmod-grid) tr { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--line); }
+  .data-table:not(#chmod-grid) tr:last-child { border-bottom: 0; }
+  .data-table:not(#chmod-grid) td { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.5rem; padding: 0.125rem 0; border: 0; white-space: normal; overflow-wrap: anywhere; }
+  .data-table:not(#chmod-grid) td::before { content: attr(data-label); color: var(--muted); font-family: var(--body); font-size: var(--fs-label); }
+  .data-table:not(#chmod-grid) td:first-child { display: block; font-weight: 600; padding-bottom: 0.25rem; }
+  .data-table:not(#chmod-grid) td:first-child::before { content: none; }
+  .data-table:not(#chmod-grid) td:empty { display: none; }
+  .card { margin-bottom: 0.75rem; }
+  .tool-intro, .hint { margin-bottom: 0.5rem; }
   .unit-grid { grid-template-columns: 1fr; }
   .form-row > label:first-child { flex-basis: 100%; }
   /* Phones: label on its own line, value and copy button under it, so addresses do not break mid-value. */

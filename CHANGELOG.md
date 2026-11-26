@@ -1,8 +1,15 @@
-CHANGELOG.md v2.3.0 (Last Rev: 2026-11-25)
+CHANGELOG.md v2.3.1 (Last Rev: 2026-11-25)
 
 # Changelog
 
 Newest first. Versions are Major.Minor.Patch, always three places. Dates are YYYY-MM-DD.
+
+## v2.3.1 - 2026-11-25
+
+### Fixed
+- On phones and tablets, switching tools no longer opens the keyboard: the first box is focused only with a mouse or trackpad.
+- On phones, data tables (IP Reference, Port Reference, resolutions, planner results, DNS and email tables) show as stacked rows with the column name beside each value, so nothing scrolls sideways.
+- Monospaced values in tables use one size step down, so they no longer look larger than the text beside them.
 
 ## v2.3.0 - 2026-11-25
 

@@ -1,4 +1,4 @@
-/* js/ui/core.js v1.1.0 (Last Rev: 2026-11-25) */
+/* js/ui/core.js v1.2.0 (Last Rev: 2026-11-25) */
 /* UI core - shared DOM helpers for every tool: errors, key/value and data tables with copy buttons,
    unit pickers, editable row lists, clipboard, toasts, and the tool registry that app.js drives.
    Tool files (js/ui/*.js) call Calc.UI.register(id, { init, getState, setState }). */
@@ -143,6 +143,22 @@ Calc.UI = (function () {
     table.hidden = false;
   }
 
+  // Copy each column header onto its cells (data-label), so phones can show a table as stacked rows
+  // with the header beside each value instead of a table that scrolls sideways (see css).
+  function labelCells(table) {
+    const heads = [...table.querySelectorAll("thead th")].map(th => th.textContent.trim());
+    table.querySelectorAll("tbody tr").forEach(tr => [...tr.children].forEach((td, i) => {
+      if (heads[i]) td.dataset.label = heads[i];
+      // Keep multi-line values (text, <br>, text) together as one grid item in the stacked layout.
+      if (td.childNodes.length > 1 && !td.querySelector(":scope > span.cell")) {
+        const s = document.createElement("span");
+        s.className = "cell";
+        s.append(...td.childNodes);
+        td.appendChild(s);
+      }
+    }));
+  }
+
   // Data table with headers, appended to container: rows are arrays of cell text; monoCols are
   // column indexes shown in mono. Callers clear the container first when they redraw.
   function renderData(container, headers, rows, { monoCols = [], caption } = {}) {
@@ -176,6 +192,7 @@ Calc.UI = (function () {
       tbody.appendChild(tr);
     });
     table.append(thead, tbody);
+    labelCells(table);
     wrap.appendChild(table);
     container.appendChild(wrap);
     return table;
@@ -327,7 +344,7 @@ Calc.UI = (function () {
   }
 
   return {
-    $, tools, register, titleCase, showError, hideError, live, val, num, need, toast, copyText, copyButton,
+    $, tools, register, titleCase, labelCells, showError, hideError, live, val, num, need, toast, copyText, copyButton,
     renderKV, renderData, renderIssues, renderBox, el, populateUnitSelect, populateRateSelect, rateFactor,
     formatBps, formatBoth, makeList, debounce,
   };
