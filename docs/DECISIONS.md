@@ -1,10 +1,18 @@
-DECISIONS.md v1.3.0 (Last Rev: 2026-11-26)
+DECISIONS.md v1.4.0 (Last Rev: 2026-11-26)
 
 # Decisions
 
 Newest first. Never delete an entry. To change a decision, add a new entry that supersedes it and note the old ID. Do not relitigate a recorded decision unless new evidence invalidates it.
 
 Entry format: ID, date (YYYY-MM-DD), decision, why, evidence label, how to undo. Entries D-001 to D-011 were moved here from the former `MEMORY.md` and `CLAUDE.md` on 2026-11-25.
+
+## D-019 - Short Words Lowercase in Titles
+
+- Date: 2026-11-26
+- Decision: In titles, buttons, tags, menus, and labels, words of 3 letters or fewer are lowercase and words of 4 or more are capitalized, on every ILHS site. Exceptions: the first word of a label or after a colon, acronyms, proper names (Mac), the pronoun I, and unit symbols in parentheses. The footer mark reads "FOSS for all".
+- Why: Owner rule ("Free and Open Source", not "Free And Open Source").
+- Evidence: `[USER]`
+- Undo: Restore the earlier minor-word list in `Calc.UI.titleCase` and the labels.
 
 ## D-018 - Shared ILHS Site Footer (Updates D-006)
 

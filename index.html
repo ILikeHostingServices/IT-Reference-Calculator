@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- index.html v2.4.2 (Last Rev: 2026-11-26) -->
+<!-- index.html v2.4.4 (Last Rev: 2026-11-26) -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -84,7 +84,7 @@
       </div>
       <div class="card">
         <h3>Split an IPv6 Prefix</h3>
-        <div class="form-row"><label for="planner-v6net">Prefix You Have</label><input type="text" id="planner-v6net" placeholder="2001:db8:abcd::/48" class="mono-input" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="planner-v6net">Prefix you Have</label><input type="text" id="planner-v6net" placeholder="2001:db8:abcd::/48" class="mono-input" spellcheck="false" autocomplete="off"></div>
         <div class="form-row"><label for="planner-v6new">Split Into</label><input type="number" id="planner-v6new" placeholder="64" min="1" max="128"></div>
         <div class="form-row"><label for="planner-v6from">Start at Subnet Number</label><input type="number" id="planner-v6from" placeholder="1" min="1" step="1"></div>
         <p class="hint">Splitting on a multiple of 4 bits (for example /48 into /52, /56, or /64) keeps each subnet on a clean hex digit. The subnet ID is the hex value that goes in those bits, so subnet ID 2a of a /48 split into /64s is 2001:db8:abcd:2a::/64.</p>
@@ -232,7 +232,7 @@
         <h3>Time (NTP) Servers</h3>
           <div class="table-scroll" tabindex="0" role="region" aria-label="NTP servers">
             <table class="result-table data-table">
-              <thead><tr><th>Server</th><th>Run By</th><th>Notes</th></tr></thead>
+              <thead><tr><th>Server</th><th>Run by</th><th>Notes</th></tr></thead>
               <tbody>
               <tr><td class="mono">pool.ntp.org</td><td>NTP Pool Project</td><td>Volunteer pool; use a country or vendor zone such as us.pool.ntp.org</td></tr>
               <tr><td class="mono">time.cloudflare.com</td><td>Cloudflare</td><td>Anycast; also supports NTS (authenticated time)</td></tr>
@@ -266,7 +266,7 @@
         <h3>Reserved IPv4 Ranges</h3>
           <div class="table-scroll" tabindex="0" role="region" aria-label="Reserved IPv4 ranges">
             <table class="result-table data-table">
-              <thead><tr><th>Range</th><th>Use</th><th>Defined In</th></tr></thead>
+              <thead><tr><th>Range</th><th>Use</th><th>Defined in</th></tr></thead>
               <tbody>
               <tr><td class="mono">10.0.0.0/8<br>172.16.0.0/12<br>192.168.0.0/16</td><td>Private networks</td><td>RFC 1918</td></tr>
               <tr><td class="mono">100.64.0.0/10</td><td>Carrier-grade NAT (shared address space)</td><td>RFC 6598</td></tr>
@@ -286,7 +286,7 @@
         <h3>Reserved IPv6 Ranges</h3>
           <div class="table-scroll" tabindex="0" role="region" aria-label="Reserved IPv6 ranges">
             <table class="result-table data-table">
-              <thead><tr><th>Range</th><th>Use</th><th>Defined In</th></tr></thead>
+              <thead><tr><th>Range</th><th>Use</th><th>Defined in</th></tr></thead>
               <tbody>
               <tr><td class="mono">::1/128</td><td>Loopback</td><td>RFC 4291</td></tr>
               <tr><td class="mono">fe80::/10</td><td>Link-local (every interface has one)</td><td>RFC 4291</td></tr>
@@ -363,7 +363,7 @@
       <div class="card">
         <div class="form-row"><label for="dns-name">Domain or IP</label><input type="text" id="dns-name" class="mono-input" placeholder="example.com or 8.8.8.8" spellcheck="false" autocomplete="off"></div>
         <div class="form-row"><label for="dns-type">Record Type</label><select id="dns-type"></select></div>
-        <div class="btn-row"><button type="button" class="btn primary" id="dns-go">Look Up</button><button type="button" class="btn" id="dns-all">Look Up Common Types</button></div>
+        <div class="btn-row"><button type="button" class="btn primary" id="dns-go">Look up</button><button type="button" class="btn" id="dns-all">Look up Common Types</button></div>
         <p class="hint">Entering an IP address looks up its PTR (reverse DNS) name.</p>
         <p class="error" id="dns-error" hidden></p>
         <div id="dns-out"></div>
@@ -374,7 +374,7 @@
       <div class="tool-head"><h2>Email Security Checker</h2></div>
       <p class="privacy-note">Checks use live DNS through Cloudflare's public DNS-over-HTTPS resolver. Only the record names are sent.</p>
       <div class="card">
-        <h3>Check A Domain</h3>
+        <h3>Check a Domain</h3>
         <div class="form-row"><label for="email-domain">Domain</label><input type="text" id="email-domain" class="mono-input" placeholder="example.com" spellcheck="false" autocomplete="off"></div>
         <div class="form-row"><label for="email-selectors">DKIM Selectors (Optional)</label><input type="text" id="email-selectors" class="mono-input" placeholder="Leave blank to try common ones (selector1, google, k1, ...)" spellcheck="false" autocomplete="off"></div>
         <div class="btn-row"><button type="button" class="btn primary" id="email-go">Check Domain</button></div>
@@ -399,7 +399,7 @@
           <p class="hint" id="email-spf-note"></p>
         </div>
         <div class="card">
-          <h3>Build A DMARC Record</h3>
+          <h3>Build a DMARC Record</h3>
           <div class="form-row"><label for="email-dm-p">Policy</label>
             <select id="email-dm-p"><option value="none">none (monitor only)</option><option value="quarantine" selected>quarantine (send to spam)</option><option value="reject">reject (refuse)</option></select>
           </div>
@@ -407,8 +407,8 @@
             <select id="email-dm-sp"><option value="">Same as policy</option><option value="none">none</option><option value="quarantine">quarantine</option><option value="reject">reject</option></select>
           </div>
           <div class="form-row"><label for="email-dm-pct">Percent of Mail</label><input type="number" id="email-dm-pct" min="1" max="100" value="100"></div>
-          <div class="form-row"><label for="email-dm-rua">Aggregate Reports To</label><input type="text" id="email-dm-rua" placeholder="dmarc@example.com" spellcheck="false" autocomplete="off"></div>
-          <div class="form-row"><label for="email-dm-ruf">Failure Reports To</label><input type="text" id="email-dm-ruf" placeholder="Optional" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="email-dm-rua">Aggregate Reports to</label><input type="text" id="email-dm-rua" placeholder="dmarc@example.com" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="email-dm-ruf">Failure Reports to</label><input type="text" id="email-dm-ruf" placeholder="Optional" spellcheck="false" autocomplete="off"></div>
           <div class="checks">
             <label><input type="checkbox" id="email-dm-adkim"> Strict DKIM Alignment</label>
             <label><input type="checkbox" id="email-dm-aspf"> Strict SPF Alignment</label>
@@ -425,7 +425,7 @@
       <div class="card">
         <label class="sr-only" for="headers-raw">Email Headers</label>
         <textarea class="field" id="headers-raw" rows="10" spellcheck="false" placeholder="Outlook: open the message, File > Properties > Internet headers. Gmail: More > Show original." data-nostate></textarea>
-        <div class="btn-row"><button type="button" class="btn" id="headers-sample">Load A Sample</button><button type="button" class="btn" id="headers-clear">Clear</button></div>
+        <div class="btn-row"><button type="button" class="btn" id="headers-sample">Load a Sample</button><button type="button" class="btn" id="headers-clear">Clear</button></div>
         <p class="error" id="headers-error" hidden></p>
         <div id="headers-out"></div>
       </div>
@@ -461,7 +461,7 @@
     <section class="tool" id="t-storage" data-tool="storage" data-group="Storage and Capacity" data-title="Storage / RAM" data-summary="Convert units, add up drives and memory, and compare sizes" data-keywords="gb gib tb tib binary decimal convert unit ram dimm total compare free space">
       <div class="tool-head"><h2>Storage / RAM</h2></div>
       <div class="card">
-        <h3>Convert A Size</h3>
+        <h3>Convert a Size</h3>
         <div class="form-row"><label for="conv-amount">Size</label>
           <div class="unit-pair"><input type="number" id="conv-amount" placeholder="4" min="0" step="any" aria-label="Size"><select id="conv-unit" aria-label="Unit"></select></div>
         </div>
@@ -479,7 +479,7 @@
         <p class="notes">Why does a "4 TB" drive show up as 3.64 TB? The box uses decimal units, but Windows counts in binary (TiB) while still labeling it "TB". RAM is always binary: a "16 GB" stick is 16 GiB.</p>
       </div>
       <div class="card">
-        <h3>Add It Up</h3>
+        <h3>Add it up</h3>
         <p class="hint">Total up a server's RAM or a set of drives. Each line is quantity &times; size.</p>
         <div class="preset-chips" id="storage-presets"></div>
         <div id="storage-items"></div>
@@ -488,7 +488,7 @@
         <div class="result-box" id="storage-total"></div>
       </div>
       <div class="card">
-        <h3>Compare Two Sizes</h3>
+        <h3>Compare two Sizes</h3>
         <p class="hint">How much space is left, what percent is used, or how many items fit.</p>
         <div class="form-row"><label for="cmp-a-amount">Capacity (A)</label>
           <div class="unit-pair"><input type="number" id="cmp-a-amount" placeholder="2" min="0" step="any" aria-label="Capacity"><select id="cmp-a-unit" aria-label="Unit"></select></div>
@@ -505,7 +505,7 @@
       <div class="tool-head"><h2>Transfer Time</h2></div>
       <div class="card-grid">
         <div class="card">
-          <h3>How Long Will It Take?</h3>
+          <h3>How Long Will it Take?</h3>
           <div class="form-row"><label for="transfer-size">Data Size</label>
             <div class="unit-pair"><input type="number" id="transfer-size" placeholder="2" min="0" step="any" aria-label="Data size"><select id="transfer-unit" aria-label="Unit"></select></div>
           </div>
@@ -518,7 +518,7 @@
           <div class="result-box" id="transfer-out" hidden></div>
         </div>
         <div class="card">
-          <h3>What Speed Do I Need?</h3>
+          <h3>What Speed do I Need?</h3>
           <div class="form-row"><label for="transfer-need-size">Data Size</label>
             <div class="unit-pair"><input type="number" id="transfer-need-size" placeholder="500" min="0" step="any" aria-label="Data size"><select id="transfer-need-unit" aria-label="Unit"></select></div>
           </div>
@@ -534,7 +534,7 @@
       <div class="tool-head"><h2>Backup Storage Estimator</h2></div>
       <p class="tool-intro">A rough repository size for a forever-incremental plan with periodic fulls (GFS). Your backup product's own sizing tool is the final word.</p>
       <div class="card">
-        <div class="form-row"><label for="backup-source">Data Being Backed Up</label>
+        <div class="form-row"><label for="backup-source">Data Being Backed up</label>
           <div class="unit-pair"><input type="number" id="backup-source" placeholder="2" min="0" step="any" aria-label="Data being backed up"><select id="backup-unit" aria-label="Unit"></select></div>
         </div>
         <div class="form-row"><label for="backup-change">Daily Change Rate (%)</label><input type="number" id="backup-change" placeholder="5" min="0" max="100" step="any"></div>
@@ -556,7 +556,7 @@
         <div class="form-row"><label for="nvr-cameras">Cameras</label><input type="number" id="nvr-cameras" placeholder="16" min="1"></div>
         <div class="form-row"><label for="nvr-preset">Typical Stream</label><select id="nvr-preset"></select></div>
         <div class="form-row"><label for="nvr-bitrate">Bitrate per Camera (Mbps)</label><input type="number" id="nvr-bitrate" placeholder="4" min="0" step="any"></div>
-        <div class="form-row"><label for="nvr-hours">Recording Hours per Day</label><input type="number" id="nvr-hours" placeholder="24" min="1" max="24"></div>
+        <div class="form-row"><label for="nvr-hours">Recording Hours per day</label><input type="number" id="nvr-hours" placeholder="24" min="1" max="24"></div>
         <div class="form-row"><label for="nvr-motion">Share of Time Recording (%)</label><input type="number" id="nvr-motion" placeholder="100" min="1" max="100"></div>
         <div class="form-row"><label for="nvr-days">Days to Keep</label><input type="number" id="nvr-days" placeholder="30" min="1"></div>
         <p class="hint">Motion-only recording often lands at 30 to 60% depending on the scene. Send the total to the RAID tab to pick drives.</p>
@@ -650,7 +650,7 @@
       <div class="tool-head"><h2>Time Decoder</h2></div>
       <div class="card">
         <div class="form-row"><label for="time-input">Timestamp or Date</label><input type="text" id="time-input" placeholder="133758144000000000" class="mono-input" spellcheck="false" autocomplete="off"></div>
-        <div class="form-row"><label for="time-format">Read As</label>
+        <div class="form-row"><label for="time-format">Read as</label>
           <select id="time-format"><option value="auto">Detect automatically</option><option value="unix">Unix seconds</option><option value="unixms">Unix milliseconds</option><option value="filetime">Windows FILETIME / Active Directory</option><option value="text">Date text (ISO 8601 and others)</option></select>
         </div>
         <div class="btn-row"><button type="button" class="btn small" id="time-now">Use Current Time</button></div>
@@ -826,7 +826,7 @@
 <footer class="app-footer">
   <p class="site-line"><em>It will not get any easier than this</em><span class="build-info" id="build-info"></span></p>
   <div class="brand-contact">
-    <p class="brand-line"><span class="foss">FOSS For All</span><span>Copyright (c) 2026 ILHS Software, LLC</span></p>
+    <p class="brand-line"><span class="foss">FOSS for all</span><span>Copyright (c) 2026 ILHS Software, LLC</span></p>
     <p class="contact-line"><a href="mailto:info@ilhs.app?subject=IT%20Reference%20Calculator">info@ilhs.app</a><a href="https://github.com/ILikeHostingServices/IT-Reference-Calculator" rel="noopener noreferrer">Source code on GitHub</a></p>
   </div>
 </footer>

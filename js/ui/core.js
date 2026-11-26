@@ -1,4 +1,4 @@
-/* js/ui/core.js v1.2.0 (Last Rev: 2026-11-25) */
+/* js/ui/core.js v1.3.0 (Last Rev: 2026-11-26) */
 /* UI core - shared DOM helpers for every tool: errors, key/value and data tables with copy buttons,
    unit pickers, editable row lists, clipboard, toasts, and the tool registry that app.js drives.
    Tool files (js/ui/*.js) call Calc.UI.register(id, { init, getState, setState }). */
@@ -10,15 +10,15 @@ Calc.UI = (function () {
   const $ = id => document.getElementById(id);
   const tools = {};
 
-  // Title Case for UI labels: every word capitalized except articles, short conjunctions, and
-  // prepositions in the middle ("PoE Budget and UPS Runtime"). Leaves units and terms such as "(s)",
-  // "MB/s", "x", "chmod", and anything already capitalized or containing digits untouched.
+  // Title Case for UI labels (owner rule, 2026-11-26): words of 4 or more letters are capitalized; words
+  // of 3 letters or fewer stay lowercase ("Free and Open Source", "Look up"), except the first word of the
+  // label or the first word after a colon. Leaves units and terms such as "(s)", "MB/s", "x", "chmod", and
+  // anything already capitalized or containing digits untouched.
   const KEEP_LOWER = new Set(["s", "ms", "x", "l", "setuid", "setgid", "chmod", "ls", "vs", "i"]);
-  const MINOR = new Set(["a", "an", "the", "and", "but", "or", "nor", "as", "at", "by", "for", "from", "in", "into", "of", "on", "per", "to", "via", "with"]);
   function titleCase(text) {
     return String(text).replace(/(^|[\s(]|(?<=[A-Za-z])-)([a-z][a-z']*)(?![A-Za-z0-9.])/g, (m, pre, word, offset, all) => {
-      const first = offset === 0, last = !/[A-Za-z]/.test(all.slice(offset + m.length));
-      if (KEEP_LOWER.has(word) || (MINOR.has(word) && !first && !last)) return m;
+      const first = offset === 0 || /:\s*$/.test(all.slice(0, offset + pre.length));
+      if (KEEP_LOWER.has(word) || (!first && word.length <= 3)) return m;
       return pre + word[0].toUpperCase() + word.slice(1);
     });
   }

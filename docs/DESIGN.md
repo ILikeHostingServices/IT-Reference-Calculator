@@ -1,4 +1,4 @@
-DESIGN.md v1.2.0 (Last Rev: 2026-11-25)
+DESIGN.md v1.3.0 (Last Rev: 2026-11-26)
 
 # Design
 
@@ -37,7 +37,7 @@ How the calculator presents itself and behaves to visitors and to contributors. 
 - **Contrast:** all text pairs meet WCAG AA (4.5:1) in both themes; form field borders meet 3:1 (WCAG 1.4.11) through `--field-line` `[TESTED]` (2026-11-25).
 - **Themes:** dark by default, light when the system asks for it. Printing always uses the light palette.
 - **Type and sizing:** fonts Familjen Grotesk (headings), Source Sans 3 (body), JetBrains Mono (values). Font sizes only from the ILHS Shared Sizing Spec (v2.0.0) tokens: tool titles `--fs-h1`, card headings `--fs-h3`, labels, buttons, and result tables `--fs-nav`, inputs `--fs-body` (never under 16 px, or iPhones zoom on focus). Buttons, fields, and menu links at least 44 x 44 px; footer and in-text links at least 24 px tall (Sizing Spec v2). Corners: 10 px cards, 8 px buttons, 6 px code and tags. No shadows.
-- **Copy:** Title Case for headings, buttons, and UI labels, with articles, short conjunctions, and prepositions lowercase in the middle ("PoE Budget and UPS Runtime", "Is This IP in That Subnet?"). Result labels and table headers go through `Calc.UI.titleCase`, which applies the same rule. No emoji or exclamation marks. Do not spell out ILHS. ILHS is a free and open source software company: no sales or "hire us" copy.
+- **Copy:** Title Case with the owner's short-word rule: words of 4 or more letters capitalized, words of 3 letters or fewer lowercase ("Free and Open Source", "Look up"), except the first word of a label, the first word after a colon, acronyms (IP, DNS, PoE), proper names (Mac), the pronoun I, and unit symbols in parentheses ((W), (B)). Applies to headings, buttons, tags, menus, and UI labels; sentences and table text use normal sentence case. Result labels and table headers go through `Calc.UI.titleCase`, which applies the same rule. No emoji or exclamation marks. Do not spell out ILHS. ILHS is a free and open source software company: no sales or "hire us" copy.
 - **Phones:** key/value results stack the label above the value so addresses never break mid-value. On wider screens key/value tables use fixed columns (label 34%, copy button 5 rem) so long values wrap in place and short ones stay on one line.
 - **Print:** menus, buttons, and notes are hidden. The Wi-Fi QR Code tool prints as a one-page sign: optional title, "Wi-Fi", QR code, network name, and the password when chosen.
 - **External links:** Quick Links and reference links open in a new tab with `rel="noopener noreferrer"`.
