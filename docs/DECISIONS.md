@@ -1,10 +1,18 @@
-DECISIONS.md v1.4.0 (Last Rev: 2026-11-26)
+DECISIONS.md v1.5.0 (Last Rev: 2026-11-26)
 
 # Decisions
 
 Newest first. Never delete an entry. To change a decision, add a new entry that supersedes it and note the old ID. Do not relitigate a recorded decision unless new evidence invalidates it.
 
 Entry format: ID, date (YYYY-MM-DD), decision, why, evidence label, how to undo. Entries D-001 to D-011 were moved here from the former `MEMORY.md` and `CLAUDE.md` on 2026-11-25.
+
+## D-020 - Two-Tier Capitalization Guideline (Refines D-019)
+
+- Date: 2026-11-26
+- Decision: Labels, buttons, tags, menus, form labels, and table headers keep the strict short-word rule from D-019. Headlines, page and section titles, card and panel titles, eyebrow lines, and taglines use headline style with judgment: short articles, conjunctions, and prepositions lowercase in the middle, other short words capitalized, first and last words capitalized. The taglines "Free Software For All" and "FOSS For All" keep their approved capitalization.
+- Why: Owner review of D-019 on the live sites.
+- Evidence: `[USER]`
+- Undo: Apply the strict rule to headings again.
 
 ## D-019 - Short Words Lowercase in Titles
 

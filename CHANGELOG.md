@@ -1,8 +1,13 @@
-CHANGELOG.md v2.4.4 (Last Rev: 2026-11-26)
+CHANGELOG.md v2.4.5 (Last Rev: 2026-11-26)
 
 # Changelog
 
 Newest first. Versions are Major.Minor.Patch, always three places. Dates are YYYY-MM-DD.
+
+## v2.4.5 - 2026-11-26
+
+### Changed
+- Capitalization follows the two-tier ILHS guideline: labels, buttons, tags, and menus keep the strict short-word rule; headlines and titles use headline style ("Add It Up", "Compare Two Sizes", "How Long Will It Take?", "What Speed Do I Need?"). The footer mark is "FOSS For All" again, as approved.
 
 ## v2.4.4 - 2026-11-26
 
