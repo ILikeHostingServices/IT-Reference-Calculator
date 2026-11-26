@@ -197,7 +197,8 @@
     },
   });
 
-  /* ---------- IP Reference and Quick Links: static tables and links, nothing to compute ---------- */
+  /* ---------- Home, IP Reference, and Quick Links: static pages, nothing to compute (app.js builds Home) ---------- */
+  U.register("home", {});
   U.register("ipref", {});
   U.register("links", {});
 

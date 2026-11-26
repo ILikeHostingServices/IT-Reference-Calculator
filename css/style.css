@@ -1,4 +1,4 @@
-/* style.css v2.3.0 (Last Rev: 2026-11-25)
+/* style.css v3.0.0 (Last Rev: 2026-11-25)
    IT Reference Calculator styles. Colors, fonts, header, and buttons follow the ILHS brand as used on
    ilhs.app (ILikeHostingServices/ILHS-Primary-Website site/assets/css/site.css). Dark first; light follows
    the system setting. Every size comes from the ILHS Shared Sizing Spec block below, pinned in
@@ -9,36 +9,38 @@
 @font-face { font-family: "Source Sans 3"; font-weight: 200 900; font-display: swap; src: url("../assets/fonts/source-sans-3-var.woff2") format("woff2"); }
 @font-face { font-family: "JetBrains Mono"; font-weight: 100 800; font-display: swap; src: url("../assets/fonts/jetbrains-mono-var.woff2") format("woff2"); }
 
-/* ILHS Shared Sizing Spec v1.0.1 start: from ilhs-internal org/brand/SIZING.md, do not edit here */
+/* ILHS Shared Sizing Spec v2.0.0 start: from ilhs-internal org/brand/SIZING.md, do not edit here */
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* Phones 0.85x -> 1x at 800 px; 1x to 1920 px; then up to 1.25x at 3840 x 2160. */
-  font-size: max(clamp(0.85rem, 0.7rem + 0.6vw, 1rem), min(0.75rem + 0.2083vw, 0.75rem + 0.3704vh, 1.25rem));
+  /* Phones 0.85x -> 1x at 800 px; 1x to 1920 px; then up to 1.15x at 3840 x 2160. */
+  font-size: max(clamp(0.85rem, 0.7rem + 0.6vw, 1rem), min(0.85rem + 0.125vw, 0.85rem + 0.2222vh, 1.15rem));
 }
 :root {
-  --fs-small: clamp(0.8125rem, 0.7851rem + 0.112vw, 0.875rem);   /* 13 -> 14 px */
+  --fs-small: clamp(0.8125rem, 0.7851rem + 0.112vw, 0.875rem);    /* 13 -> 14 px */
   --fs-label: 0.8125rem;                                          /* 13 px */
-  --fs-nav: clamp(0.875rem, 0.8476rem + 0.112vw, 0.9375rem);     /* 14 -> 15 px */
-  --fs-body: clamp(1rem, 0.9726rem + 0.112vw, 1.0625rem);        /* 16 -> 17 px */
-  --fs-lede: clamp(1.0625rem, 1.008rem + 0.225vw, 1.1875rem);    /* 17 -> 19 px */
-  --fs-h3: clamp(1.125rem, 1.07rem + 0.225vw, 1.25rem);          /* 18 -> 20 px */
-  --fs-card: clamp(1.25rem, 1.195rem + 0.225vw, 1.375rem);       /* 20 -> 22 px */
-  --fs-h2: clamp(1.5rem, 1.281rem + 0.899vw, 2rem);              /* 24 -> 32 px */
-  --fs-h1: clamp(1.875rem, 1.492rem + 1.57vw, 2.75rem);          /* 30 -> 44 px */
-  --fs-hero: clamp(2.125rem, 1.522rem + 2.47vw, 3.5rem);         /* 34 -> 56 px */
+  --fs-nav: clamp(0.875rem, 0.8476rem + 0.112vw, 0.9375rem);      /* 14 -> 15 px */
+  --fs-body: clamp(1rem, 0.9726rem + 0.112vw, 1.0625rem);         /* 16 -> 17 px */
+  --fs-lede: clamp(1.0625rem, 1.0351rem + 0.112vw, 1.125rem);     /* 17 -> 18 px */
+  --fs-h3: clamp(1.0625rem, 1.0077rem + 0.225vw, 1.1875rem);      /* 17 -> 19 px */
+  --fs-card: clamp(1.125rem, 1.0702rem + 0.225vw, 1.25rem);       /* 18 -> 20 px */
+  --fs-h2: clamp(1.3125rem, 1.1756rem + 0.562vw, 1.625rem);       /* 21 -> 26 px */
+  --fs-h1: clamp(1.625rem, 1.4059rem + 0.899vw, 2.125rem);        /* 26 -> 34 px */
+  --fs-hero: clamp(1.875rem, 1.4916rem + 1.573vw, 2.75rem);       /* 30 -> 44 px */
 
   --wrap-max: 75rem;                                              /* 1200 px with gutters */
-  --measure: 42rem;                                              /* 672 px reading width */
-  --gutter: clamp(1rem, 0.3427rem + 2.7vw, 2.5rem);              /* 16 -> 40 px */
-  --section-pad: clamp(2.5rem, 1.404rem + 4.49vw, 5rem);         /* 40 -> 80 px */
-  --hero-pad: clamp(2.5rem, 0.9663rem + 6.29vw, 6rem);           /* 40 -> 96 px */
-  --card-pad: clamp(1rem, 0.5618rem + 1.8vw, 2rem);              /* 16 -> 32 px */
-  --inset-pad: clamp(0.875rem, 0.6011rem + 1.12vw, 1.5rem);      /* 14 -> 24 px */
-  --gap: clamp(0.75rem, 0.4213rem + 1.35vw, 1.5rem);             /* 12 -> 24 px */
-  --tap: max(2.75rem, 44px);
+  --measure: 42rem;                                               /* 672 px reading width */
+  --gutter: clamp(1rem, 0.5618rem + 1.798vw, 2rem);               /* 16 -> 32 px */
+  --section-pad: clamp(2rem, 1.3427rem + 2.697vw, 3.5rem);        /* 32 -> 56 px */
+  --hero-pad: clamp(2rem, 1.1236rem + 3.596vw, 4rem);             /* 32 -> 64 px */
+  --card-pad: clamp(1rem, 0.7809rem + 0.899vw, 1.5rem);           /* 16 -> 24 px */
+  --inset-pad: clamp(0.75rem, 0.5309rem + 0.899vw, 1.25rem);      /* 12 -> 20 px */
+  --gap: clamp(0.75rem, 0.5309rem + 0.899vw, 1.25rem);            /* 12 -> 20 px */
+  --tap: max(2.75rem, 44px);                                      /* buttons, fields, menu items */
+  --tap-inline: max(1.5rem, 24px);                                /* text links in lines and footers */
+  --header-h: max(3.5rem, 56px);                                  /* one-row site header */
 }
-/* ILHS Shared Sizing Spec v1.0.1 end */
+/* ILHS Shared Sizing Spec v2.0.0 end */
 
 :root {
   /* Color: dark (default), same values as ilhs.app */
@@ -100,21 +102,24 @@ kbd { font-size: var(--fs-label); border: 1px solid var(--line); border-bottom-w
 
 /* ---------- Header (matches ilhs.app) ---------- */
 .top { border-bottom: 1px solid var(--line); background: var(--surface); }
-.top .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1.5rem; padding-block: 0.625rem; }
-.brand-row { display: flex; align-items: center; gap: 0.75rem 1rem; flex-wrap: wrap; min-width: 0; }
+.top .wrap { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 0.75rem; min-height: var(--header-h); padding-block: 0.25rem; }
+.brand-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: nowrap; min-width: 0; }
 .brand { display: inline-flex; align-items: center; gap: 0.625rem; min-height: var(--tap); color: var(--text); text-decoration: none; }
-.brand img { width: 1.875rem; height: 1.875rem; display: block; }
+.brand img { width: 1.75rem; height: 1.75rem; display: block; }
 .wordmark { font: 800 1.25rem/1 var(--mono); letter-spacing: .02em; }
 .wordmark::after { content: ""; display: inline-block; width: .55em; height: .9em; margin-left: .12em; vertical-align: -.08em; background: var(--accent); }
-.app-title { font-size: var(--fs-h3); font-weight: 700; padding-left: 1rem; border-left: 1px solid var(--line); }
-.top-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.app-title { font-size: var(--fs-nav); font-weight: 700; padding-left: 0.75rem; border-left: 1px solid var(--line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.top-actions { display: flex; flex-wrap: nowrap; align-items: center; gap: 0.5rem; flex: none; }
 .top-actions a { color: var(--muted); text-decoration: none; font-size: var(--fs-nav); display: inline-flex; align-items: center; min-height: var(--tap); padding-inline: 0.5rem; }
 .top-actions a:hover { color: var(--text); }
 .search-btn { display: inline-flex; align-items: center; gap: 0.5rem; min-height: var(--tap); padding: 0 0.875rem; border: 1px solid var(--line); border-radius: 0.5rem; background: var(--bg); color: var(--muted); font: inherit; font-size: var(--fs-nav); cursor: pointer; }
 .search-btn:hover { color: var(--text); border-color: var(--accent); }
+/* Phones: the header stays one row (Sizing Spec v2 page budget): the ILHS mark stands in for the wordmark,
+   the ilhs.app link goes (the mark already links there), and Search loses its shortcut hint. */
 @media (max-width: 639px) {
-  .app-title { padding-left: 0; border-left: 0; width: 100%; font-size: var(--fs-body); }
+  .wordmark, .top-actions .site-link { display: none; }
   .search-btn kbd { display: none; }
+  .search-btn { padding: 0 0.75rem; }
 }
 
 /* ---------- Layout: tool list beside the active tool ---------- */
@@ -144,12 +149,12 @@ kbd { font-size: var(--fs-label); border: 1px solid var(--line); border-bottom-w
 .tool.active { display: block; }
 .tool-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.75rem 1rem; margin-bottom: 0.75rem; }
 /* Tool titles at the h2 size (24 to 32 px): the 44 px page-title size overpowered the tools (owner, 2026-11-25). */
-.tool-head h2 { font-size: var(--fs-h2); letter-spacing: -.01em; }
+.tool-head h2 { font-size: var(--fs-h1); letter-spacing: -.01em; }
 .tool-intro { color: var(--muted); max-width: var(--measure); margin-bottom: 1rem; }
 .tool-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .privacy-note { display: inline-flex; gap: 0.375rem; font-size: var(--fs-small); color: var(--muted); border: 1px dashed var(--line); border-radius: 0.5rem; padding: 0.375rem 0.625rem; margin-bottom: 1rem; }
 
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--inset-pad); margin-bottom: var(--gap); min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--card-pad); margin-bottom: var(--gap); min-width: 0; }
 .card h3 { font-size: var(--fs-h3); margin-bottom: 0.5rem; }
 .card > .hint:first-of-type { margin-top: -0.25rem; }
 .card-grid { display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
@@ -193,7 +198,7 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 .muted-msg { font-style: italic; }
 .notes { color: var(--muted); font-size: var(--fs-small); margin-top: 0.75rem; }
 /* Links inside hints and notes still get the 44 px tap height (ILHS brand rule). */
-.hint a, .notes a { display: inline-flex; align-items: center; min-height: var(--tap); }
+.hint a, .notes a { display: inline-flex; align-items: center; min-height: var(--tap-inline); }
 .section-subheading { margin-top: 1.5rem; font-size: var(--fs-h3); }
 
 /* ---------- Results ---------- */
@@ -278,6 +283,19 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 .port-table td:first-child { font-family: var(--mono); white-space: nowrap; }
 .port-table td:nth-child(2) { white-space: nowrap; }
 
+/* ---------- Home ---------- */
+.home-grid { columns: 18rem; column-gap: var(--gap); }
+.home-grid > .card { break-inside: avoid; margin-bottom: var(--gap); }
+/* Home is the menu, so the side menu (and the phone "All Tools" box) steps aside and Home uses the full width. */
+body.is-home .toolnav-wrap { display: none; }
+body.is-home .layout { grid-template-columns: minmax(0, 1fr); }
+.tool-list { list-style: none; margin: 0; padding: 0; }
+.tool-list li { display: flex; flex-direction: column; border-bottom: 1px solid var(--line); padding-bottom: 0.25rem; }
+.tool-list li:last-child { border-bottom: 0; }
+.tool-list a { display: inline-flex; align-items: center; min-height: var(--tap); font-weight: 600; text-decoration: none; }
+.tool-list a:hover { text-decoration: underline; }
+.tool-list span { color: var(--muted); font-size: var(--fs-small); margin-top: -0.5rem; padding-bottom: 0.25rem; }
+
 /* ---------- Quick Links ---------- */
 .link-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; }
 .link-list li { display: flex; flex-direction: column; padding: 0.25rem 0; border-bottom: 1px solid var(--line); }
@@ -304,10 +322,13 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 .toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%); background: var(--surface-2); color: var(--text); border: 1px solid var(--line); border-radius: 0.5rem; padding: 0.625rem 1rem; font-size: var(--fs-small); z-index: 40; }
 
 /* ---------- Footer ---------- */
-.app-footer { border-top: 1px solid var(--line); padding-block: 1.5rem 2.5rem; text-align: center; color: var(--muted); font-size: var(--fs-small); }
-.app-footer p { margin: 0.2rem 0; }
-.app-footer p:first-child { font-size: var(--fs-body); font-style: italic; }
-.app-footer .feedback a { color: var(--muted); display: inline-flex; align-items: center; min-height: var(--tap); }
+.app-footer { border-top: 1px solid var(--line); padding-block: 1rem 1.25rem; text-align: center; color: var(--muted); font-size: var(--fs-small); }
+.app-footer p { margin: 0.125rem 0; }
+.app-footer .tagline { font-size: var(--fs-nav); font-style: italic; }
+/* One inline line of footer facts and links (Sizing Spec v2: footer at most 120 px desktop, 200 px phone). */
+.app-footer .meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 1rem; }
+.app-footer a { color: var(--muted); display: inline-flex; align-items: center; min-height: var(--tap-inline); }
+.app-footer a:hover { color: var(--text); }
 
 @media (max-width: 599px) {
   /* Phones: data tables become stacked rows (first cell as the row title, then "Header: value" lines), so

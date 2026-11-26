@@ -1,8 +1,19 @@
-CHANGELOG.md v2.3.1 (Last Rev: 2026-11-25)
+CHANGELOG.md v2.4.0 (Last Rev: 2026-11-25)
 
 # Changelog
 
 Newest first. Versions are Major.Minor.Patch, always three places. Dates are YYYY-MM-DD.
+
+## v2.4.0 - 2026-11-25
+
+### Added
+- **Home page**, the new default: every tool grouped as on the menu, each with a one-line summary, in balanced columns at full width (the side menu steps aside on Home). Old links without a tool name open Home.
+
+### Changed
+- **ILHS Shared Sizing Spec v2.0.0** (drafted in ilhs-internal, owner review 2026-11-25): smaller headline and spacing tokens, a 1.15x big-screen cap instead of 1.25x, and page budgets. Page titles are 34 px at 1080p (the spec's page title size) instead of 44 px.
+- **Header** is one 56 px row at every width; on phones the ILHS mark stands in for the wordmark and the ilhs.app link goes (the mark already links there). It was 139 px on a 390 px phone.
+- **Footer** is two short lines (tagline, then version, feedback, and source links inline): 91 px at 1080p and 100 px on phones, from 219 and 197 px. Footer and in-text links are 24 px tall (WCAG 2.2 AA) instead of 44 px each.
+- Cards use the card padding token again (16 to 24 px).
 
 ## v2.3.1 - 2026-11-25
 

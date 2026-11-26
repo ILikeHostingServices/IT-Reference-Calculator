@@ -1,4 +1,4 @@
-AGENTS.md v1.1.0 (Last Rev: 2026-11-25)
+AGENTS.md v1.2.0 (Last Rev: 2026-11-25)
 
 # IT-Reference-Calculator - Agent Guide
 
@@ -62,7 +62,7 @@ A doc that says "Not Applicable: reason" is a valid answer, not a gap.
 - **No inline scripts or styles** in `index.html` (the CSP forbids them; `tests/site.test.js` checks). Setting `element.style.x` from JS is fine.
 - **Footer:** text "It will not get any easier than this" is fixed by the owner; build time is computed at runtime from `Last-Modified`. Do not hardcode a date. The footer links to the GitHub repository (owner, 2026-11-25, D-013).
 - **Example values go in placeholders**, not `value=`, and code reads inputs through `Calc.UI.val` / `num` / `need`, which fall back to the placeholder when a box is empty (D-015). Row lists keep example rows and get Clear All and Restore Examples through `clearAll` / `restoreExamples` on the tool definition.
-- **Brand:** ILHS palette, tokens, Title Case (minor words lowercase mid-label: "PoE Budget and UPS Runtime"), 44 px targets, no shadows, emoji, or exclamation marks (details in `docs/DESIGN.md`). Do not spell out ILHS. No sales copy. Contact: info@ilhs.app.
+- **Brand:** ILHS palette, tokens, Title Case (minor words lowercase mid-label: "PoE Budget and UPS Runtime"), Sizing Spec v2.0.0 (44 px controls, 24 px text links, one-row 56 px header), no shadows, emoji, or exclamation marks (details in `docs/DESIGN.md`). Do not spell out ILHS. No sales copy. Contact: info@ilhs.app.
 - **Vendored code:** `js/vendor/qrcode.js` and `js/vendor/eff-wordlist.js` are never edited by hand.
 - **Formatting:** no em or en dashes in files you write; dates YYYY-MM-DD in US Eastern; times 24 hour.
 - **Gotchas:** (a) `sw.js` precaches `./`, never `index.html` (Cloudflare redirects it, and a redirect fails `cache.addAll`). (b) `Calc.UI.renderData` appends; clear the container first. (c) Unicode or line-ending escapes (backslash u2014, backslash r backslash n) written through a script or editor tool can turn them into literal characters; check the saved file. (d) Grid children need `min-width: 0` or a wide table stretches the page on phones. (e) On Windows, `import()` of a path needs `pathToFileURL` (see `tests/worker.test.js`).

@@ -1,4 +1,4 @@
-README.md v2.3.0 (Last Rev: 2026-11-25)
+README.md v2.4.0 (Last Rev: 2026-11-25)
 
 # IT Reference Calculator
 
@@ -6,7 +6,7 @@ README.md v2.3.0 (Last Rev: 2026-11-25)
 
 Free IT calculators and references from ILHS, live at https://calc.ilhs.app. Everything runs in the browser and works offline once loaded. The only requests that leave the page are the DNS and email checks, which send the name being looked up to Cloudflare's public DNS-over-HTTPS resolver (Google's as a backup); each of those tools says so on screen. You can also run or host your own copy: see [Run It Yourself](#run-it-yourself).
 
-Every tool updates as you type and shows a worked example until you do: the grey example values in the boxes disappear when you start typing. Each tool has **Copy Link** (a link with your inputs, so you can paste it into a ticket) and **Copy Results** (the results as text, with that link), and each result row has its own copy button. Tools with example rows also have **Clear All** and **Restore Examples**. **Ctrl K** (or **/**) searches all tools.
+The calculator opens on a Home page that lists every tool with a one-line summary. Every tool updates as you type and shows a worked example until you do: the grey example values in the boxes disappear when you start typing. Each tool has **Copy Link** (a link with your inputs, so you can paste it into a ticket) and **Copy Results** (the results as text, with that link), and each result row has its own copy button. Tools with example rows also have **Clear All** and **Restore Examples**. **Ctrl K** (or **/**) searches all tools.
 
 | Group | Tools |
 | --- | --- |
