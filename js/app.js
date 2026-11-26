@@ -1,4 +1,4 @@
-/* js/app.js v1.3.2 (Last Rev: 2026-11-26) */
+/* js/app.js v1.3.3 (Last Rev: 2026-11-26) */
 /* app.js - page shell: builds the grouped tool menu from the <section class="tool"> elements, routes
    between tools with the URL hash (#tool?field=value), keeps share links in sync with the inputs,
    adds Copy Link / Copy Results buttons, runs the Ctrl+K search, and fills in the footer.
@@ -180,7 +180,7 @@
     // Tools with example rows (row lists) get Clear All and Restore Examples.
     const def = U.tools[section.dataset.tool];
     if (def && def.clearAll) {
-      [["Clear All", "clearAll"], ["Restore Examples", "restoreExamples"]].forEach(([label, fn]) => {
+      [["Clear all", "clearAll"], ["Restore Examples", "restoreExamples"]].forEach(([label, fn]) => {
         const b = U.el("button", "btn small", label);
         b.type = "button";
         b.addEventListener("click", () => { def[fn](); syncHash(); });

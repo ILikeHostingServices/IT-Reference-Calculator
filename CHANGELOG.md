@@ -1,8 +1,13 @@
-CHANGELOG.md v2.4.3 (Last Rev: 2026-11-26)
+CHANGELOG.md v2.4.4 (Last Rev: 2026-11-26)
 
 # Changelog
 
 Newest first. Versions are Major.Minor.Patch, always three places. Dates are YYYY-MM-DD.
+
+## v2.4.4 - 2026-11-26
+
+### Changed
+- Title case follows the owner's short-word rule on every ILHS site: words of 3 letters or fewer are lowercase in titles, buttons, and labels ("Add it up", "Look up", "Check a Domain", "Clear all"), words of 4 or more are capitalized. The first word, acronyms, Mac, I, and unit symbols are kept. Result labels follow it too ("Data Read From Surviving Disks"). The footer mark reads "FOSS for all".
 
 ## v2.4.3 - 2026-11-26
 

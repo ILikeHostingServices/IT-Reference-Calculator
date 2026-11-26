@@ -1,4 +1,4 @@
-/* js/ui/display.js v1.1.1 (Last Rev: 2026-11-25) */
+/* js/ui/display.js v1.1.2 (Last Rev: 2026-11-26) */
 /* UI: Display - resolutions by aspect ratio, resolution to aspect ratio lookup, and pixel density. */
 (function () {
   "use strict";
@@ -69,7 +69,7 @@
         U.renderKV(results, rows);
         const key = r.known ? r.known.group.key : r.nearest.diffPct <= MARKETED_TOLERANCE_PCT ? near.key : null;
         if (key) {
-          showGroup.textContent = `Show All ${Calc.Resolution.getGroup(key).label} Resolutions`;
+          showGroup.textContent = `Show all ${Calc.Resolution.getGroup(key).label} Resolutions`;
           showGroup.dataset.group = key;
           showGroup.hidden = false;
         }
