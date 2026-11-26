@@ -1,4 +1,4 @@
-/* js/app.js v1.2.0 (Last Rev: 2026-11-25) */
+/* js/app.js v1.3.0 (Last Rev: 2026-11-25) */
 /* app.js - page shell: builds the grouped tool menu from the <section class="tool"> elements, routes
    between tools with the URL hash (#tool?field=value), keeps share links in sync with the inputs,
    adds Copy Link / Copy Results buttons, runs the Ctrl+K search, and fills in the footer.
@@ -16,11 +16,20 @@
   /* ---------- Tool menu ---------- */
   const nav = $("toolnav");
   const groups = [];
-  sections.forEach(s => {
+  sections.filter(s => s.dataset.group).forEach(s => {
     let g = groups.find(x => x.name === s.dataset.group);
     if (!g) groups.push(g = { name: s.dataset.group, items: [] });
-    g.items.push({ id: s.dataset.tool, title: s.dataset.title });
+    g.items.push({ id: s.dataset.tool, title: s.dataset.title, summary: s.dataset.summary });
   });
+  // Home (the overview, the default page) sits above the groups.
+  const homeUl = document.createElement("ul");
+  const homeLi = document.createElement("li");
+  const homeA = U.el("a", "", "Home: All Tools");
+  homeA.href = "#home";
+  homeA.dataset.tool = "home";
+  homeLi.appendChild(homeA);
+  homeUl.appendChild(homeLi);
+  nav.appendChild(homeUl);
   groups.forEach(g => {
     const wrap = U.el("div", "group");
     wrap.appendChild(U.el("p", "nav-group", g.name));
@@ -43,6 +52,26 @@
     });
     wrap.appendChild(ul);
     nav.appendChild(wrap);
+  });
+
+  /* ---------- Home: every tool by group, with its one-line summary ---------- */
+  const homeGrid = $("home-grid");
+  groups.forEach(g => {
+    const card = U.el("div", "card");
+    card.appendChild(U.el("h3", "", g.name));
+    const ul = U.el("ul", "tool-list");
+    const add = (title, href, summary, external) => {
+      const li = document.createElement("li");
+      const a = U.el("a", external ? "ext" : "", title);
+      a.href = href;
+      if (external) a.rel = "noopener";
+      li.append(a, U.el("span", "", summary));
+      ul.appendChild(li);
+    };
+    g.items.forEach(item => add(item.title, `#${item.id}`, item.summary));
+    EXTERNAL.filter(x => x.group === g.name).forEach(x => add(x.title, x.href, "Check a website's TLS certificate and chain", true));
+    card.appendChild(ul);
+    homeGrid.appendChild(card);
   });
 
   // The menu is always open beside the tools on wide screens and collapsible on narrow ones.
@@ -134,7 +163,7 @@
     parts.push("", `Link: ${location.origin}${location.pathname}${hashFor(tool, currentState(tool))}`);
     return parts.join("\n");
   }
-  sections.forEach(section => {
+  sections.filter(s => s.dataset.tool !== "home").forEach(section => {
     const head = section.querySelector(".tool-head");
     const actions = U.el("div", "tool-actions");
     const link = U.el("button", "btn small", "Copy Link");
@@ -194,8 +223,9 @@
       else a.removeAttribute("aria-current");
     });
     const section = $(`t-${id}`);
-    document.title = `${section.dataset.title} | IT Reference Calculator | ILHS`;
+    document.title = id === "home" ? "IT Reference Calculator | ILHS" : `${section.dataset.title} | IT Reference Calculator | ILHS`;
     if (!wide.matches) navWrap.open = false;
+    document.body.classList.toggle("is-home", id === "home");
     if (focus) {
       // Jump straight into the first box only with a mouse or trackpad; on touch screens focusing a box
       // opens the keyboard on every tool change, so focus the page content instead.

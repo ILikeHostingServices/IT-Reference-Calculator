@@ -1,4 +1,4 @@
-DESIGN.md v1.1.0 (Last Rev: 2026-11-25)
+DESIGN.md v1.2.0 (Last Rev: 2026-11-25)
 
 # Design
 
@@ -32,11 +32,11 @@ How the calculator presents itself and behaves to visitors and to contributors. 
 
 ## User Interface
 
-- **Layout:** header (ILHS mark, wordmark, app title, Search Tools, link to ilhs.app); tool menu beside the active tool from 960 px wide, a collapsible "All Tools" menu below that; one tool shown at a time. No horizontal page scroll at any width from 320 px up; wide tables scroll inside a focusable region.
+- **Layout:** a one-row 56 px header (ILHS mark, wordmark, app title, Search Tools, link to ilhs.app; phones drop the wordmark and the ilhs.app link); Home, the default page, lists every tool by group at full width; on other pages the tool menu sits beside the active tool from 960 px wide, with a collapsible "All Tools" menu below that; one tool shown at a time. Each tool section carries a `data-summary` sentence that Home shows. The footer is two short lines. No horizontal page scroll at any width from 320 px up; wide tables scroll inside a focusable region.
 - **Brand:** colors, fonts, header, and buttons copy ilhs.app. Only the brand palette is used: `--bg`, `--surface`, `--surface-2`, `--line`, `--text`, `--muted`, `--accent` (teal), `--accent-ink`, `--accent-soft`, `--amber` (warnings), `--red` (errors). No greens or second accents. `--field-line` is a mix of `--muted` and `--line` for form field borders.
 - **Contrast:** all text pairs meet WCAG AA (4.5:1) in both themes; form field borders meet 3:1 (WCAG 1.4.11) through `--field-line` `[TESTED]` (2026-11-25).
 - **Themes:** dark by default, light when the system asks for it. Printing always uses the light palette.
-- **Type and sizing:** fonts Familjen Grotesk (headings), Source Sans 3 (body), JetBrains Mono (values). Font sizes only from the ILHS Shared Sizing Spec tokens: tool titles `--fs-h2`, card headings `--fs-h3`, labels, buttons, and result tables `--fs-nav`, inputs `--fs-body` (never under 16 px, or iPhones zoom on focus). Every button and link at least 44 x 44 px. Corners: 10 px cards, 8 px buttons, 6 px code and tags. No shadows.
+- **Type and sizing:** fonts Familjen Grotesk (headings), Source Sans 3 (body), JetBrains Mono (values). Font sizes only from the ILHS Shared Sizing Spec (v2.0.0) tokens: tool titles `--fs-h1`, card headings `--fs-h3`, labels, buttons, and result tables `--fs-nav`, inputs `--fs-body` (never under 16 px, or iPhones zoom on focus). Buttons, fields, and menu links at least 44 x 44 px; footer and in-text links at least 24 px tall (Sizing Spec v2). Corners: 10 px cards, 8 px buttons, 6 px code and tags. No shadows.
 - **Copy:** Title Case for headings, buttons, and UI labels, with articles, short conjunctions, and prepositions lowercase in the middle ("PoE Budget and UPS Runtime", "Is This IP in That Subnet?"). Result labels and table headers go through `Calc.UI.titleCase`, which applies the same rule. No emoji or exclamation marks. Do not spell out ILHS. ILHS is a free and open source software company: no sales or "hire us" copy.
 - **Phones:** key/value results stack the label above the value so addresses never break mid-value. On wider screens key/value tables use fixed columns (label 34%, copy button 5 rem) so long values wrap in place and short ones stay on one line.
 - **Print:** menus, buttons, and notes are hidden. The Wi-Fi QR Code tool prints as a one-page sign: optional title, "Wi-Fi", QR code, network name, and the password when chosen.

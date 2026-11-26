@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- index.html v2.3.0 (Last Rev: 2026-11-25) -->
+<!-- index.html v2.4.0 (Last Rev: 2026-11-25) -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -37,7 +37,7 @@
     </div>
     <div class="top-actions">
       <button type="button" class="search-btn" id="search-open" aria-haspopup="dialog">Search Tools <kbd>Ctrl K</kbd></button>
-      <a href="https://ilhs.app/">ilhs.app</a>
+      <a class="site-link" href="https://ilhs.app/">ilhs.app</a>
     </div>
   </div>
 </header>
@@ -51,8 +51,15 @@
   <main id="main" tabindex="-1">
     <noscript><p class="error">This calculator needs JavaScript. Everything runs in your browser.</p></noscript>
 
+    <!-- ===================== HOME ===================== -->
+    <section class="tool" id="t-home" data-tool="home" data-title="Home" data-keywords="home overview start all tools list">
+      <div class="tool-head"><h2>Free IT Calculators and References</h2></div>
+      <p class="tool-intro">Tools for networks, DNS and email, storage, and infrastructure, plus everyday admin helpers. Everything runs in your browser and keeps working offline; only DNS Lookup and Email Security send the name you look up to a public DNS resolver. Press <kbd>Ctrl K</kbd> or <kbd>/</kbd> to search.</p>
+      <div class="home-grid" id="home-grid"></div>
+    </section>
+
     <!-- ===================== NETWORK ===================== -->
-    <section class="tool" id="t-planner" data-tool="planner" data-group="Network" data-title="Subnet Planner" data-keywords="ipv6 /48 /56 /64 site prefix delegation subnet id vlsm vlan carve split allocate design supernet summarize summary route aggregate">
+    <section class="tool" id="t-planner" data-tool="planner" data-group="Network" data-title="Subnet Planner" data-summary="Carve a block into VLAN subnets, summarize routes, or split an IPv6 prefix" data-keywords="ipv6 /48 /56 /64 site prefix delegation subnet id vlsm vlan carve split allocate design supernet summarize summary route aggregate">
       <div class="tool-head"><h2>Subnet Planner</h2></div>
       <p class="tool-intro">Carve an IPv4 block into subnets sized for each VLAN or site, summarize routes, or split an IPv6 prefix into site and VLAN networks.</p>
       <div class="card">
@@ -86,7 +93,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-ipv4" data-tool="ipv4" data-group="Network" data-title="IPv4 Subnet" data-keywords="cidr netmask subnet mask broadcast host range wildcard ">
+    <section class="tool" id="t-ipv4" data-tool="ipv4" data-group="Network" data-title="IPv4 Subnet" data-summary="Network, broadcast, host range, and masks for an IPv4 address" data-keywords="cidr netmask subnet mask broadcast host range wildcard ">
       <div class="tool-head"><h2>IPv4 Subnet Calculator</h2></div>
       <div class="card">
         <div class="form-row">
@@ -104,7 +111,7 @@
       <p class="hint">Public DNS resolvers, NTP servers, and test servers are in <a href="#ipref">IP Reference</a>.</p>
     </section>
 
-    <section class="tool" id="t-v4tools" data-tool="v4tools" data-group="Network" data-title="IPv4 Toolkit" data-keywords="in subnet contains check range to cidr acl wildcard mask cisco firewall">
+    <section class="tool" id="t-v4tools" data-tool="v4tools" data-group="Network" data-title="IPv4 Toolkit" data-summary="Is this IP in that subnet, IP range to CIDR blocks, ACL wildcard masks" data-keywords="in subnet contains check range to cidr acl wildcard mask cisco firewall">
       <div class="tool-head"><h2>IPv4 Toolkit</h2></div>
       <div class="card-grid">
         <div class="card">
@@ -131,7 +138,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-ipv6" data-tool="ipv6" data-group="Network" data-title="IPv6 Subnet" data-keywords="ipv6 v6 expand compress prefix network ptr reverse ip6.arpa ula link local multicast nat64 mapped">
+    <section class="tool" id="t-ipv6" data-tool="ipv6" data-group="Network" data-title="IPv6 Subnet" data-summary="Expand, compress, address type, and reverse DNS name for IPv6" data-keywords="ipv6 v6 expand compress prefix network ptr reverse ip6.arpa ula link local multicast nat64 mapped">
       <div class="tool-head"><h2>IPv6 Subnet Calculator</h2></div>
       <div class="card">
         <div class="form-row">
@@ -148,7 +155,7 @@
       <p class="hint">Public DNS resolvers and test servers are in <a href="#ipref">IP Reference</a>.</p>
     </section>
 
-    <section class="tool" id="t-v6tools" data-tool="v6tools" data-group="Network" data-title="IPv6 Toolkit" data-keywords="ipv6 in prefix contains check eui-64 slaac interface id link local mac ula unique local fd00 random prefix">
+    <section class="tool" id="t-v6tools" data-tool="v6tools" data-group="Network" data-title="IPv6 Toolkit" data-summary="IPv6 in-prefix check, EUI-64 addresses, and a ULA prefix generator" data-keywords="ipv6 in prefix contains check eui-64 slaac interface id link local mac ula unique local fd00 random prefix">
       <div class="tool-head"><h2>IPv6 Toolkit</h2></div>
       <div class="card-grid">
         <div class="card">
@@ -175,7 +182,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-mac" data-tool="mac" data-group="Network" data-title="MAC Address" data-keywords="mac hardware address format cisco dotted colon dash oui vendor multicast locally administered randomized">
+    <section class="tool" id="t-mac" data-tool="mac" data-group="Network" data-title="MAC Address" data-summary="MAC address formats, vendor prefix, and address type" data-keywords="mac hardware address format cisco dotted colon dash oui vendor multicast locally administered randomized">
       <div class="tool-head"><h2>MAC Address Tool</h2></div>
       <div class="card">
         <div class="form-row"><label for="mac-input">MAC Address</label><input type="text" id="mac-input" placeholder="00-1a-2b-3c-4d-5e" class="mono-input" spellcheck="false" autocomplete="off"></div>
@@ -186,7 +193,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-ports" data-tool="ports" data-group="Network" data-title="Port Reference" data-keywords="tcp udp port number service firewall rule rdp smb ssh">
+    <section class="tool" id="t-ports" data-tool="ports" data-group="Network" data-title="Port Reference" data-summary="Searchable list of common TCP and UDP ports" data-keywords="tcp udp port number service firewall rule rdp smb ssh">
       <div class="tool-head"><h2>Port Reference</h2></div>
       <div class="card">
         <div class="form-row"><label for="ports-q">Search</label><input type="search" id="ports-q" placeholder="Port number, service, or keyword (for example 3389, smb, vpn)" autocomplete="off"></div>
@@ -200,7 +207,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-ipref" data-tool="ipref" data-group="Network" data-title="IP Reference" data-keywords="dns resolver public cloudflare quad9 google opendns adguard ntp time server iperf iperf3 speed test what is my ip private rfc 1918 cgnat apipa link local documentation reserved ranges">
+    <section class="tool" id="t-ipref" data-tool="ipref" data-group="Network" data-title="IP Reference" data-summary="Public DNS resolvers, NTP and test servers, and reserved ranges" data-keywords="dns resolver public cloudflare quad9 google opendns adguard ntp time server iperf iperf3 speed test what is my ip private rfc 1918 cgnat apipa link local documentation reserved ranges">
       <div class="tool-head"><h2>IP Reference</h2></div>
       <p class="tool-intro">Common public addresses and reserved ranges. Addresses were checked on 2026-11-25; providers do change them, so confirm with the provider before hard-coding one.</p>
       <div class="card">
@@ -296,7 +303,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-links" data-tool="links" data-group="Network" data-title="Quick Links" data-keywords="links tools sites shodan censys securitytrails crt.sh mxtoolbox virustotal abuseipdb bgp peeringdb ssl labs nmap wireshark angry ip scanner putty winscp">
+    <section class="tool" id="t-links" data-tool="links" data-group="Network" data-title="Quick Links" data-summary="Other useful sites and free tools for IT work" data-keywords="links tools sites shodan censys securitytrails crt.sh mxtoolbox virustotal abuseipdb bgp peeringdb ssl labs nmap wireshark angry ip scanner putty winscp">
       <div class="tool-head"><h2>Quick Links</h2></div>
       <p class="tool-intro">Other sites and tools worth knowing. They open in a new tab and are run by their own owners, not ILHS.</p>
       <div class="card-grid">
@@ -350,7 +357,7 @@
     </section>
 
     <!-- ===================== DNS AND EMAIL ===================== -->
-    <section class="tool" id="t-dns" data-tool="dns" data-group="DNS and Email" data-title="DNS Lookup" data-keywords="dns lookup dig nslookup mx txt cname ns soa caa ptr reverse record">
+    <section class="tool" id="t-dns" data-tool="dns" data-group="DNS and Email" data-title="DNS Lookup" data-summary="Look up any DNS record type, including reverse lookups" data-keywords="dns lookup dig nslookup mx txt cname ns soa caa ptr reverse record">
       <div class="tool-head"><h2>DNS Lookup</h2></div>
       <p class="privacy-note">Looks up live DNS through Cloudflare's public DNS-over-HTTPS resolver (Google's as a backup). Only the name and record type are sent.</p>
       <div class="card">
@@ -363,7 +370,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-email" data-tool="email" data-group="DNS and Email" data-title="Email Security (SPF, DKIM, DMARC)" data-keywords="spf dkim dmarc email deliverability spoofing record builder generator mta-sts bimi">
+    <section class="tool" id="t-email" data-tool="email" data-group="DNS and Email" data-title="Email Security (SPF, DKIM, DMARC)" data-summary="Check and build SPF, DKIM, DMARC, MX, MTA-STS, and BIMI records" data-keywords="spf dkim dmarc email deliverability spoofing record builder generator mta-sts bimi">
       <div class="tool-head"><h2>Email Security Checker</h2></div>
       <p class="privacy-note">Checks use live DNS through Cloudflare's public DNS-over-HTTPS resolver. Only the record names are sent.</p>
       <div class="card">
@@ -412,7 +419,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-headers" data-tool="headers" data-group="DNS and Email" data-title="Email Header Analyzer" data-keywords="email header received hops delay phishing spoof authentication-results message trace">
+    <section class="tool" id="t-headers" data-tool="headers" data-group="DNS and Email" data-title="Email Header Analyzer" data-summary="Trace an email's path, delays, and authentication results" data-keywords="email header received hops delay phishing spoof authentication-results message trace">
       <div class="tool-head"><h2>Email Header Analyzer</h2></div>
       <p class="tool-intro">Paste a message's full headers to see the path it took, how long each hop took, and whether it passed SPF, DKIM, and DMARC. Nothing leaves your browser.</p>
       <div class="card">
@@ -425,7 +432,7 @@
     </section>
 
     <!-- ===================== STORAGE AND CAPACITY ===================== -->
-    <section class="tool" id="t-raid" data-tool="raid" data-group="Storage and Capacity" data-title="RAID / JBOD" data-keywords="raid 0 1 5 6 10 50 60 jbod array usable capacity parity fault tolerance rebuild ure">
+    <section class="tool" id="t-raid" data-tool="raid" data-group="Storage and Capacity" data-title="RAID / JBOD" data-summary="Usable capacity, fault tolerance, rebuild time, and read-error risk" data-keywords="raid 0 1 5 6 10 50 60 jbod array usable capacity parity fault tolerance rebuild ure">
       <div class="tool-head"><h2>RAID / JBOD Calculator</h2></div>
       <div class="card">
         <div class="form-row"><label for="raid-level">RAID Level</label><select id="raid-level"></select></div>
@@ -451,7 +458,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-storage" data-tool="storage" data-group="Storage and Capacity" data-title="Storage / RAM" data-keywords="gb gib tb tib binary decimal convert unit ram dimm total compare free space">
+    <section class="tool" id="t-storage" data-tool="storage" data-group="Storage and Capacity" data-title="Storage / RAM" data-summary="Convert units, add up drives and memory, and compare sizes" data-keywords="gb gib tb tib binary decimal convert unit ram dimm total compare free space">
       <div class="tool-head"><h2>Storage / RAM</h2></div>
       <div class="card">
         <h3>Convert A Size</h3>
@@ -494,7 +501,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-transfer" data-tool="transfer" data-group="Storage and Capacity" data-title="Transfer Time" data-keywords="transfer time bandwidth copy migration upload download backup window mbps gbps throughput">
+    <section class="tool" id="t-transfer" data-tool="transfer" data-group="Storage and Capacity" data-title="Transfer Time" data-summary="How long a copy takes, or the link speed you need" data-keywords="transfer time bandwidth copy migration upload download backup window mbps gbps throughput">
       <div class="tool-head"><h2>Transfer Time</h2></div>
       <div class="card-grid">
         <div class="card">
@@ -523,7 +530,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-backup" data-tool="backup" data-group="Storage and Capacity" data-title="Backup Storage" data-keywords="backup repository retention gfs incremental full dedupe compression veeam capacity planning">
+    <section class="tool" id="t-backup" data-tool="backup" data-group="Storage and Capacity" data-title="Backup Storage" data-summary="Repository size for a backup retention plan" data-keywords="backup repository retention gfs incremental full dedupe compression veeam capacity planning">
       <div class="tool-head"><h2>Backup Storage Estimator</h2></div>
       <p class="tool-intro">A rough repository size for a forever-incremental plan with periodic fulls (GFS). Your backup product's own sizing tool is the final word.</p>
       <div class="card">
@@ -543,7 +550,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-nvr" data-tool="nvr" data-group="Storage and Capacity" data-title="Camera / NVR Storage" data-keywords="cctv camera nvr dvr security video surveillance retention bitrate h.264 h.265 storage">
+    <section class="tool" id="t-nvr" data-tool="nvr" data-group="Storage and Capacity" data-title="Camera / NVR Storage" data-summary="Recording storage for cameras by bitrate and days kept" data-keywords="cctv camera nvr dvr security video surveillance retention bitrate h.264 h.265 storage">
       <div class="tool-head"><h2>Camera / NVR Storage</h2></div>
       <div class="card">
         <div class="form-row"><label for="nvr-cameras">Cameras</label><input type="number" id="nvr-cameras" placeholder="16" min="1"></div>
@@ -559,7 +566,7 @@
     </section>
 
     <!-- ===================== INFRASTRUCTURE ===================== -->
-    <section class="tool" id="t-sla" data-tool="sla" data-group="Infrastructure" data-title="Uptime / SLA" data-keywords="uptime sla availability nines 99.9 downtime per month year redundancy composite serial parallel">
+    <section class="tool" id="t-sla" data-tool="sla" data-group="Infrastructure" data-title="Uptime / SLA" data-summary="Allowed downtime, availability, and combined uptime" data-keywords="uptime sla availability nines 99.9 downtime per month year redundancy composite serial parallel">
       <div class="tool-head"><h2>Uptime / SLA Calculator</h2></div>
       <div class="card-grid">
         <div class="card">
@@ -587,7 +594,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-power" data-tool="power" data-group="Infrastructure" data-title="PoE and UPS" data-keywords="poe power over ethernet budget switch watts 802.3af at bt ups battery runtime va load">
+    <section class="tool" id="t-power" data-tool="power" data-group="Infrastructure" data-title="PoE and UPS" data-summary="PoE budget for a switch and UPS battery runtime" data-keywords="poe power over ethernet budget switch watts 802.3af at bt ups battery runtime va load">
       <div class="tool-head"><h2>PoE Budget and UPS Runtime</h2></div>
       <div class="card">
         <h3>PoE Budget</h3>
@@ -612,7 +619,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-heat" data-tool="heat" data-group="Infrastructure" data-title="Power and Heat" data-keywords="btu btu/hr heat cooling tons watts va amps amperage breaker circuit 80 percent rule power factor voltage rack server closet">
+    <section class="tool" id="t-heat" data-tool="heat" data-group="Infrastructure" data-title="Power and Heat" data-summary="Heat (BTU/hr), VA, amps, and breaker size for a load" data-keywords="btu btu/hr heat cooling tons watts va amps amperage breaker circuit 80 percent rule power factor voltage rack server closet">
       <div class="tool-head"><h2>Power, Heat, and Circuit Load</h2></div>
       <div class="card">
         <p class="hint">Use the measured draw (UPS or PDU readout) when you have it; nameplate ratings are worst case.</p>
@@ -625,7 +632,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-switchports" data-tool="switchports" data-group="Infrastructure" data-title="Switch Port Planner" data-keywords="switch ports density access switch 24 48 port count growth uplink stacking closet idf">
+    <section class="tool" id="t-switchports" data-tool="switchports" data-group="Infrastructure" data-title="Switch Port Planner" data-summary="Switches and ports needed, with growth headroom" data-keywords="switch ports density access switch 24 48 port count growth uplink stacking closet idf">
       <div class="tool-head"><h2>Switch Port Planner</h2></div>
       <div class="card">
         <div class="form-row"><label for="switchports-devices">Devices Needing a Port</label><input type="number" id="switchports-devices" placeholder="100" min="0" step="1"></div>
@@ -639,7 +646,7 @@
     </section>
 
     <!-- ===================== UTILITIES ===================== -->
-    <section class="tool" id="t-time" data-tool="time" data-group="Utilities" data-title="Time Decoder" data-keywords="unix epoch timestamp filetime active directory pwdlastset lastlogontimestamp accountexpires iso 8601 utc convert time zone">
+    <section class="tool" id="t-time" data-tool="time" data-group="Utilities" data-title="Time Decoder" data-summary="Decode Unix, Windows FILETIME, Active Directory, and ISO times" data-keywords="unix epoch timestamp filetime active directory pwdlastset lastlogontimestamp accountexpires iso 8601 utc convert time zone">
       <div class="tool-head"><h2>Time Decoder</h2></div>
       <div class="card">
         <div class="form-row"><label for="time-input">Timestamp or Date</label><input type="text" id="time-input" placeholder="133758144000000000" class="mono-input" spellcheck="false" autocomplete="off"></div>
@@ -653,7 +660,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-cron" data-tool="cron" data-group="Utilities" data-title="Cron Explainer" data-keywords="cron crontab schedule expression next run explain linux job">
+    <section class="tool" id="t-cron" data-tool="cron" data-group="Utilities" data-title="Cron Explainer" data-summary="Explain a cron schedule and list its next runs" data-keywords="cron crontab schedule expression next run explain linux job">
       <div class="tool-head"><h2>Cron Explainer</h2></div>
       <div class="card">
         <div class="form-row"><label for="cron-expr">Cron Expression</label><input type="text" id="cron-expr" placeholder="15 2 * * 1-5" class="mono-input" spellcheck="false" autocomplete="off"></div>
@@ -666,7 +673,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-chmod" data-tool="chmod" data-group="Utilities" data-title="chmod Permissions" data-keywords="chmod unix linux permissions octal rwx setuid setgid sticky umask">
+    <section class="tool" id="t-chmod" data-tool="chmod" data-group="Utilities" data-title="chmod Permissions" data-summary="Octal and symbolic Unix file permissions" data-keywords="chmod unix linux permissions octal rwx setuid setgid sticky umask">
       <div class="tool-head"><h2>chmod Permissions</h2></div>
       <div class="card">
         <div class="form-row"><label for="chmod-octal">Octal</label><input type="text" id="chmod-octal" class="mono-input" value="755" spellcheck="false" autocomplete="off" inputmode="numeric"></div>
@@ -683,7 +690,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-base" data-tool="base" data-group="Utilities" data-title="Number Bases" data-keywords="binary hex hexadecimal decimal octal convert base bits bytes">
+    <section class="tool" id="t-base" data-tool="base" data-group="Utilities" data-title="Number Bases" data-summary="Convert between decimal, hex, octal, and binary" data-keywords="binary hex hexadecimal decimal octal convert base bits bytes">
       <div class="tool-head"><h2>Number Base Converter</h2></div>
       <div class="card">
         <div class="form-row"><label for="base-dec">Decimal</label><input type="text" id="base-dec" class="mono-input" value="3232235777" spellcheck="false" autocomplete="off"></div>
@@ -696,7 +703,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-password" data-tool="password" data-group="Utilities" data-title="Password Generator" data-keywords="password passphrase generator random diceware eff entropy strong">
+    <section class="tool" id="t-password" data-tool="password" data-group="Utilities" data-title="Password Generator" data-summary="Random passwords and passphrases" data-keywords="password passphrase generator random diceware eff entropy strong">
       <div class="tool-head"><h2>Password Generator</h2></div>
       <p class="privacy-note">Generated in your browser with its cryptographic random source. Nothing is saved or sent, and passwords are never put in share links.</p>
       <div class="card-grid">
@@ -730,7 +737,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-encode" data-tool="encode" data-group="Utilities" data-title="Encode and Hash" data-keywords="base64 url encode decode hex html entities sha256 sha1 sha512 hash checksum jwt token">
+    <section class="tool" id="t-encode" data-tool="encode" data-group="Utilities" data-title="Encode and Hash" data-summary="Base64, URL, hex, and HTML encoding, hashes, and JWT decoding" data-keywords="base64 url encode decode hex html entities sha256 sha1 sha512 hash checksum jwt token">
       <div class="tool-head"><h2>Encode, Decode, and Hash</h2></div>
       <p class="privacy-note">Runs entirely in your browser. Text you type here is not saved in share links.</p>
       <div class="card">
@@ -749,7 +756,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-wifiqr" data-tool="wifiqr" data-group="Utilities" data-title="Wi-Fi QR Code" data-keywords="wifi wi-fi qr code guest network ssid password join scan print">
+    <section class="tool" id="t-wifiqr" data-tool="wifiqr" data-group="Utilities" data-title="Wi-Fi QR Code" data-summary="A Wi-Fi join code to download or print as a sign" data-keywords="wifi wi-fi qr code guest network ssid password join scan print">
       <div class="tool-head"><h2>Wi-Fi QR Code</h2></div>
       <p class="privacy-note">Built in your browser. The password is never sent anywhere or put in share links.</p>
       <div class="card">
@@ -776,7 +783,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-resolution" data-tool="resolution" data-group="Utilities" data-title="Resolutions" data-keywords="resolution aspect ratio 16:9 16:10 21:9 ultrawide 4k 1080p ppi dpi pixel density screen monitor">
+    <section class="tool" id="t-resolution" data-tool="resolution" data-group="Utilities" data-title="Resolutions" data-summary="Resolutions by aspect ratio, ratio lookup, and pixel density" data-keywords="resolution aspect ratio 16:9 16:10 21:9 ultrawide 4k 1080p ppi dpi pixel density screen monitor">
       <div class="tool-head"><h2>Resolutions by Aspect Ratio</h2></div>
       <div class="card">
         <h3>Find the Aspect Ratio</h3>
@@ -816,10 +823,8 @@
 </dialog>
 
 <footer class="app-footer">
-  <p>It will not get any easier than this</p>
-  <p class="build-info" id="build-info"></p>
-  <p class="feedback">Want a tool added or found a mistake? Email <a href="mailto:info@ilhs.app?subject=IT%20Reference%20Calculator">info@ilhs.app</a>.</p>
-  <p class="feedback">Free and open source: <a href="https://github.com/ILikeHostingServices/IT-Reference-Calculator" rel="noopener noreferrer">view the code on GitHub</a>.</p>
+  <p class="tagline">It will not get any easier than this</p>
+  <p class="meta"><span class="build-info" id="build-info"></span><span>Want a tool added or found a mistake? <a href="mailto:info@ilhs.app?subject=IT%20Reference%20Calculator">info@ilhs.app</a></span><a href="https://github.com/ILikeHostingServices/IT-Reference-Calculator" rel="noopener noreferrer">Source code on GitHub</a></p>
 </footer>
 
 <script src="js/version.js"></script>
