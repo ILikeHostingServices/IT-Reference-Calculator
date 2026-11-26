@@ -1,4 +1,4 @@
-/* tests/browser-conformance.js v1.0.0 (Last Rev: 2026-11-12) */
+/* tests/browser-conformance.js v1.1.0 (Last Rev: 2026-11-25) */
 /* ILHS Shared Sizing Spec Conformance Checklist and axe-core WCAG 2.2 AA check for every tool, dark and light.
    Not part of node --test or CI (needs Playwright and a running site). Usage:
      npx wrangler dev --port 8790 --var PRIMARY_HOST:127.0.0.1
@@ -12,7 +12,7 @@ let failures = 0;
 const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) failures++; };
 (async () => {
   const b = await chromium.launch();
-  const tools = ['ipv4','planner','v4tools','ipv6','v6plan','mac','ports','dns','email','headers','raid','storage','transfer','backup','nvr','sla','power','resolution','time','cron','chmod','base','password','encode','wifiqr'];
+  const tools = ['planner','ipv4','v4tools','ipv6','v6tools','mac','ports','ipref','links','dns','email','headers','raid','storage','transfer','backup','nvr','sla','power','heat','switchports','time','cron','chmod','base','password','encode','wifiqr','resolution'];
 
   // 2. Computed sizes at 1920 x 1080.
   const d = await b.newPage({ viewport: { width: 1920, height: 1080 } });
@@ -23,7 +23,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) failure
     headline: getComputedStyle(document.querySelector('#t-ipv4 .tool-head h2')).fontSize,
     wrap: document.querySelector('.layout').getBoundingClientRect().width,
   }));
-  ok(sizes.root === '16px' && sizes.body === '17px' && sizes.headline === '44px' && Math.round(sizes.wrap) === 1200,
+  ok(sizes.root === '16px' && sizes.body === '17px' && sizes.headline === '32px' && Math.round(sizes.wrap) === 1200,
     `1920x1080 sizes: root ${sizes.root}, body ${sizes.body}, headline ${sizes.headline}, content width ${Math.round(sizes.wrap)}px`);
 
   // 4. No horizontal scroll / clipped text at the test sizes; tap targets >= 44 px.

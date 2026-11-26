@@ -1,6 +1,6 @@
-/* js/ipv6plan.js v1.1.0 (Last Rev: 2026-11-25) */
-/* IPv6plan.js - IPv6 subnet planning on top of Calc.IPv6: split a prefix into smaller ones and
-   build an address from a /64 prefix plus a MAC (EUI-64). BigInt throughout. */
+/* js/ipv6plan.js v1.2.0 (Last Rev: 2026-11-25) */
+/* IPv6plan.js - IPv6 planning on top of Calc.IPv6: split a prefix into smaller ones, build an address from a
+   /64 prefix plus a MAC (EUI-64), check whether an address is in a prefix, and make a ULA prefix. BigInt throughout. */
 window.Calc = window.Calc || {};
 
 Calc.IPv6Plan = (function () {
@@ -43,5 +43,23 @@ Calc.IPv6Plan = (function () {
     return { interfaceId: iid, address: V6.compress(addr), expanded: V6.expand(addr), linkLocal: V6.compress(V6.parseIp("fe80::") | iidValue) };
   }
 
-  return { split, eui64Address };
+  // Is an address inside a prefix? Returns the result plus the prefix's network and last address.
+  function inPrefix(addressText, prefixText) {
+    const [net, len] = String(prefixText).trim().split("/");
+    if (len === undefined) throw new Error("Include the prefix length, for example 2001:db8::/32");
+    const p = Number(len), mask = V6.prefixToMask(p), base = V6.parseIp(net) & mask;
+    const last = base | ((~mask) & ((1n << 128n) - 1n));
+    return { inside: (V6.parseIp(addressText) & mask) === base, network: `${V6.compress(base)}/${p}`, last: V6.compress(last), aligned: V6.parseIp(net) === base };
+  }
+
+  // RFC 4193 unique local /48: fd00::/8 plus a random 40-bit global ID (5 bytes from the caller,
+  // so the browser's crypto.getRandomValues supplies them and tests can pass fixed bytes).
+  function ulaPrefix(bytes) {
+    if (!bytes || bytes.length !== 5) throw new Error("A ULA global ID is 5 random bytes");
+    const hex = [0xfd, ...bytes].map(b => b.toString(16).padStart(2, "0")).join("");
+    const p = `${hex.slice(0, 4)}:${hex.slice(4, 8)}:${hex.slice(8, 12)}`;
+    return { prefix: V6.compress(V6.parseIp(`${p}::`)) + "/48", firstSubnet: V6.compress(V6.parseIp(`${p}::`)) + "/64", globalId: hex.slice(2) };
+  }
+
+  return { split, eui64Address, inPrefix, ulaPrefix };
 })();

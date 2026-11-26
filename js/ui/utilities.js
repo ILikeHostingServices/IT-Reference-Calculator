@@ -1,4 +1,4 @@
-/* js/ui/utilities.js v1.1.0 (Last Rev: 2026-11-25) */
+/* js/ui/utilities.js v1.2.0 (Last Rev: 2026-11-25) */
 /* UI: Utilities - time decoder, cron explainer, chmod, number bases, password generator,
    encode/decode/hash, and Wi-Fi QR codes. All local; nothing is sent anywhere. */
 (function () {
@@ -12,7 +12,7 @@
       const input = $("time-input"), fmtSel = $("time-format"), out = $("time-results");
       U.live([input, fmtSel], () => {
         out.hidden = true;
-        const d = Calc.Time.decode(input.value, fmtSel.value);
+        const d = Calc.Time.decode(U.val(input), fmtSel.value);
         if (d.never) {
           U.renderKV(out, [["Read as", d.source, { copy: false }], ["Meaning", "Never (0 or the maximum value: never set, or never expires)", { copy: false }]]);
           return;
@@ -58,9 +58,9 @@
       U.live([expr, tz], () => {
         $("cron-desc").hidden = true;
         $("cron-results").hidden = true;
-        const desc = Calc.Cron.describe(expr.value);
+        const desc = Calc.Cron.describe(U.val(expr));
         U.renderBox($("cron-desc"), { label: "Runs", primary: desc });
-        const runs = Calc.Cron.nextRuns(expr.value, 8, tz.value);
+        const runs = Calc.Cron.nextRuns(U.val(expr), 8, tz.value);
         U.renderKV($("cron-results"), runs.map((ms, i) => [`Run ${i + 1}`, Calc.Time.formatIn(ms, tz.value), { copy: false }]));
       }, $("cron-error"));
     },
@@ -204,6 +204,7 @@
         const mine = ++seq;
         U.hideError(hashErr);
         try {
+          if (!input.value) { hashOut.hidden = true; return; }
           const h = await Calc.Encode.hashes(input.value);
           if (mine !== seq) return;
           U.renderKV(hashOut, Calc.Encode.HASHES.map(a => [a, h[a]]));
@@ -219,9 +220,11 @@
     init() {
       const canvas = $("wifiqr-canvas"), box = $("wifiqr-box"), dl = $("wifiqr-download");
       qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
-      U.live(["wifiqr-ssid", "wifiqr-pass", "wifiqr-sec", "wifiqr-hidden", "wifiqr-heading", "wifiqr-showpass"].map($), () => {
+      U.live(["wifiqr-ssid", "wifiqr-pass", "wifiqr-sec", "wifiqr-hidden", "wifiqr-title", "wifiqr-showpass"].map($), () => {
         box.hidden = $("wifiqr-sign").hidden = true;
         const ssid = $("wifiqr-ssid").value, pass = $("wifiqr-pass").value, sec = $("wifiqr-sec").value;
+        // Nothing typed yet: no code and no error (the boxes show examples only).
+        if (!ssid && !pass) return;
         const problem = Calc.Encode.wifiProblem({ ssid, pass, sec });
         if (problem) throw new Error(problem);
         if (sec !== "nopass" && !pass) return;
@@ -241,7 +244,10 @@
         dl.download = `wifi-${ssid.replace(/[^a-z0-9]+/gi, "-").toLowerCase() || "network"}.png`;
         // The printed sign (print-only, see css): heading, code, network name, and the password if chosen.
         const showPass = sec !== "nopass" && $("wifiqr-showpass").checked;
-        $("wifiqr-sign-title").textContent = $("wifiqr-heading").value.trim() || "Wi-Fi";
+        // Optional title on top ("Family Home"), with "Wi-Fi" under it; without one, "Wi-Fi" is the title.
+        const title = $("wifiqr-title").value.trim();
+        $("wifiqr-sign-title").textContent = title || "Wi-Fi";
+        $("wifiqr-sign-sub").hidden = !title;
         $("wifiqr-sign-img").src = dl.href;
         $("wifiqr-sign-img").alt = `Wi-Fi QR code for ${ssid}`;
         $("wifiqr-sign-ssid").textContent = ssid;
@@ -251,6 +257,10 @@
       }, $("wifiqr-error"));
       $("wifiqr-print").addEventListener("click", () => window.print());
     },
+    // Copy Results: what the code joins, never the password.
+    resultsText: () => ($("wifiqr-box").hidden ? "" : `Network: ${$("wifiqr-ssid").value}
+Security: ${$("wifiqr-sec").selectedOptions[0].textContent}
+Hidden: ${$("wifiqr-hidden").checked ? "Yes" : "No"}`),
   });
 
 })();

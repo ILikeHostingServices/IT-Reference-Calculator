@@ -1,4 +1,4 @@
-/* tests/browser-e2e.js v1.0.0 (Last Rev: 2026-11-12) */
+/* tests/browser-e2e.js v1.1.0 (Last Rev: 2026-11-25) */
 /* End-to-end browser checks: share links, copy buttons, search, DNS and email tools against mocked DNS over HTTPS,
    header analyzer, secrets kept out of links, QR, offline mode. Not part of node --test or CI. Usage:
      npx wrangler dev --port 8790 --var PRIMARY_HOST:127.0.0.1
@@ -43,7 +43,8 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   await p.click('#ipv4-results tr:nth-child(3) .copy-btn');
   ok((await p.evaluate(() => navigator.clipboard.readText())) === '255.255.255.0', 'Row copy button copies the netmask');
   await p.click('#t-ipv4 .tool-actions button:nth-child(2)');
-  ok((await p.evaluate(() => navigator.clipboard.readText())).includes('Netmask\t255.255.255.0'), 'Copy Results copies the table as text');
+  { const all = await p.evaluate(() => navigator.clipboard.readText());
+    ok(all.includes('Netmask\t255.255.255.0') && all.includes('Link: '), 'Copy Results copies the table as text plus a link'); }
   // 5. Search palette.
   await p.keyboard.press('Control+k'); await p.keyboard.type('spf'); await p.keyboard.press('Enter'); await p.waitForTimeout(200);
   ok(await p.$eval('#t-email', s => s.classList.contains('active')), 'Ctrl+K search "spf" opens Email Security');
@@ -63,7 +64,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   await p.goto(BASE + '#password'); await p.waitForTimeout(200);
   const pw = await p.textContent('#password-out .primary');
   ok(pw.length === 20 && !p.url().includes(encodeURIComponent(pw)), 'Password generated (20 chars) and not in the URL');
-  await p.goto(BASE + '#wifiqr'); await p.fill('#wifiqr-pass', 'correct horse'); await p.waitForTimeout(300);
+  await p.goto(BASE + '#wifiqr'); await p.fill('#wifiqr-ssid', 'Guest WiFi'); await p.fill('#wifiqr-pass', 'correct horse'); await p.waitForTimeout(300);
   ok(!(await p.$eval('#wifiqr-box', e => e.hidden)) && !p.url().includes('correct'), 'Wi-Fi QR renders; password kept out of URL');
   const dark = await p.$eval('#wifiqr-canvas', c => { const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let n = 0; for (let i = 0; i < d.length; i += 4) if (d[i] < 50) n++; return n; });
   ok(dark > 1000, 'QR canvas has dark modules');

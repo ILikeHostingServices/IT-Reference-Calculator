@@ -1,4 +1,4 @@
-/* js/capacity.js v1.0.0 (Last Rev: 2026-11-12) */
+/* js/capacity.js v1.1.0 (Last Rev: 2026-11-25) */
 /* Capacity.js - planning math: transfer time and bandwidth, backup repository size, camera/NVR
    storage, uptime and SLA, PoE budget, UPS runtime, RAID rebuild time and read-error risk, and
    display pixel density. Sizes are bytes, rates are bits per second unless a name says otherwise. */
@@ -170,8 +170,33 @@ Calc.Capacity = (function () {
     return { ppi: density, dotPitchMm: 25.4 / density, widthIn, heightIn, retinaDistanceIn: 3438 / density };
   }
 
+  // Heat and current from a load. BTU/hr = W x 3.412; VA = W / power factor; amps = VA / volts.
+  // Continuous loads may use only 80% of a breaker (US NEC), so the smallest breaker is amps / 0.8,
+  // rounded up to a standard size.
+  const BREAKERS = [15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100];
+  function powerHeat({ watts, powerFactor, volts }) {
+    if (!(watts >= 0)) throw new Error("Enter the load in watts (0 or more)");
+    if (!(powerFactor > 0 && powerFactor <= 1)) throw new Error("Power factor is between 0 and 1 (most server power supplies are 0.9 to 0.99)");
+    if (!(volts > 0)) throw new Error("Enter the circuit voltage");
+    const va = watts / powerFactor, amps = va / volts, minBreaker = amps / 0.8;
+    const btu = watts * 3.412;
+    return { btu, tons: btu / 12000, va, amps, minBreaker, breaker: BREAKERS.find(b => b >= minBreaker) || null };
+  }
+
+  // Switch ports and switches for a device count, with growth headroom and ports held back on each
+  // switch for uplinks or stacking.
+  function switchPorts({ devices, growthPct, portsPerSwitch, reservedPerSwitch }) {
+    if (!(devices >= 0)) throw new Error("Enter how many devices need a port (0 or more)");
+    if (!(growthPct >= 0)) throw new Error("Growth is 0% or more");
+    const usable = portsPerSwitch - reservedPerSwitch;
+    if (!(reservedPerSwitch >= 0) || usable < 1) throw new Error("Leave at least one port per switch for devices");
+    const needed = Math.ceil(devices * (1 + growthPct / 100));
+    const switches = Math.max(1, Math.ceil(needed / usable));
+    return { needed, switches, usablePorts: switches * usable, spare: switches * usable - needed, totalPorts: switches * portsPerSwitch };
+  }
+
   return {
-    SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR,
+    SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR, powerHeat, switchPorts,
     formatDuration, transferTime, requiredBandwidth, backupRepository, nvrStorage,
     downtime, availabilityFromDowntime, composite, POE_CLASSES, poeBudget, upsRuntime,
     raidRebuild, ureRisk, ppi,

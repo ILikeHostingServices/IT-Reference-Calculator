@@ -1,10 +1,42 @@
-DECISIONS.md v1.0.0 (Last Rev: 2026-11-25)
+DECISIONS.md v1.1.0 (Last Rev: 2026-11-25)
 
 # Decisions
 
 Newest first. Never delete an entry. To change a decision, add a new entry that supersedes it and note the old ID. Do not relitigate a recorded decision unless new evidence invalidates it.
 
 Entry format: ID, date (YYYY-MM-DD), decision, why, evidence label, how to undo. Entries D-001 to D-011 were moved here from the former `MEMORY.md` and `CLAUDE.md` on 2026-11-25.
+
+## D-016 - Network Menu Order And Merged Planners
+
+- Date: 2026-11-25
+- Decision: Network order is Subnet Planner, IPv4 Subnet, IPv4 Toolkit, IPv6 Subnet, IPv6 Toolkit, MAC Address, Port Reference, IP Reference, Quick Links, SSL Certificate Checker. The IPv6 prefix split joins Subnet Planner (one planner); EUI-64 moves to the new IPv6 Toolkit. Resolutions moves into Utilities, ending the one-tool Display group.
+- Why: Owner review of 2.2.0 on staging.
+- Evidence: `[USER]`
+- Undo: Reorder the sections in `index.html` and record that here.
+
+## D-015 - Example Values As Placeholders
+
+- Date: 2026-11-25
+- Decision: Example inputs are placeholders. Code reads inputs through `Calc.UI.val`, `num`, and `need`, which use the placeholder when a box is empty, so each tool still shows a worked example. Settings that drive linked fields (chmod, Number Bases, password length and words, DMARC percent, RAID groups) keep real values. Row lists keep example rows plus Clear All and Restore Examples.
+- Why: People had to delete the example before typing their own value.
+- Evidence: `[USER]`
+- Undo: Move placeholders back to `value=` and drop the fallback in `Calc.UI.val`.
+
+## D-014 - Smaller Tool Titles And Controls (Supersedes Part Of D-009)
+
+- Date: 2026-11-25
+- Decision: Tool titles use the h2 token (24 to 32 px) instead of the 44 px page-title size chosen in the 2026-11-13 brand check; buttons are 44 px tall with nav-size text; cards use the inset padding. All sizes still come from the ILHS sizing tokens, and every target stays at least 44 px.
+- Why: The owner found titles and boxes oversized next to the content.
+- Evidence: `[USER]`; `tests/browser-conformance.js` now expects a 32 px title at 1920 x 1080.
+- Undo: Set `.tool-head h2` back to `--fs-h1`.
+
+## D-013 - Footer Links To The Repository
+
+- Date: 2026-11-25
+- Decision: The footer links to the GitHub repository ("Free and open source: view the code on GitHub"). This reverses the earlier "no repo link" instruction.
+- Why: Owner request; the code is MIT licensed and public.
+- Evidence: `[USER]`
+- Undo: Remove the footer line.
 
 ## D-012 - Adopt The Standard Repo File Set
 

@@ -1,6 +1,7 @@
-/* js/ui/capacity.js v1.0.0 (Last Rev: 2026-11-12) */
+/* js/ui/capacity.js v1.1.0 (Last Rev: 2026-11-25) */
 /* UI: Storage, capacity, and infrastructure tools - RAID (with rebuild risk), Storage / RAM,
-   transfer time, backup storage, camera/NVR storage, uptime/SLA, and PoE/UPS. */
+   transfer time, backup storage, camera/NVR storage, uptime/SLA, PoE/UPS, power and heat, and
+   switch ports. */
 (function () {
   "use strict";
   const U = Calc.UI, $ = U.$, Cap = Calc.Capacity;
@@ -32,7 +33,7 @@
         $("raid-notes").hidden = true;
         const diskSizeBytes = Calc.Units.toBytes(U.need($("raid-size"), "a disk size"), unit.value);
         const groups = groupsRow.hidden ? undefined : Number($("raid-groups").value);
-        const r = Calc.RAID.calculate(level.value, Number($("raid-disks").value), diskSizeBytes, groups);
+        const r = Calc.RAID.calculate(level.value, U.need($("raid-disks"), "the number of disks"), diskSizeBytes, groups);
         const rows = [["RAID level", r.label, { copy: false }], ["Disk count", r.diskCount, { copy: false }]];
         if (r.groups) rows.push(["Groups", r.groups, { copy: false }]);
         rows.push(
@@ -50,7 +51,7 @@
       U.live([...inputs, $("raid-speed"), $("raid-ure")], () => {
         $("raid-rb-results").hidden = true;
         const diskBytes = Calc.Units.toBytes(U.need($("raid-size"), "a disk size"), unit.value);
-        const disks = Number($("raid-disks").value);
+        const disks = U.need($("raid-disks"), "the number of disks");
         const rebuild = Cap.raidRebuild(diskBytes, U.need($("raid-speed"), "a rebuild speed"));
         const exp = Number($("raid-ure").value);
         const readBytes = diskBytes * Math.max(1, disks - 1);
@@ -65,6 +66,7 @@
   });
 
   /* ---------- Storage / RAM ---------- */
+  let storageItems;
   function formatAmount(value) {
     if (value !== 0 && Math.abs(value) < 0.0001) return value.toExponential(3);
     return value.toLocaleString(undefined, { maximumFractionDigits: 4 });
@@ -160,7 +162,9 @@
       items.addEventListener("input", updateTotal);
       items.addEventListener("change", updateTotal);
       $("storage-add-item").addEventListener("click", () => addItem(1, 1, "TB").querySelector(".amount-input").select());
-      addItem(4, 32, "GiB", "DIMM");
+      const example = () => { items.innerHTML = ""; addItem(4, 32, "GiB", "DIMM"); };
+      storageItems = { clear: () => { items.innerHTML = ""; updateTotal(); }, restore: example };
+      example();
 
       // Compare
       const a = $("cmp-a-amount"), au = $("cmp-a-unit"), b = $("cmp-b-amount"), bu = $("cmp-b-unit");
@@ -182,6 +186,8 @@
         U.renderKV($("cmp-results"), rows);
       });
     },
+    clearAll: () => storageItems.clear(),
+    restoreExamples: () => storageItems.restore(),
   });
 
   /* ---------- Transfer Time ---------- */
@@ -322,6 +328,8 @@
     },
     getState: () => ({ list: slaList.serialize() }),
     setState: s => { if (s.list) slaList.deserialize(s.list); },
+    clearAll: () => slaList.clear(),
+    restoreExamples: () => slaList.restore(),
   });
 
   /* ---------- PoE and UPS ---------- */
@@ -329,7 +337,7 @@
   U.register("power", {
     init() {
       const err = $("power-error"), out = $("power-out");
-      const classOpts = [["", "Custom watts"], ...Cap.POE_CLASSES.map(c => [String(c.watts), `${c.label}: ${c.watts} W`])];
+      const classOpts = [["", "Custom watts"], ...Cap.POE_CLASSES.map(c => [String(c.watts), `${c.watts} W: ${c.label.replace(" (default)", "")}`])];
       const run = () => {
         U.hideError(err);
         out.hidden = true;
@@ -386,5 +394,43 @@
     },
     getState: () => ({ list: poeList.serialize() }),
     setState: s => { if (s.list) poeList.deserialize(s.list); },
+    clearAll: () => poeList.clear(),
+    restoreExamples: () => poeList.restore(),
+  });
+
+  /* ---------- Power and Heat ---------- */
+  U.register("heat", {
+    init() {
+      U.live(["heat-watts", "heat-pf", "heat-volts"].map($), () => {
+        $("heat-results").hidden = true;
+        const volts = Number($("heat-volts").value);
+        const r = Cap.powerHeat({ watts: U.need($("heat-watts"), "the load in watts"), powerFactor: U.need($("heat-pf"), "a power factor"), volts });
+        U.renderKV($("heat-results"), [
+          ["Heat output", `${Math.round(r.btu).toLocaleString()} BTU/hr`],
+          ["Cooling needed", `${r.tons.toFixed(2)} tons`],
+          ["Apparent power", `${Math.round(r.va).toLocaleString()} VA`],
+          [`Current at ${volts} V`, `${r.amps.toFixed(1)} A`],
+          ["Smallest breaker (80% rule)", r.breaker ? `${r.breaker} A (needs ${r.minBreaker.toFixed(1)} A)` : `Over 100 A: split the load across circuits`, { copy: false }],
+        ]);
+      }, $("heat-error"));
+    },
+  });
+
+  /* ---------- Switch Ports ---------- */
+  U.register("switchports", {
+    init() {
+      U.live(["switchports-devices", "switchports-growth", "switchports-size", "switchports-reserved"].map($), () => {
+        $("switchports-results").hidden = true;
+        const size = Number($("switchports-size").value);
+        const r = Cap.switchPorts({ devices: U.need($("switchports-devices"), "the number of devices"), growthPct: U.num($("switchports-growth")) || 0, portsPerSwitch: size, reservedPerSwitch: U.num($("switchports-reserved")) || 0 });
+        U.renderKV($("switchports-results"), [
+          ["Ports needed with growth", r.needed.toLocaleString()],
+          [`Switches needed (${size} ports each)`, r.switches.toLocaleString()],
+          ["Device ports available", r.usablePorts.toLocaleString(), { copy: false }],
+          ["Spare ports after growth", r.spare.toLocaleString(), { copy: false }],
+          ["Total ports, including held ports", r.totalPorts.toLocaleString(), { copy: false }],
+        ]);
+      }, $("switchports-error"));
+    },
   });
 })();
