@@ -1,4 +1,4 @@
-/* js/app.js v1.3.0 (Last Rev: 2026-11-25) */
+/* js/app.js v1.3.1 (Last Rev: 2026-11-25) */
 /* app.js - page shell: builds the grouped tool menu from the <section class="tool"> elements, routes
    between tools with the URL hash (#tool?field=value), keeps share links in sync with the inputs,
    adds Copy Link / Copy Results buttons, runs the Ctrl+K search, and fills in the footer.
@@ -330,8 +330,9 @@
     return valid.length ? new Date(Math.max(...valid)) : null;
   }
   const buildInfo = $("build-info");
-  buildInfo.textContent = `${Calc.APP_NAME} - v${Calc.VERSION}`;
-  newestAssetDate().then(date => { if (date) buildInfo.textContent += ` - Built ${formatEastern(date)}`; });
+  // The app name is already in the header, so the footer gives just the version and build time.
+  buildInfo.textContent = `Version ${Calc.VERSION}`;
+  newestAssetDate().then(date => { if (date) buildInfo.textContent += `, built ${formatEastern(date)}`; });
 
   /* ---------- Offline support ---------- */
   if ("serviceWorker" in navigator && (location.protocol === "https:" || ["localhost", "127.0.0.1"].includes(location.hostname))) {
