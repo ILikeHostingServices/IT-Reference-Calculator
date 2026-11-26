@@ -1,4 +1,4 @@
-README.md v2.2.0 (Last Rev: 2026-11-25)
+README.md v2.3.0 (Last Rev: 2026-11-25)
 
 # IT Reference Calculator
 
@@ -6,16 +6,15 @@ README.md v2.2.0 (Last Rev: 2026-11-25)
 
 Free IT calculators and references from ILHS, live at https://calc.ilhs.app. Everything runs in the browser and works offline once loaded. The only requests that leave the page are the DNS and email checks, which send the name being looked up to Cloudflare's public DNS-over-HTTPS resolver (Google's as a backup); each of those tools says so on screen. You can also run or host your own copy: see [Run It Yourself](#run-it-yourself).
 
-Every tool updates as you type, has **Copy Link** (a link with your inputs, so you can paste it into a ticket) and **Copy Results**, and each result row has its own copy button. **Ctrl K** (or **/**) searches all tools.
+Every tool updates as you type and shows a worked example until you do: the grey example values in the boxes disappear when you start typing. Each tool has **Copy Link** (a link with your inputs, so you can paste it into a ticket) and **Copy Results** (the results as text, with that link), and each result row has its own copy button. Tools with example rows also have **Clear All** and **Restore Examples**. **Ctrl K** (or **/**) searches all tools.
 
 | Group | Tools |
 | --- | --- |
-| Network | IPv4 Subnet; Subnet Planner (VLSM and route summarization); IPv4 Toolkit (is this IP in that subnet, IP range to CIDR blocks, ACL wildcard masks); IPv6 Subnet (address type, embedded IPv4, reverse DNS name); IPv6 Planner (split a prefix with subnet IDs, EUI-64 addresses); MAC Address (formats, vendor prefix, address type); Port Reference (searchable); link to the SSL Certificate Checker |
-| DNS And Email | DNS Lookup (any record type, reverse lookups); Email Security (SPF with the 10-lookup count, DKIM, DMARC, MX, MTA-STS, TLS-RPT, BIMI, plus SPF and DMARC record builders); Email Header Analyzer (hop-by-hop path and delays, SPF/DKIM/DMARC results, phishing red flags) |
-| Storage And Capacity | RAID / JBOD (with rebuild time and read-error risk); Storage / RAM (unit converter, add it up, compare); Transfer Time (how long, or what speed you need); Backup Storage (GFS repository estimate); Camera / NVR Storage |
-| Infrastructure | Uptime / SLA (allowed downtime, availability from downtime, combined availability with redundancy); PoE Budget and UPS Runtime |
-| Display | Resolutions by aspect ratio, resolution to aspect ratio, and pixel density (PPI) |
-| Utilities | Time Decoder (Unix, Windows FILETIME and Active Directory, ISO); Cron Explainer (plain English plus the next runs in a chosen time zone); chmod Permissions; Number Bases; Password and Passphrase Generator; Encode, Decode, And Hash (Base64, URL, hex, HTML, SHA hashes, JWT); Wi-Fi QR Code (download, or print a sign) |
+| Network | Subnet Planner (IPv4 VLSM, route summarization, IPv6 prefix split with subnet IDs); IPv4 Subnet; IPv4 Toolkit (is this IP in that subnet, IP range to CIDR blocks, ACL wildcard masks); IPv6 Subnet (address type, embedded IPv4, reverse DNS name); IPv6 Toolkit (is this address in that prefix, EUI-64 addresses, ULA prefix generator); MAC Address (formats, vendor prefix, address type); Port Reference (searchable); IP Reference (public DNS resolvers, NTP and test servers, iperf3 servers, reserved ranges); Quick Links (other useful sites and tools); link to the SSL Certificate Checker |
+| DNS and Email | DNS Lookup (any record type, reverse lookups); Email Security (SPF with the 10-lookup count, DKIM, DMARC, MX, MTA-STS, TLS-RPT, BIMI, plus SPF and DMARC record builders); Email Header Analyzer (hop-by-hop path and delays, SPF/DKIM/DMARC results, phishing red flags) |
+| Storage and Capacity | RAID / JBOD (with rebuild time and read-error risk); Storage / RAM (unit converter, add it up, compare); Transfer Time (how long, or what speed you need); Backup Storage (GFS repository estimate); Camera / NVR Storage |
+| Infrastructure | Uptime / SLA (allowed downtime, availability from downtime, combined availability with redundancy); PoE Budget and UPS Runtime; Power and Heat (BTU/hr, VA, amps, breaker size with the 80% rule); Switch Port Planner (switches needed with growth and uplink ports) |
+| Utilities | Time Decoder (Unix, Windows FILETIME and Active Directory, ISO); Cron Explainer (plain English plus the next runs in a chosen time zone); chmod Permissions; Number Bases; Password and Passphrase Generator; Encode, Decode, and Hash (Base64, URL, hex, HTML, SHA hashes, JWT); Wi-Fi QR Code (download, or print a sign with an optional title); Resolutions (by aspect ratio, resolution to aspect ratio, and pixel density) |
 
 The look follows the ILHS brand used on ilhs.app: same colors, fonts, header, and the ILHS Shared Sizing Spec.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- index.html v2.2.0 (Last Rev: 2026-11-25) -->
+<!-- index.html v2.3.0 (Last Rev: 2026-11-25) -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<a class="skip" href="#main">Skip To Content</a>
+<a class="skip" href="#main">Skip to Content</a>
 
 <header class="top">
   <div class="wrap">
@@ -52,45 +52,14 @@
     <noscript><p class="error">This calculator needs JavaScript. Everything runs in your browser.</p></noscript>
 
     <!-- ===================== NETWORK ===================== -->
-    <section class="tool" id="t-ipv4" data-tool="ipv4" data-group="Network" data-title="IPv4 Subnet" data-keywords="cidr netmask subnet mask broadcast host range wildcard dns resolver">
-      <div class="tool-head"><h2>IPv4 Subnet Calculator</h2></div>
-      <div class="card">
-        <div class="form-row">
-          <label for="ipv4-address">IP Address</label>
-          <input type="text" id="ipv4-address" class="mono-input" placeholder="192.168.1.10" value="192.168.1.10" autocomplete="off" spellcheck="false">
-        </div>
-        <div class="form-row">
-          <label for="ipv4-prefix">Prefix Length (CIDR)</label>
-          <input type="number" id="ipv4-prefix" min="0" max="32" value="24">
-        </div>
-        <p class="hint">Tip: type 10.0.0.5/22 in the address box to set both at once.</p>
-        <p class="error" id="ipv4-error" hidden></p>
-        <table class="result-table kv" id="ipv4-results" hidden><tbody></tbody></table>
-      </div>
-      <div class="card">
-        <h3>Common Public DNS Resolvers (IPv4)</h3>
-        <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table">
-        <table class="result-table data-table">
-          <thead><tr><th>Provider</th><th>Primary</th><th>Secondary</th></tr></thead>
-          <tbody>
-            <tr><td>Cloudflare</td><td class="mono">1.1.1.1</td><td class="mono">1.0.0.1</td></tr>
-            <tr><td>Quad9</td><td class="mono">9.9.9.9</td><td class="mono">149.112.112.112</td></tr>
-            <tr><td>Google</td><td class="mono">8.8.8.8</td><td class="mono">8.8.4.4</td></tr>
-            <tr><td>OpenDNS</td><td class="mono">208.67.222.222</td><td class="mono">208.67.220.220</td></tr>
-          </tbody>
-        </table>
-        </div>
-      </div>
-    </section>
-
-    <section class="tool" id="t-planner" data-tool="planner" data-group="Network" data-title="Subnet Planner (VLSM)" data-keywords="vlsm vlan carve split allocate design supernet summarize summary route aggregate">
+    <section class="tool" id="t-planner" data-tool="planner" data-group="Network" data-title="Subnet Planner" data-keywords="ipv6 /48 /56 /64 site prefix delegation subnet id vlsm vlan carve split allocate design supernet summarize summary route aggregate">
       <div class="tool-head"><h2>Subnet Planner</h2></div>
-      <p class="tool-intro">Carve one address block into subnets sized for each VLAN or site. Biggest subnets are placed first so every block stays aligned.</p>
+      <p class="tool-intro">Carve an IPv4 block into subnets sized for each VLAN or site, summarize routes, or split an IPv6 prefix into site and VLAN networks.</p>
       <div class="card">
         <h3>Plan Subnets (VLSM)</h3>
         <div class="form-row">
           <label for="planner-base">Address Block</label>
-          <input type="text" id="planner-base" class="mono-input" value="10.20.0.0/22" spellcheck="false" autocomplete="off">
+          <input type="text" id="planner-base" placeholder="10.20.0.0/22" class="mono-input" spellcheck="false" autocomplete="off">
         </div>
         <p class="hint">One line per subnet: a name and how many devices it needs to hold.</p>
         <div id="planner-list"></div>
@@ -101,98 +70,115 @@
       <div class="card">
         <h3>Summarize Routes</h3>
         <p class="hint">Paste networks (one per line or comma separated) to find the fewest routes that cover exactly them, and the single smallest supernet.</p>
-        <label class="sr-only" for="planner-summ">Networks To Summarize</label>
-        <textarea class="field" id="planner-summ" rows="5" spellcheck="false">192.168.0.0/24
-192.168.1.0/24
-192.168.2.0/24
-192.168.3.0/24</textarea>
+        <label class="sr-only" for="planner-summ">Networks to Summarize</label>
+        <textarea class="field" id="planner-summ" rows="5" spellcheck="false" placeholder="192.168.0.0/24&#10;192.168.1.0/24&#10;192.168.2.0/24&#10;192.168.3.0/24"></textarea>
         <p class="error" id="planner-summ-error" hidden></p>
         <table class="result-table kv" id="planner-summ-results" hidden><tbody></tbody></table>
       </div>
+      <div class="card">
+        <h3>Split an IPv6 Prefix</h3>
+        <div class="form-row"><label for="planner-v6net">Prefix You Have</label><input type="text" id="planner-v6net" placeholder="2001:db8:abcd::/48" class="mono-input" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="planner-v6new">Split Into</label><input type="number" id="planner-v6new" placeholder="64" min="1" max="128"></div>
+        <div class="form-row"><label for="planner-v6from">Start at Subnet Number</label><input type="number" id="planner-v6from" placeholder="1" min="1" step="1"></div>
+        <p class="hint">Splitting on a multiple of 4 bits (for example /48 into /52, /56, or /64) keeps each subnet on a clean hex digit. The subnet ID is the hex value that goes in those bits, so subnet ID 2a of a /48 split into /64s is 2001:db8:abcd:2a::/64.</p>
+        <p class="error" id="planner-v6-error" hidden></p>
+        <div id="planner-v6-out"></div>
+      </div>
+    </section>
+
+    <section class="tool" id="t-ipv4" data-tool="ipv4" data-group="Network" data-title="IPv4 Subnet" data-keywords="cidr netmask subnet mask broadcast host range wildcard ">
+      <div class="tool-head"><h2>IPv4 Subnet Calculator</h2></div>
+      <div class="card">
+        <div class="form-row">
+          <label for="ipv4-address">IP Address</label>
+          <input type="text" id="ipv4-address" placeholder="192.168.1.10" class="mono-input" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="form-row">
+          <label for="ipv4-prefix">Prefix Length (CIDR)</label>
+          <input type="number" id="ipv4-prefix" placeholder="24" min="0" max="32">
+        </div>
+        <p class="hint">Tip: type 10.0.0.5/22 in the address box to set both at once.</p>
+        <p class="error" id="ipv4-error" hidden></p>
+        <table class="result-table kv" id="ipv4-results" hidden><tbody></tbody></table>
+      </div>
+      <p class="hint">Public DNS resolvers, NTP servers, and test servers are in <a href="#ipref">IP Reference</a>.</p>
     </section>
 
     <section class="tool" id="t-v4tools" data-tool="v4tools" data-group="Network" data-title="IPv4 Toolkit" data-keywords="in subnet contains check range to cidr acl wildcard mask cisco firewall">
       <div class="tool-head"><h2>IPv4 Toolkit</h2></div>
       <div class="card-grid">
         <div class="card">
-          <h3>Is This IP In That Subnet?</h3>
-          <div class="form-row"><label for="v4tools-ip">IP Address</label><input type="text" id="v4tools-ip" class="mono-input" value="10.1.3.77" spellcheck="false" autocomplete="off"></div>
-          <div class="form-row"><label for="v4tools-net">Subnet (CIDR)</label><input type="text" id="v4tools-net" class="mono-input" value="10.1.0.0/22" spellcheck="false" autocomplete="off"></div>
+          <h3>Is This IP in That Subnet?</h3>
+          <div class="form-row"><label for="v4tools-ip">IP Address</label><input type="text" id="v4tools-ip" placeholder="10.1.3.77" class="mono-input" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="v4tools-net">Subnet (CIDR)</label><input type="text" id="v4tools-net" placeholder="10.1.0.0/22" class="mono-input" spellcheck="false" autocomplete="off"></div>
           <p class="error" id="v4tools-in-error" hidden></p>
           <div class="result-box" id="v4tools-in-out" hidden></div>
         </div>
         <div class="card">
-          <h3>IP Range To CIDR Blocks</h3>
-          <div class="form-row"><label for="v4tools-start">First Address</label><input type="text" id="v4tools-start" class="mono-input" value="192.168.1.10" spellcheck="false" autocomplete="off"></div>
-          <div class="form-row"><label for="v4tools-end">Last Address</label><input type="text" id="v4tools-end" class="mono-input" value="192.168.1.40" spellcheck="false" autocomplete="off"></div>
+          <h3>IP Range to CIDR Blocks</h3>
+          <div class="form-row"><label for="v4tools-start">First Address</label><input type="text" id="v4tools-start" placeholder="192.168.1.10" class="mono-input" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="v4tools-end">Last Address</label><input type="text" id="v4tools-end" placeholder="192.168.1.40" class="mono-input" spellcheck="false" autocomplete="off"></div>
           <p class="error" id="v4tools-range-error" hidden></p>
           <pre class="output" id="v4tools-range-out" hidden></pre>
         </div>
         <div class="card">
           <h3>ACL Wildcard Mask</h3>
           <p class="hint">For Cisco ACLs and OSPF network statements.</p>
-          <div class="form-row"><label for="v4tools-acl">Network (CIDR)</label><input type="text" id="v4tools-acl" class="mono-input" value="172.16.8.0/21" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="v4tools-acl">Network (CIDR)</label><input type="text" id="v4tools-acl" placeholder="172.16.8.0/21" class="mono-input" spellcheck="false" autocomplete="off"></div>
           <p class="error" id="v4tools-acl-error" hidden></p>
           <table class="result-table kv" id="v4tools-acl-results" hidden><tbody></tbody></table>
         </div>
       </div>
     </section>
 
-    <section class="tool" id="t-ipv6" data-tool="ipv6" data-group="Network" data-title="IPv6 Subnet" data-keywords="ipv6 v6 expand compress prefix network dns resolver ptr reverse ip6.arpa ula link local multicast nat64 mapped">
+    <section class="tool" id="t-ipv6" data-tool="ipv6" data-group="Network" data-title="IPv6 Subnet" data-keywords="ipv6 v6 expand compress prefix network ptr reverse ip6.arpa ula link local multicast nat64 mapped">
       <div class="tool-head"><h2>IPv6 Subnet Calculator</h2></div>
       <div class="card">
         <div class="form-row">
           <label for="ipv6-address">IP Address</label>
-          <input type="text" id="ipv6-address" class="mono-input" placeholder="2001:db8::1" value="2001:db8::1" autocomplete="off" spellcheck="false">
+          <input type="text" id="ipv6-address" placeholder="2001:db8::1" class="mono-input" autocomplete="off" spellcheck="false">
         </div>
         <div class="form-row">
           <label for="ipv6-prefix">Prefix Length</label>
-          <input type="number" id="ipv6-prefix" min="0" max="128" value="64">
+          <input type="number" id="ipv6-prefix" placeholder="64" min="0" max="128">
         </div>
         <p class="error" id="ipv6-error" hidden></p>
         <table class="result-table kv" id="ipv6-results" hidden><tbody></tbody></table>
       </div>
-      <div class="card">
-        <h3>Common Public DNS Resolvers (IPv6)</h3>
-        <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table">
-          <table class="result-table data-table">
-            <thead><tr><th>Provider</th><th>Primary</th><th>Secondary</th></tr></thead>
-            <tbody>
-              <tr><td>Cloudflare</td><td class="mono">2606:4700:4700::1111</td><td class="mono">2606:4700:4700::1001</td></tr>
-              <tr><td>Quad9</td><td class="mono">2620:fe::fe</td><td class="mono">2620:fe::9</td></tr>
-              <tr><td>Google</td><td class="mono">2001:4860:4860::8888</td><td class="mono">2001:4860:4860::8844</td></tr>
-              <tr><td>OpenDNS</td><td class="mono">2620:119:35::35</td><td class="mono">2620:119:53::53</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <p class="hint">Public DNS resolvers and test servers are in <a href="#ipref">IP Reference</a>.</p>
     </section>
 
-    <section class="tool" id="t-v6plan" data-tool="v6plan" data-group="Network" data-title="IPv6 Planner" data-keywords="ipv6 split /48 /56 /64 site prefix delegation eui-64 slaac interface id link local">
-      <div class="tool-head"><h2>IPv6 Planner</h2></div>
-      <div class="card">
-        <h3>Split A Prefix</h3>
-        <div class="form-row"><label for="v6plan-net">Prefix You Have</label><input type="text" id="v6plan-net" class="mono-input" value="2001:db8:abcd::/48" spellcheck="false" autocomplete="off"></div>
-        <div class="form-row"><label for="v6plan-new">Split Into</label><input type="number" id="v6plan-new" min="1" max="128" value="64"></div>
-        <div class="form-row"><label for="v6plan-from">Start At Subnet Number</label><input type="number" id="v6plan-from" min="1" step="1" value="1"></div>
-        <p class="hint">Splitting on a multiple of 4 bits (for example /48 into /52, /56, or /64) keeps each subnet on a clean hex digit. The subnet ID is the hex value that goes in those bits, so subnet ID 2a of a /48 split into /64s is 2001:db8:abcd:2a::/64.</p>
-        <p class="error" id="v6plan-error" hidden></p>
-        <div id="v6plan-out"></div>
-      </div>
-      <div class="card">
-        <h3>EUI-64 Address From A MAC</h3>
-        <p class="hint">The address SLAAC builds when privacy extensions are off.</p>
-        <div class="form-row"><label for="v6plan-prefix">/64 Prefix</label><input type="text" id="v6plan-prefix" class="mono-input" value="2001:db8:abcd:12::" spellcheck="false" autocomplete="off"></div>
-        <div class="form-row"><label for="v6plan-mac">MAC Address</label><input type="text" id="v6plan-mac" class="mono-input" value="00:1A:2B:3C:4D:5E" spellcheck="false" autocomplete="off"></div>
-        <p class="error" id="v6plan-eui-error" hidden></p>
-        <table class="result-table kv" id="v6plan-eui-results" hidden><tbody></tbody></table>
+    <section class="tool" id="t-v6tools" data-tool="v6tools" data-group="Network" data-title="IPv6 Toolkit" data-keywords="ipv6 in prefix contains check eui-64 slaac interface id link local mac ula unique local fd00 random prefix">
+      <div class="tool-head"><h2>IPv6 Toolkit</h2></div>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Is This Address in That Prefix?</h3>
+          <div class="form-row"><label for="v6tools-ip">IPv6 Address</label><input type="text" id="v6tools-ip" placeholder="2001:db8:abcd:12::1" class="mono-input" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="v6tools-net">Prefix</label><input type="text" id="v6tools-net" placeholder="2001:db8:abcd::/48" class="mono-input" spellcheck="false" autocomplete="off"></div>
+          <p class="error" id="v6tools-in-error" hidden></p>
+          <div class="result-box" id="v6tools-in-out" hidden></div>
+        </div>
+        <div class="card">
+          <h3>EUI-64 Address from a MAC</h3>
+          <p class="hint">The address SLAAC builds when privacy extensions are off.</p>
+          <div class="form-row"><label for="v6tools-prefix">/64 Prefix</label><input type="text" id="v6tools-prefix" placeholder="2001:db8:abcd:12::" class="mono-input" spellcheck="false" autocomplete="off"></div>
+          <div class="form-row"><label for="v6tools-mac">MAC Address</label><input type="text" id="v6tools-mac" placeholder="00:1A:2B:3C:4D:5E" class="mono-input" spellcheck="false" autocomplete="off"></div>
+          <p class="error" id="v6tools-eui-error" hidden></p>
+          <table class="result-table kv" id="v6tools-eui-results" hidden><tbody></tbody></table>
+        </div>
+        <div class="card">
+          <h3>Unique Local Prefix (ULA)</h3>
+          <p class="hint">A random private /48 (RFC 4193) for internal IPv6 networks. Random IDs keep two networks from clashing if they are ever joined by VPN or merger.</p>
+          <div class="btn-row"><button type="button" class="btn small" id="v6tools-ula-gen">Generate a Prefix</button></div>
+          <table class="result-table kv" id="v6tools-ula-results" hidden><tbody></tbody></table>
+        </div>
       </div>
     </section>
 
     <section class="tool" id="t-mac" data-tool="mac" data-group="Network" data-title="MAC Address" data-keywords="mac hardware address format cisco dotted colon dash oui vendor multicast locally administered randomized">
       <div class="tool-head"><h2>MAC Address Tool</h2></div>
       <div class="card">
-        <div class="form-row"><label for="mac-input">MAC Address</label><input type="text" id="mac-input" class="mono-input" value="00-1a-2b-3c-4d-5e" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="mac-input">MAC Address</label><input type="text" id="mac-input" placeholder="00-1a-2b-3c-4d-5e" class="mono-input" spellcheck="false" autocomplete="off"></div>
         <p class="hint">Any format works: colons, dashes, Cisco dots, or no separators.</p>
         <p class="error" id="mac-error" hidden></p>
         <table class="result-table kv" id="mac-results" hidden><tbody></tbody></table>
@@ -214,12 +200,161 @@
       </div>
     </section>
 
+    <section class="tool" id="t-ipref" data-tool="ipref" data-group="Network" data-title="IP Reference" data-keywords="dns resolver public cloudflare quad9 google opendns adguard ntp time server iperf iperf3 speed test what is my ip private rfc 1918 cgnat apipa link local documentation reserved ranges">
+      <div class="tool-head"><h2>IP Reference</h2></div>
+      <p class="tool-intro">Common public addresses and reserved ranges. Addresses were checked on 2026-11-25; providers do change them, so confirm with the provider before hard-coding one.</p>
+      <div class="card">
+        <h3>Public DNS Resolvers</h3>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Public DNS resolvers">
+            <table class="result-table data-table">
+              <thead><tr><th>Provider</th><th>IPv4</th><th>IPv6</th><th>Filtering</th></tr></thead>
+              <tbody>
+              <tr><td>Cloudflare</td><td class="mono">1.1.1.1<br>1.0.0.1</td><td class="mono">2606:4700:4700::1111<br>2606:4700:4700::1001</td><td>None</td></tr>
+              <tr><td>Cloudflare Malware Blocking</td><td class="mono">1.1.1.2<br>1.0.0.2</td><td class="mono">2606:4700:4700::1112<br>2606:4700:4700::1002</td><td>Malware</td></tr>
+              <tr><td>Cloudflare for Families</td><td class="mono">1.1.1.3<br>1.0.0.3</td><td class="mono">2606:4700:4700::1113<br>2606:4700:4700::1003</td><td>Malware and adult content</td></tr>
+              <tr><td>Quad9</td><td class="mono">9.9.9.9<br>149.112.112.112</td><td class="mono">2620:fe::fe<br>2620:fe::9</td><td>Malware</td></tr>
+              <tr><td>Quad9 Unsecured</td><td class="mono">9.9.9.10<br>149.112.112.10</td><td class="mono">2620:fe::10<br>2620:fe::fe:10</td><td>None</td></tr>
+              <tr><td>Google</td><td class="mono">8.8.8.8<br>8.8.4.4</td><td class="mono">2001:4860:4860::8888<br>2001:4860:4860::8844</td><td>None</td></tr>
+              <tr><td>OpenDNS (Cisco)</td><td class="mono">208.67.222.222<br>208.67.220.220</td><td class="mono">2620:119:35::35<br>2620:119:53::53</td><td>Phishing</td></tr>
+              <tr><td>AdGuard DNS</td><td class="mono">94.140.14.14<br>94.140.15.15</td><td class="mono">2a10:50c0::ad1:ff<br>2a10:50c0::ad2:ff</td><td>Ads and trackers</td></tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+      <div class="card">
+        <h3>Time (NTP) Servers</h3>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="NTP servers">
+            <table class="result-table data-table">
+              <thead><tr><th>Server</th><th>Run By</th><th>Notes</th></tr></thead>
+              <tbody>
+              <tr><td class="mono">pool.ntp.org</td><td>NTP Pool Project</td><td>Volunteer pool; use a country or vendor zone such as us.pool.ntp.org</td></tr>
+              <tr><td class="mono">time.cloudflare.com</td><td>Cloudflare</td><td>Anycast; also supports NTS (authenticated time)</td></tr>
+              <tr><td class="mono">time.windows.com</td><td>Microsoft</td><td>Default for Windows; domain members sync from their domain controller instead</td></tr>
+              <tr><td class="mono">time.apple.com</td><td>Apple</td><td>Default for macOS and iOS</td></tr>
+              <tr><td class="mono">time.nist.gov</td><td>NIST (US)</td><td>Round-robin across NIST servers</td></tr>
+              <tr><td class="mono">time.google.com</td><td>Google</td><td>Smears leap seconds: do not mix it with non-smearing servers on one device</td></tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+      <div class="card">
+        <h3>Test Servers</h3>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Test servers">
+            <table class="result-table data-table">
+              <thead><tr><th>Purpose</th><th>Address</th><th>Notes</th></tr></thead>
+              <tbody>
+              <tr><td>Ping and traceroute target</td><td class="mono">1.1.1.1, 8.8.8.8</td><td>Anycast, so the reply comes from a nearby site</td></tr>
+              <tr><td>Your public IP (command line)</td><td class="mono">icanhazip.com<br>api.ipify.org</td><td>curl icanhazip.com; add -4 or -6 to pick a family</td></tr>
+              <tr><td>Browser speed test</td><td class="mono">speed.cloudflare.com</td><td>Also shows latency, jitter, and packet loss</td></tr>
+              <tr><td>IPv6 readiness</td><td class="mono">test-ipv6.com</td><td>Checks the browser's IPv4 and IPv6 paths</td></tr>
+              <tr><td>iperf3: Hurricane Electric (Fremont, US)</td><td class="mono">iperf.he.net</td><td>Port 5201, IPv4 and IPv6</td></tr>
+              <tr><td>iperf3: Scaleway (Paris, FR)</td><td class="mono">ping.online.net<br>ping6.online.net</td><td>Ports 5200 to 5209; the second name is IPv6</td></tr>
+              <tr><td>iperf3: Bouygues Telecom (FR)</td><td class="mono">bouygues.iperf.fr</td><td>Port range varies; check the current list at iperf.fr</td></tr>
+              </tbody>
+            </table>
+          </div>
+        <p class="notes">Public iperf3 servers come and go and allow one test at a time; if one is busy, try another port or server. Current lists: <a href="https://iperf.fr/iperf-servers.php" rel="noopener noreferrer" target="_blank">iperf.fr</a>. Run <code>iperf3 -c SERVER -p PORT</code>, and add <code>-R</code> to test download.</p>
+      </div>
+      <div class="card">
+        <h3>Reserved IPv4 Ranges</h3>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Reserved IPv4 ranges">
+            <table class="result-table data-table">
+              <thead><tr><th>Range</th><th>Use</th><th>Defined In</th></tr></thead>
+              <tbody>
+              <tr><td class="mono">10.0.0.0/8<br>172.16.0.0/12<br>192.168.0.0/16</td><td>Private networks</td><td>RFC 1918</td></tr>
+              <tr><td class="mono">100.64.0.0/10</td><td>Carrier-grade NAT (shared address space)</td><td>RFC 6598</td></tr>
+              <tr><td class="mono">127.0.0.0/8</td><td>Loopback</td><td>RFC 1122</td></tr>
+              <tr><td class="mono">169.254.0.0/16</td><td>Link-local (APIPA: no DHCP answer)</td><td>RFC 3927</td></tr>
+              <tr><td class="mono">192.0.2.0/24<br>198.51.100.0/24<br>203.0.113.0/24</td><td>Documentation and examples (never routed)</td><td>RFC 5737</td></tr>
+              <tr><td class="mono">198.18.0.0/15</td><td>Network benchmark testing</td><td>RFC 2544</td></tr>
+              <tr><td class="mono">224.0.0.0/4</td><td>Multicast</td><td>RFC 5771</td></tr>
+              <tr><td class="mono">240.0.0.0/4</td><td>Reserved</td><td>RFC 1112</td></tr>
+              <tr><td class="mono">0.0.0.0/8</td><td>This network (0.0.0.0 means any address in a bind)</td><td>RFC 1122</td></tr>
+              <tr><td class="mono">255.255.255.255/32</td><td>Limited broadcast</td><td>RFC 919</td></tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+      <div class="card">
+        <h3>Reserved IPv6 Ranges</h3>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Reserved IPv6 ranges">
+            <table class="result-table data-table">
+              <thead><tr><th>Range</th><th>Use</th><th>Defined In</th></tr></thead>
+              <tbody>
+              <tr><td class="mono">::1/128</td><td>Loopback</td><td>RFC 4291</td></tr>
+              <tr><td class="mono">fe80::/10</td><td>Link-local (every interface has one)</td><td>RFC 4291</td></tr>
+              <tr><td class="mono">fc00::/7</td><td>Unique local (private, ULA; in practice fd00::/8)</td><td>RFC 4193</td></tr>
+              <tr><td class="mono">ff00::/8</td><td>Multicast (ff02::1 all nodes, ff02::2 all routers)</td><td>RFC 4291</td></tr>
+              <tr><td class="mono">2001:db8::/32<br>3fff::/20</td><td>Documentation and examples (never routed)</td><td>RFC 3849, RFC 9637</td></tr>
+              <tr><td class="mono">64:ff9b::/96</td><td>NAT64 well-known prefix</td><td>RFC 6052</td></tr>
+              <tr><td class="mono">::ffff:0:0/96</td><td>IPv4-mapped addresses</td><td>RFC 4291</td></tr>
+              <tr><td class="mono">2002::/16</td><td>6to4 (deprecated)</td><td>RFC 3056</td></tr>
+              <tr><td class="mono">2000::/3</td><td>Global unicast (public)</td><td>RFC 4291</td></tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </section>
+
+    <section class="tool" id="t-links" data-tool="links" data-group="Network" data-title="Quick Links" data-keywords="links tools sites shodan censys securitytrails crt.sh mxtoolbox virustotal abuseipdb bgp peeringdb ssl labs nmap wireshark angry ip scanner putty winscp">
+      <div class="tool-head"><h2>Quick Links</h2></div>
+      <p class="tool-intro">Other sites and tools worth knowing. They open in a new tab and are run by their own owners, not ILHS.</p>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Exposure and Recon</h3>
+          <ul class="link-list">
+              <li><a href="https://www.shodan.io/" rel="noopener noreferrer" target="_blank">Shodan</a><span>Internet-facing devices and open ports</span></li>
+              <li><a href="https://search.censys.io/" rel="noopener noreferrer" target="_blank">Censys</a><span>Hosts and certificates seen on the internet</span></li>
+              <li><a href="https://securitytrails.com/" rel="noopener noreferrer" target="_blank">SecurityTrails</a><span>DNS history and subdomains</span></li>
+              <li><a href="https://crt.sh/" rel="noopener noreferrer" target="_blank">crt.sh</a><span>Certificates issued for a domain (CT logs)</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>DNS and Email</h3>
+          <ul class="link-list">
+              <li><a href="https://mxtoolbox.com/" rel="noopener noreferrer" target="_blank">MxToolbox</a><span>Blacklists, MX, and mail server checks</span></li>
+              <li><a href="https://dnschecker.org/" rel="noopener noreferrer" target="_blank">DNS Checker</a><span>DNS propagation around the world</span></li>
+              <li><a href="https://toolbox.googleapps.com/apps/main/" rel="noopener noreferrer" target="_blank">Google Admin Toolbox</a><span>Dig, message header analysis, and more</span></li>
+              <li><a href="https://www.learndmarc.com/" rel="noopener noreferrer" target="_blank">Learn DMARC</a><span>See how SPF, DKIM, and DMARC judge a real message</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Reputation and Breaches</h3>
+          <ul class="link-list">
+              <li><a href="https://www.virustotal.com/" rel="noopener noreferrer" target="_blank">VirusTotal</a><span>Scan files, URLs, domains, and IPs</span></li>
+              <li><a href="https://www.abuseipdb.com/" rel="noopener noreferrer" target="_blank">AbuseIPDB</a><span>Abuse reports for an IP address</span></li>
+              <li><a href="https://haveibeenpwned.com/" rel="noopener noreferrer" target="_blank">Have I Been Pwned</a><span>Whether an email or domain is in a breach</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Routing and Certificates</h3>
+          <ul class="link-list">
+              <li><a href="https://bgp.he.net/" rel="noopener noreferrer" target="_blank">Hurricane Electric BGP Toolkit</a><span>ASNs, prefixes, and peers</span></li>
+              <li><a href="https://bgp.tools/" rel="noopener noreferrer" target="_blank">bgp.tools</a><span>Live BGP and upstream view</span></li>
+              <li><a href="https://www.peeringdb.com/" rel="noopener noreferrer" target="_blank">PeeringDB</a><span>Networks, exchanges, and facilities</span></li>
+              <li><a href="https://www.ssllabs.com/ssltest/" rel="noopener noreferrer" target="_blank">SSL Labs Server Test</a><span>Deep TLS configuration grade</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Free Desktop Tools</h3>
+          <ul class="link-list">
+              <li><a href="https://angryip.org/" rel="noopener noreferrer" target="_blank">Angry IP Scanner</a><span>Fast LAN and range scanner</span></li>
+              <li><a href="https://nmap.org/" rel="noopener noreferrer" target="_blank">Nmap</a><span>Port scanning and service detection</span></li>
+              <li><a href="https://www.wireshark.org/" rel="noopener noreferrer" target="_blank">Wireshark</a><span>Packet capture and analysis</span></li>
+              <li><a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/" rel="noopener noreferrer" target="_blank">PuTTY</a><span>SSH and serial client for Windows</span></li>
+              <li><a href="https://winscp.net/" rel="noopener noreferrer" target="_blank">WinSCP</a><span>SFTP and SCP client for Windows</span></li>
+              <li><a href="https://iperf.fr/" rel="noopener noreferrer" target="_blank">iPerf3</a><span>Network throughput testing</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== DNS AND EMAIL ===================== -->
-    <section class="tool" id="t-dns" data-tool="dns" data-group="DNS And Email" data-title="DNS Lookup" data-keywords="dns lookup dig nslookup mx txt cname ns soa caa ptr reverse record">
+    <section class="tool" id="t-dns" data-tool="dns" data-group="DNS and Email" data-title="DNS Lookup" data-keywords="dns lookup dig nslookup mx txt cname ns soa caa ptr reverse record">
       <div class="tool-head"><h2>DNS Lookup</h2></div>
       <p class="privacy-note">Looks up live DNS through Cloudflare's public DNS-over-HTTPS resolver (Google's as a backup). Only the name and record type are sent.</p>
       <div class="card">
-        <div class="form-row"><label for="dns-name">Domain Or IP</label><input type="text" id="dns-name" class="mono-input" placeholder="example.com or 8.8.8.8" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="dns-name">Domain or IP</label><input type="text" id="dns-name" class="mono-input" placeholder="example.com or 8.8.8.8" spellcheck="false" autocomplete="off"></div>
         <div class="form-row"><label for="dns-type">Record Type</label><select id="dns-type"></select></div>
         <div class="btn-row"><button type="button" class="btn primary" id="dns-go">Look Up</button><button type="button" class="btn" id="dns-all">Look Up Common Types</button></div>
         <p class="hint">Entering an IP address looks up its PTR (reverse DNS) name.</p>
@@ -228,7 +363,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-email" data-tool="email" data-group="DNS And Email" data-title="Email Security (SPF, DKIM, DMARC)" data-keywords="spf dkim dmarc email deliverability spoofing record builder generator mta-sts bimi">
+    <section class="tool" id="t-email" data-tool="email" data-group="DNS and Email" data-title="Email Security (SPF, DKIM, DMARC)" data-keywords="spf dkim dmarc email deliverability spoofing record builder generator mta-sts bimi">
       <div class="tool-head"><h2>Email Security Checker</h2></div>
       <p class="privacy-note">Checks use live DNS through Cloudflare's public DNS-over-HTTPS resolver. Only the record names are sent.</p>
       <div class="card">
@@ -241,7 +376,7 @@
       </div>
       <div class="card-grid">
         <div class="card">
-          <h3>Build An SPF Record</h3>
+          <h3>Build an SPF Record</h3>
           <div class="checks">
             <label><input type="checkbox" id="email-spf-m365"> Microsoft 365</label>
             <label><input type="checkbox" id="email-spf-google"> Google Workspace</label>
@@ -264,7 +399,7 @@
           <div class="form-row"><label for="email-dm-sp">Subdomain Policy</label>
             <select id="email-dm-sp"><option value="">Same as policy</option><option value="none">none</option><option value="quarantine">quarantine</option><option value="reject">reject</option></select>
           </div>
-          <div class="form-row"><label for="email-dm-pct">Percent Of Mail</label><input type="number" id="email-dm-pct" min="1" max="100" value="100"></div>
+          <div class="form-row"><label for="email-dm-pct">Percent of Mail</label><input type="number" id="email-dm-pct" min="1" max="100" value="100"></div>
           <div class="form-row"><label for="email-dm-rua">Aggregate Reports To</label><input type="text" id="email-dm-rua" placeholder="dmarc@example.com" spellcheck="false" autocomplete="off"></div>
           <div class="form-row"><label for="email-dm-ruf">Failure Reports To</label><input type="text" id="email-dm-ruf" placeholder="Optional" spellcheck="false" autocomplete="off"></div>
           <div class="checks">
@@ -277,7 +412,7 @@
       </div>
     </section>
 
-    <section class="tool" id="t-headers" data-tool="headers" data-group="DNS And Email" data-title="Email Header Analyzer" data-keywords="email header received hops delay phishing spoof authentication-results message trace">
+    <section class="tool" id="t-headers" data-tool="headers" data-group="DNS and Email" data-title="Email Header Analyzer" data-keywords="email header received hops delay phishing spoof authentication-results message trace">
       <div class="tool-head"><h2>Email Header Analyzer</h2></div>
       <p class="tool-intro">Paste a message's full headers to see the path it took, how long each hop took, and whether it passed SPF, DKIM, and DMARC. Nothing leaves your browser.</p>
       <div class="card">
@@ -290,23 +425,23 @@
     </section>
 
     <!-- ===================== STORAGE AND CAPACITY ===================== -->
-    <section class="tool" id="t-raid" data-tool="raid" data-group="Storage And Capacity" data-title="RAID / JBOD" data-keywords="raid 0 1 5 6 10 50 60 jbod array usable capacity parity fault tolerance rebuild ure">
+    <section class="tool" id="t-raid" data-tool="raid" data-group="Storage and Capacity" data-title="RAID / JBOD" data-keywords="raid 0 1 5 6 10 50 60 jbod array usable capacity parity fault tolerance rebuild ure">
       <div class="tool-head"><h2>RAID / JBOD Calculator</h2></div>
       <div class="card">
         <div class="form-row"><label for="raid-level">RAID Level</label><select id="raid-level"></select></div>
-        <div class="form-row"><label for="raid-disks">Number Of Disks</label><input type="number" id="raid-disks" min="1" value="4"></div>
-        <div class="form-row"><label for="raid-size">Size Per Disk</label>
-          <div class="unit-pair"><input type="number" id="raid-size" min="0" step="any" value="4" aria-label="Size per disk"><select id="raid-size-unit" aria-label="Unit"></select></div>
+        <div class="form-row"><label for="raid-disks">Number of Disks</label><input type="number" id="raid-disks" placeholder="4" min="1"></div>
+        <div class="form-row"><label for="raid-size">Size per Disk</label>
+          <div class="unit-pair"><input type="number" id="raid-size" placeholder="4" min="0" step="any" aria-label="Size per disk"><select id="raid-size-unit" aria-label="Unit"></select></div>
         </div>
-        <div class="form-row" id="raid-groups-row" hidden><label for="raid-groups">Number Of Groups (Nested Arrays)</label><input type="number" id="raid-groups" min="2" value="2"></div>
+        <div class="form-row" id="raid-groups-row" hidden><label for="raid-groups">Number of Groups (Nested Arrays)</label><input type="number" id="raid-groups" min="2" value="2"></div>
         <p class="error" id="raid-error" hidden></p>
         <table class="result-table kv" id="raid-results" hidden><tbody></tbody></table>
         <p class="notes" id="raid-notes" hidden></p>
       </div>
       <div class="card">
-        <h3>Rebuild Time And Read Error Risk</h3>
+        <h3>Rebuild Time and Read Error Risk</h3>
         <p class="hint">Uses the disk size above. A rebuild reads every surviving disk in full.</p>
-        <div class="form-row"><label for="raid-speed">Rebuild Speed (MB/s)</label><input type="number" id="raid-speed" min="1" value="120"></div>
+        <div class="form-row"><label for="raid-speed">Rebuild Speed (MB/s)</label><input type="number" id="raid-speed" placeholder="120" min="1"></div>
         <div class="form-row"><label for="raid-ure">Drive Read Error Spec</label>
           <select id="raid-ure"><option value="14">1 in 10^14 bits (consumer HDD)</option><option value="15" selected>1 in 10^15 bits (NAS / enterprise HDD)</option><option value="16">1 in 10^16 bits (enterprise SSD)</option><option value="17">1 in 10^17 bits (high-end SSD)</option></select>
         </div>
@@ -316,12 +451,12 @@
       </div>
     </section>
 
-    <section class="tool" id="t-storage" data-tool="storage" data-group="Storage And Capacity" data-title="Storage / RAM" data-keywords="gb gib tb tib binary decimal convert unit ram dimm total compare free space">
+    <section class="tool" id="t-storage" data-tool="storage" data-group="Storage and Capacity" data-title="Storage / RAM" data-keywords="gb gib tb tib binary decimal convert unit ram dimm total compare free space">
       <div class="tool-head"><h2>Storage / RAM</h2></div>
       <div class="card">
         <h3>Convert A Size</h3>
         <div class="form-row"><label for="conv-amount">Size</label>
-          <div class="unit-pair"><input type="number" id="conv-amount" min="0" step="any" value="4" aria-label="Size"><select id="conv-unit" aria-label="Unit"></select></div>
+          <div class="unit-pair"><input type="number" id="conv-amount" placeholder="4" min="0" step="any" aria-label="Size"><select id="conv-unit" aria-label="Unit"></select></div>
         </div>
         <p class="muted-msg" id="conv-empty" hidden>Enter a size to convert.</p>
         <div class="unit-grid" id="conv-results">
@@ -349,28 +484,28 @@
         <h3>Compare Two Sizes</h3>
         <p class="hint">How much space is left, what percent is used, or how many items fit.</p>
         <div class="form-row"><label for="cmp-a-amount">Capacity (A)</label>
-          <div class="unit-pair"><input type="number" id="cmp-a-amount" min="0" step="any" value="2" aria-label="Capacity"><select id="cmp-a-unit" aria-label="Unit"></select></div>
+          <div class="unit-pair"><input type="number" id="cmp-a-amount" placeholder="2" min="0" step="any" aria-label="Capacity"><select id="cmp-a-unit" aria-label="Unit"></select></div>
         </div>
         <div class="form-row"><label for="cmp-b-amount">Used / Item Size (B)</label>
-          <div class="unit-pair"><input type="number" id="cmp-b-amount" min="0" step="any" value="750" aria-label="Used or item size"><select id="cmp-b-unit" aria-label="Unit"></select></div>
+          <div class="unit-pair"><input type="number" id="cmp-b-amount" placeholder="750" min="0" step="any" aria-label="Used or item size"><select id="cmp-b-unit" aria-label="Unit"></select></div>
         </div>
         <p class="muted-msg" id="cmp-empty" hidden>Enter both sizes to compare.</p>
         <table class="result-table kv" id="cmp-results"><tbody></tbody></table>
       </div>
     </section>
 
-    <section class="tool" id="t-transfer" data-tool="transfer" data-group="Storage And Capacity" data-title="Transfer Time" data-keywords="transfer time bandwidth copy migration upload download backup window mbps gbps throughput">
+    <section class="tool" id="t-transfer" data-tool="transfer" data-group="Storage and Capacity" data-title="Transfer Time" data-keywords="transfer time bandwidth copy migration upload download backup window mbps gbps throughput">
       <div class="tool-head"><h2>Transfer Time</h2></div>
       <div class="card-grid">
         <div class="card">
           <h3>How Long Will It Take?</h3>
           <div class="form-row"><label for="transfer-size">Data Size</label>
-            <div class="unit-pair"><input type="number" id="transfer-size" min="0" step="any" value="2" aria-label="Data size"><select id="transfer-unit" aria-label="Unit"></select></div>
+            <div class="unit-pair"><input type="number" id="transfer-size" placeholder="2" min="0" step="any" aria-label="Data size"><select id="transfer-unit" aria-label="Unit"></select></div>
           </div>
           <div class="form-row"><label for="transfer-speed">Link Speed</label>
-            <div class="unit-pair"><input type="number" id="transfer-speed" min="0" step="any" value="1" aria-label="Link speed"><select id="transfer-rate" aria-label="Rate unit"></select></div>
+            <div class="unit-pair"><input type="number" id="transfer-speed" placeholder="1" min="0" step="any" aria-label="Link speed"><select id="transfer-rate" aria-label="Rate unit"></select></div>
           </div>
-          <div class="form-row"><label for="transfer-eff">Efficiency (%)</label><input type="number" id="transfer-eff" min="1" max="100" value="80"></div>
+          <div class="form-row"><label for="transfer-eff">Efficiency (%)</label><input type="number" id="transfer-eff" placeholder="80" min="1" max="100"></div>
           <p class="hint">80% allows for TCP/IP and file-sharing overhead. Use 50 to 70% for VPNs, Wi-Fi, or lots of small files.</p>
           <p class="error" id="transfer-error" hidden></p>
           <div class="result-box" id="transfer-out" hidden></div>
@@ -378,45 +513,45 @@
         <div class="card">
           <h3>What Speed Do I Need?</h3>
           <div class="form-row"><label for="transfer-need-size">Data Size</label>
-            <div class="unit-pair"><input type="number" id="transfer-need-size" min="0" step="any" value="500" aria-label="Data size"><select id="transfer-need-unit" aria-label="Unit"></select></div>
+            <div class="unit-pair"><input type="number" id="transfer-need-size" placeholder="500" min="0" step="any" aria-label="Data size"><select id="transfer-need-unit" aria-label="Unit"></select></div>
           </div>
-          <div class="form-row"><label for="transfer-window">Time Window (Hours)</label><input type="number" id="transfer-window" min="0" step="any" value="8"></div>
-          <div class="form-row"><label for="transfer-need-eff">Efficiency (%)</label><input type="number" id="transfer-need-eff" min="1" max="100" value="80"></div>
+          <div class="form-row"><label for="transfer-window">Time Window (Hours)</label><input type="number" id="transfer-window" placeholder="8" min="0" step="any"></div>
+          <div class="form-row"><label for="transfer-need-eff">Efficiency (%)</label><input type="number" id="transfer-need-eff" placeholder="80" min="1" max="100"></div>
           <p class="error" id="transfer-need-error" hidden></p>
           <div class="result-box" id="transfer-need-out" hidden></div>
         </div>
       </div>
     </section>
 
-    <section class="tool" id="t-backup" data-tool="backup" data-group="Storage And Capacity" data-title="Backup Storage" data-keywords="backup repository retention gfs incremental full dedupe compression veeam capacity planning">
+    <section class="tool" id="t-backup" data-tool="backup" data-group="Storage and Capacity" data-title="Backup Storage" data-keywords="backup repository retention gfs incremental full dedupe compression veeam capacity planning">
       <div class="tool-head"><h2>Backup Storage Estimator</h2></div>
       <p class="tool-intro">A rough repository size for a forever-incremental plan with periodic fulls (GFS). Your backup product's own sizing tool is the final word.</p>
       <div class="card">
         <div class="form-row"><label for="backup-source">Data Being Backed Up</label>
-          <div class="unit-pair"><input type="number" id="backup-source" min="0" step="any" value="2" aria-label="Data being backed up"><select id="backup-unit" aria-label="Unit"></select></div>
+          <div class="unit-pair"><input type="number" id="backup-source" placeholder="2" min="0" step="any" aria-label="Data being backed up"><select id="backup-unit" aria-label="Unit"></select></div>
         </div>
-        <div class="form-row"><label for="backup-change">Daily Change Rate (%)</label><input type="number" id="backup-change" min="0" max="100" step="any" value="5"></div>
-        <div class="form-row"><label for="backup-daily">Daily Restore Points Kept</label><input type="number" id="backup-daily" min="0" value="14"></div>
-        <div class="form-row"><label for="backup-weekly">Weekly Fulls Kept</label><input type="number" id="backup-weekly" min="0" value="4"></div>
-        <div class="form-row"><label for="backup-monthly">Monthly Fulls Kept</label><input type="number" id="backup-monthly" min="0" value="12"></div>
-        <div class="form-row"><label for="backup-ratio">Data Reduction Ratio (x : 1)</label><input type="number" id="backup-ratio" min="1" step="any" value="1.5"></div>
-        <div class="form-row"><label for="backup-growth">Yearly Data Growth (%)</label><input type="number" id="backup-growth" min="0" step="any" value="15"></div>
-        <div class="form-row"><label for="backup-years">Plan For (Years)</label><input type="number" id="backup-years" min="0" step="any" value="3"></div>
+        <div class="form-row"><label for="backup-change">Daily Change Rate (%)</label><input type="number" id="backup-change" placeholder="5" min="0" max="100" step="any"></div>
+        <div class="form-row"><label for="backup-daily">Daily Restore Points Kept</label><input type="number" id="backup-daily" placeholder="14" min="0"></div>
+        <div class="form-row"><label for="backup-weekly">Weekly Fulls Kept</label><input type="number" id="backup-weekly" placeholder="4" min="0"></div>
+        <div class="form-row"><label for="backup-monthly">Monthly Fulls Kept</label><input type="number" id="backup-monthly" placeholder="12" min="0"></div>
+        <div class="form-row"><label for="backup-ratio">Data Reduction Ratio (x : 1)</label><input type="number" id="backup-ratio" placeholder="1.5" min="1" step="any"></div>
+        <div class="form-row"><label for="backup-growth">Yearly Data Growth (%)</label><input type="number" id="backup-growth" placeholder="15" min="0" step="any"></div>
+        <div class="form-row"><label for="backup-years">Plan for (Years)</label><input type="number" id="backup-years" placeholder="3" min="0" step="any"></div>
         <p class="hint">Reduction ratio covers compression and dedupe: about 1.5 to 2 for mixed file servers, less for media or already-compressed data. Synthetic or block-cloned fulls take far less space than this estimate assumes.</p>
         <p class="error" id="backup-error" hidden></p>
         <table class="result-table kv" id="backup-results" hidden><tbody></tbody></table>
       </div>
     </section>
 
-    <section class="tool" id="t-nvr" data-tool="nvr" data-group="Storage And Capacity" data-title="Camera / NVR Storage" data-keywords="cctv camera nvr dvr security video surveillance retention bitrate h.264 h.265 storage">
+    <section class="tool" id="t-nvr" data-tool="nvr" data-group="Storage and Capacity" data-title="Camera / NVR Storage" data-keywords="cctv camera nvr dvr security video surveillance retention bitrate h.264 h.265 storage">
       <div class="tool-head"><h2>Camera / NVR Storage</h2></div>
       <div class="card">
-        <div class="form-row"><label for="nvr-cameras">Cameras</label><input type="number" id="nvr-cameras" min="1" value="16"></div>
+        <div class="form-row"><label for="nvr-cameras">Cameras</label><input type="number" id="nvr-cameras" placeholder="16" min="1"></div>
         <div class="form-row"><label for="nvr-preset">Typical Stream</label><select id="nvr-preset"></select></div>
-        <div class="form-row"><label for="nvr-bitrate">Bitrate Per Camera (Mbps)</label><input type="number" id="nvr-bitrate" min="0" step="any" value="4"></div>
-        <div class="form-row"><label for="nvr-hours">Recording Hours Per Day</label><input type="number" id="nvr-hours" min="1" max="24" value="24"></div>
-        <div class="form-row"><label for="nvr-motion">Share Of Time Recording (%)</label><input type="number" id="nvr-motion" min="1" max="100" value="100"></div>
-        <div class="form-row"><label for="nvr-days">Days To Keep</label><input type="number" id="nvr-days" min="1" value="30"></div>
+        <div class="form-row"><label for="nvr-bitrate">Bitrate per Camera (Mbps)</label><input type="number" id="nvr-bitrate" placeholder="4" min="0" step="any"></div>
+        <div class="form-row"><label for="nvr-hours">Recording Hours per Day</label><input type="number" id="nvr-hours" placeholder="24" min="1" max="24"></div>
+        <div class="form-row"><label for="nvr-motion">Share of Time Recording (%)</label><input type="number" id="nvr-motion" placeholder="100" min="1" max="100"></div>
+        <div class="form-row"><label for="nvr-days">Days to Keep</label><input type="number" id="nvr-days" placeholder="30" min="1"></div>
         <p class="hint">Motion-only recording often lands at 30 to 60% depending on the scene. Send the total to the RAID tab to pick drives.</p>
         <p class="error" id="nvr-error" hidden></p>
         <table class="result-table kv" id="nvr-results" hidden><tbody></tbody></table>
@@ -428,15 +563,15 @@
       <div class="tool-head"><h2>Uptime / SLA Calculator</h2></div>
       <div class="card-grid">
         <div class="card">
-          <h3>Downtime Allowed By An SLA</h3>
-          <div class="form-row"><label for="sla-pct">Availability (%)</label><input type="number" id="sla-pct" min="0" max="100" step="any" value="99.9"></div>
+          <h3>Downtime Allowed by an SLA</h3>
+          <div class="form-row"><label for="sla-pct">Availability (%)</label><input type="number" id="sla-pct" placeholder="99.9" min="0" max="100" step="any"></div>
           <div class="preset-chips" id="sla-presets"></div>
           <p class="error" id="sla-error" hidden></p>
           <table class="result-table kv" id="sla-results" hidden><tbody></tbody></table>
         </div>
         <div class="card">
-          <h3>Availability From Downtime</h3>
-          <div class="form-row"><label for="sla-down">Downtime (Minutes)</label><input type="number" id="sla-down" min="0" step="any" value="45"></div>
+          <h3>Availability from Downtime</h3>
+          <div class="form-row"><label for="sla-down">Downtime (Minutes)</label><input type="number" id="sla-down" placeholder="45" min="0" step="any"></div>
           <div class="form-row"><label for="sla-period">Per</label><select id="sla-period"><option value="month">Month</option><option value="year">Year</option><option value="week">Week</option><option value="day">Day</option></select></div>
           <p class="error" id="sla-rev-error" hidden></p>
           <div class="result-box" id="sla-rev-out" hidden></div>
@@ -452,11 +587,11 @@
       </div>
     </section>
 
-    <section class="tool" id="t-power" data-tool="power" data-group="Infrastructure" data-title="PoE And UPS" data-keywords="poe power over ethernet budget switch watts 802.3af at bt ups battery runtime va load">
-      <div class="tool-head"><h2>PoE Budget And UPS Runtime</h2></div>
+    <section class="tool" id="t-power" data-tool="power" data-group="Infrastructure" data-title="PoE and UPS" data-keywords="poe power over ethernet budget switch watts 802.3af at bt ups battery runtime va load">
+      <div class="tool-head"><h2>PoE Budget and UPS Runtime</h2></div>
       <div class="card">
         <h3>PoE Budget</h3>
-        <div class="form-row"><label for="power-budget">Switch PoE Budget (W)</label><input type="number" id="power-budget" min="0" step="any" value="370"></div>
+        <div class="form-row"><label for="power-budget">Switch PoE Budget (W)</label><input type="number" id="power-budget" placeholder="370" min="0" step="any"></div>
         <p class="hint">Use the power each device actually draws if you know it; the class value is the worst case the switch reserves.</p>
         <div id="power-list"></div>
         <button type="button" class="btn small" id="power-add">+ Add Device Type</button>
@@ -465,11 +600,11 @@
       </div>
       <div class="card">
         <h3>UPS Runtime (Estimate)</h3>
-        <div class="form-row"><label for="power-load">Load (W)</label><input type="number" id="power-load" min="0" step="any" value="450"></div>
-        <div class="form-row"><label for="power-ups">UPS Rating (W)</label><input type="number" id="power-ups" min="0" step="any" value="900"></div>
-        <div class="form-row"><label for="power-wh">Battery Capacity (Wh)</label><input type="number" id="power-wh" min="0" step="any" value="216"></div>
-        <div class="form-row"><label for="power-eff">Inverter Efficiency (%)</label><input type="number" id="power-eff" min="1" max="100" value="90"></div>
-        <div class="form-row"><label for="power-age">Battery Wear (%)</label><input type="number" id="power-age" min="0" max="90" value="20"></div>
+        <div class="form-row"><label for="power-load">Load (W)</label><input type="number" id="power-load" placeholder="450" min="0" step="any"></div>
+        <div class="form-row"><label for="power-ups">UPS Rating (W)</label><input type="number" id="power-ups" placeholder="900" min="0" step="any"></div>
+        <div class="form-row"><label for="power-wh">Battery Capacity (Wh)</label><input type="number" id="power-wh" placeholder="216" min="0" step="any"></div>
+        <div class="form-row"><label for="power-eff">Inverter Efficiency (%)</label><input type="number" id="power-eff" placeholder="90" min="1" max="100"></div>
+        <div class="form-row"><label for="power-age">Battery Wear (%)</label><input type="number" id="power-age" placeholder="20" min="0" max="90"></div>
         <p class="hint">Battery Wh is volts x amp-hours x battery count (for example 2 x 12 V 9 Ah = 216 Wh). Add the PoE total above to the load if the switch is on this UPS.</p>
         <p class="error" id="power-ups-error" hidden></p>
         <table class="result-table kv" id="power-ups-results" hidden><tbody></tbody></table>
@@ -477,34 +612,29 @@
       </div>
     </section>
 
-    <!-- ===================== DISPLAY ===================== -->
-    <section class="tool" id="t-resolution" data-tool="resolution" data-group="Display" data-title="Resolutions" data-keywords="resolution aspect ratio 16:9 16:10 21:9 ultrawide 4k 1080p ppi dpi pixel density screen monitor">
-      <div class="tool-head"><h2>Resolutions By Aspect Ratio</h2></div>
+    <section class="tool" id="t-heat" data-tool="heat" data-group="Infrastructure" data-title="Power and Heat" data-keywords="btu btu/hr heat cooling tons watts va amps amperage breaker circuit 80 percent rule power factor voltage rack server closet">
+      <div class="tool-head"><h2>Power, Heat, and Circuit Load</h2></div>
       <div class="card">
-        <h3>Find The Aspect Ratio</h3>
-        <div class="form-row"><label for="res-input">Resolution (Width x Height)</label><input type="text" id="res-input" class="mono-input" placeholder="1920x1080" value="3440x1440" autocomplete="off" spellcheck="false"></div>
-        <p class="error" id="res-error" hidden></p>
-        <table class="result-table kv" id="res-results" hidden><tbody></tbody></table>
-        <button type="button" id="res-show-group" class="btn small" hidden></button>
+        <p class="hint">Use the measured draw (UPS or PDU readout) when you have it; nameplate ratings are worst case.</p>
+        <div class="form-row"><label for="heat-watts">Load (W)</label><input type="number" id="heat-watts" placeholder="1800" min="0" step="any"></div>
+        <div class="form-row"><label for="heat-pf">Power Factor</label><input type="number" id="heat-pf" placeholder="0.95" min="0.1" max="1" step="0.01"></div>
+        <div class="form-row"><label for="heat-volts">Circuit Voltage</label><select id="heat-volts"><option value="120" selected>120 V</option><option value="208">208 V</option><option value="230">230 V</option><option value="240">240 V</option><option value="277">277 V</option></select></div>
+        <p class="error" id="heat-error" hidden></p>
+        <table class="result-table kv" id="heat-results" hidden><tbody></tbody></table>
+        <p class="notes">The 80% rule (US NEC) limits a continuous load to 80% of the breaker rating. Check local code and the PDU's own rating, and keep each circuit of an A/B pair under 40% so either can carry the whole load.</p>
       </div>
+    </section>
+
+    <section class="tool" id="t-switchports" data-tool="switchports" data-group="Infrastructure" data-title="Switch Port Planner" data-keywords="switch ports density access switch 24 48 port count growth uplink stacking closet idf">
+      <div class="tool-head"><h2>Switch Port Planner</h2></div>
       <div class="card">
-        <h3>Pixel Density (PPI)</h3>
-        <p class="hint">Uses the resolution above.</p>
-        <div class="form-row"><label for="res-diag">Screen Size (Diagonal Inches)</label><input type="number" id="res-diag" min="1" step="any" value="34"></div>
-        <p class="error" id="res-ppi-error" hidden></p>
-        <table class="result-table kv" id="res-ppi-results" hidden><tbody></tbody></table>
-      </div>
-      <div class="card">
-        <h3>Standard Resolutions</h3>
-        <div class="form-row"><label for="res-group">Aspect Ratio</label><select id="res-group"></select></div>
-        <p class="hint" id="res-group-summary"></p>
-        <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table">
-          <table class="result-table data-table res-table" id="res-group-table">
-            <thead><tr><th>Resolution</th><th>Name</th><th>Use Case</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <p class="notes">Select a row to look it up above. Rows marked * are sold under this ratio but do not reduce to it exactly.</p>
+        <div class="form-row"><label for="switchports-devices">Devices Needing a Port</label><input type="number" id="switchports-devices" placeholder="100" min="0" step="1"></div>
+        <div class="form-row"><label for="switchports-growth">Growth Headroom (%)</label><input type="number" id="switchports-growth" placeholder="20" min="0" step="any"></div>
+        <div class="form-row"><label for="switchports-size">Ports per Switch</label><select id="switchports-size"><option value="8">8</option><option value="12">12</option><option value="16">16</option><option value="24">24</option><option value="48" selected>48</option></select></div>
+        <div class="form-row"><label for="switchports-reserved">Ports Held for Uplinks or Stacking</label><input type="number" id="switchports-reserved" placeholder="2" min="0" step="1"></div>
+        <p class="hint">Count wired devices: desks, phones, printers, access points, cameras, and building systems. Uplinks on separate SFP ports do not need to be held back here.</p>
+        <p class="error" id="switchports-error" hidden></p>
+        <table class="result-table kv" id="switchports-results" hidden><tbody></tbody></table>
       </div>
     </section>
 
@@ -512,7 +642,7 @@
     <section class="tool" id="t-time" data-tool="time" data-group="Utilities" data-title="Time Decoder" data-keywords="unix epoch timestamp filetime active directory pwdlastset lastlogontimestamp accountexpires iso 8601 utc convert time zone">
       <div class="tool-head"><h2>Time Decoder</h2></div>
       <div class="card">
-        <div class="form-row"><label for="time-input">Timestamp Or Date</label><input type="text" id="time-input" class="mono-input" value="133758144000000000" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="time-input">Timestamp or Date</label><input type="text" id="time-input" placeholder="133758144000000000" class="mono-input" spellcheck="false" autocomplete="off"></div>
         <div class="form-row"><label for="time-format">Read As</label>
           <select id="time-format"><option value="auto">Detect automatically</option><option value="unix">Unix seconds</option><option value="unixms">Unix milliseconds</option><option value="filetime">Windows FILETIME / Active Directory</option><option value="text">Date text (ISO 8601 and others)</option></select>
         </div>
@@ -526,7 +656,7 @@
     <section class="tool" id="t-cron" data-tool="cron" data-group="Utilities" data-title="Cron Explainer" data-keywords="cron crontab schedule expression next run explain linux job">
       <div class="tool-head"><h2>Cron Explainer</h2></div>
       <div class="card">
-        <div class="form-row"><label for="cron-expr">Cron Expression</label><input type="text" id="cron-expr" class="mono-input" value="15 2 * * 1-5" spellcheck="false" autocomplete="off"></div>
+        <div class="form-row"><label for="cron-expr">Cron Expression</label><input type="text" id="cron-expr" placeholder="15 2 * * 1-5" class="mono-input" spellcheck="false" autocomplete="off"></div>
         <div class="form-row"><label for="cron-tz">Time Zone</label><select id="cron-tz"></select></div>
         <div class="preset-chips" id="cron-presets"></div>
         <p class="hint">Fields: minute (0-59), hour (0-23), day of month (1-31), month (1-12 or jan-dec), day of week (0-7 or sun-sat; 0 and 7 are Sunday).</p>
@@ -600,19 +730,19 @@
       </div>
     </section>
 
-    <section class="tool" id="t-encode" data-tool="encode" data-group="Utilities" data-title="Encode And Hash" data-keywords="base64 url encode decode hex html entities sha256 sha1 sha512 hash checksum jwt token">
-      <div class="tool-head"><h2>Encode, Decode, And Hash</h2></div>
+    <section class="tool" id="t-encode" data-tool="encode" data-group="Utilities" data-title="Encode and Hash" data-keywords="base64 url encode decode hex html entities sha256 sha1 sha512 hash checksum jwt token">
+      <div class="tool-head"><h2>Encode, Decode, and Hash</h2></div>
       <p class="privacy-note">Runs entirely in your browser. Text you type here is not saved in share links.</p>
       <div class="card">
         <label class="sr-only" for="encode-input">Input Text</label>
-        <textarea class="field" id="encode-input" rows="5" spellcheck="false" data-nostate>Hello, world.</textarea>
+        <textarea class="field" id="encode-input" rows="5" spellcheck="false" data-nostate placeholder="Type or paste text here"></textarea>
         <div class="form-row"><label for="encode-codec">Encoding</label><select id="encode-codec"></select></div>
         <div class="btn-row"><button type="button" class="btn primary" id="encode-enc">Encode</button><button type="button" class="btn" id="encode-dec">Decode</button><button type="button" class="btn" id="encode-jwt">Decode JWT</button></div>
         <p class="error" id="encode-error" hidden></p>
         <pre class="output" id="encode-out" hidden></pre>
       </div>
       <div class="card">
-        <h3>Hashes Of The Input</h3>
+        <h3>Hashes of the Input</h3>
         <p class="hint">Hashes the text above as UTF-8. To check a downloaded file, use <code>certutil -hashfile file SHA256</code> on Windows or <code>shasum -a 256 file</code> on Mac and Linux.</p>
         <p class="error" id="encode-hash-error" hidden></p>
         <table class="result-table kv" id="encode-hash-results" hidden><tbody></tbody></table>
@@ -623,11 +753,11 @@
       <div class="tool-head"><h2>Wi-Fi QR Code</h2></div>
       <p class="privacy-note">Built in your browser. The password is never sent anywhere or put in share links.</p>
       <div class="card">
-        <div class="form-row"><label for="wifiqr-ssid">Network Name (SSID)</label><input type="text" id="wifiqr-ssid" value="Guest WiFi" autocomplete="off" spellcheck="false"></div>
+        <div class="form-row"><label for="wifiqr-ssid">Network Name (SSID)</label><input type="text" id="wifiqr-ssid" placeholder="Guest WiFi" autocomplete="off" spellcheck="false"></div>
         <div class="form-row"><label for="wifiqr-pass">Password</label><input type="text" id="wifiqr-pass" autocomplete="off" spellcheck="false" data-nostate></div>
         <div class="form-row"><label for="wifiqr-sec">Security</label><select id="wifiqr-sec"><option value="WPA">WPA / WPA2 / WPA3</option><option value="WEP">WEP (outdated)</option><option value="nopass">None (open network)</option></select></div>
-        <div class="form-row"><label for="wifiqr-heading">Sign Heading</label><input type="text" id="wifiqr-heading" value="Guest Wi-Fi" autocomplete="off" maxlength="40"></div>
-        <div class="checks"><label><input type="checkbox" id="wifiqr-hidden"> Hidden Network</label><label><input type="checkbox" id="wifiqr-showpass" checked> Show The Password On The Printed Sign</label></div>
+        <div class="form-row"><label for="wifiqr-title">Sign Title (Optional)</label><input type="text" id="wifiqr-title" placeholder="Family Home" autocomplete="off" maxlength="40"></div>
+        <div class="checks"><label><input type="checkbox" id="wifiqr-hidden"> Hidden Network</label><label><input type="checkbox" id="wifiqr-showpass" checked> Show the Password on the Printed Sign</label></div>
         <p class="error" id="wifiqr-error" hidden></p>
         <div class="qr-box" id="wifiqr-box" hidden>
           <canvas id="wifiqr-canvas" width="256" height="256" role="img" aria-label="Wi-Fi QR code"></canvas>
@@ -639,9 +769,40 @@
       </div>
       <div class="wifi-sign print-only" id="wifiqr-sign">
         <p class="sign-title" id="wifiqr-sign-title"></p>
+        <p class="sign-sub" id="wifiqr-sign-sub" hidden>Wi-Fi</p>
         <img id="wifiqr-sign-img" alt="">
         <dl><dt>Network</dt><dd id="wifiqr-sign-ssid"></dd><dt id="wifiqr-sign-pass-label">Password</dt><dd id="wifiqr-sign-pass"></dd></dl>
         <p>Point your phone camera at the code to join.</p>
+      </div>
+    </section>
+
+    <section class="tool" id="t-resolution" data-tool="resolution" data-group="Utilities" data-title="Resolutions" data-keywords="resolution aspect ratio 16:9 16:10 21:9 ultrawide 4k 1080p ppi dpi pixel density screen monitor">
+      <div class="tool-head"><h2>Resolutions by Aspect Ratio</h2></div>
+      <div class="card">
+        <h3>Find the Aspect Ratio</h3>
+        <div class="form-row"><label for="res-input">Resolution (Width x Height)</label><input type="text" id="res-input" placeholder="3440x1440" class="mono-input" autocomplete="off" spellcheck="false"></div>
+        <p class="error" id="res-error" hidden></p>
+        <table class="result-table kv" id="res-results" hidden><tbody></tbody></table>
+        <button type="button" id="res-show-group" class="btn small" hidden></button>
+      </div>
+      <div class="card">
+        <h3>Pixel Density (PPI)</h3>
+        <p class="hint">Uses the resolution above.</p>
+        <div class="form-row"><label for="res-diag">Screen Size (Diagonal Inches)</label><input type="number" id="res-diag" placeholder="34" min="1" step="any"></div>
+        <p class="error" id="res-ppi-error" hidden></p>
+        <table class="result-table kv" id="res-ppi-results" hidden><tbody></tbody></table>
+      </div>
+      <div class="card">
+        <h3>Standard Resolutions</h3>
+        <div class="form-row"><label for="res-group">Aspect Ratio</label><select id="res-group"></select></div>
+        <p class="hint" id="res-group-summary"></p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table">
+          <table class="result-table data-table res-table" id="res-group-table">
+            <thead><tr><th>Resolution</th><th>Name</th><th>Use Case</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="notes">Select a row to look it up above. Rows marked * are sold under this ratio but do not reduce to it exactly.</p>
       </div>
     </section>
 
@@ -658,6 +819,7 @@
   <p>It will not get any easier than this</p>
   <p class="build-info" id="build-info"></p>
   <p class="feedback">Want a tool added or found a mistake? Email <a href="mailto:info@ilhs.app?subject=IT%20Reference%20Calculator">info@ilhs.app</a>.</p>
+  <p class="feedback">Free and open source: <a href="https://github.com/ILikeHostingServices/IT-Reference-Calculator" rel="noopener noreferrer">view the code on GitHub</a>.</p>
 </footer>
 
 <script src="js/version.js"></script>

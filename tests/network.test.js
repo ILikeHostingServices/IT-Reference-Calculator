@@ -77,6 +77,17 @@ test("IPv6 split and EUI-64 address", () => {
   assert.equal(e.linkLocal, "fe80::21a:2bff:fe3c:4d5e");
 });
 
+test("IPv6 in prefix and ULA prefix", () => {
+  const P = Calc.IPv6Plan;
+  assert.equal(P.inPrefix("2001:db8:abcd:12::1", "2001:db8:abcd::/48").inside, true);
+  assert.equal(P.inPrefix("2001:db8:abce::1", "2001:db8:abcd::/48").inside, false);
+  assert.equal(P.inPrefix("2001:db8::1", "2001:db8:abcd::/48").last, "2001:db8:abcd:ffff:ffff:ffff:ffff:ffff");
+  assert.throws(() => P.inPrefix("2001:db8::1", "2001:db8::"), /prefix length/);
+  const u = P.ulaPrefix([0x12, 0x34, 0x56, 0x78, 0x9a]);
+  assert.deepEqual(u, { prefix: "fd12:3456:789a::/48", firstSubnet: "fd12:3456:789a::/64", globalId: "123456789a" });
+  assert.throws(() => P.ulaPrefix([1, 2, 3]), /5 random bytes/);
+});
+
 test("IPv6 input forms, address types, and reverse DNS", () => {
   const V = Calc.IPv6;
   assert.equal(V.compress(V.parseIp("fe80::1%eth0")), "fe80::1", "zone ID dropped");

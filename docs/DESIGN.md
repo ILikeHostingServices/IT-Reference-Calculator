@@ -1,4 +1,4 @@
-DESIGN.md v1.0.0 (Last Rev: 2026-11-25)
+DESIGN.md v1.1.0 (Last Rev: 2026-11-25)
 
 # Design
 
@@ -15,6 +15,8 @@ How the calculator presents itself and behaves to visitors and to contributors. 
 
 - **File headers:** every first-party file starts with a header naming it, its own version, and its last edit date, for example `/* js/net.js v1.0.0 (Last Rev: 2026-11-13) */`. Bump it on every functional change. Vendored files and JSON are exempt.
 - **App version:** `Calc.VERSION` in `js/version.js`, shown in the footer and used as the offline cache name. Bump it with a `CHANGELOG.md` entry on every functional change.
+- **Examples:** example inputs are placeholders; read inputs with `Calc.UI.val` (text), `num`, or `need` (numbers), which fall back to the placeholder when the box is empty. Do not put demo data in `value=` unless the field drives other fields. A tool with row lists adds `clearAll` and `restoreExamples` to its definition and gets Clear All and Restore Examples buttons.
+- **Copy Results:** copies the tool name, visible result tables, boxes, outputs, and check lists, any text from the tool's `resultsText()`, and a share link. Never include secrets.
 - **Live updates:** every tool recalculates on input; there are no Calculate buttons except network lookups and generators. Storage / RAM multiplies only quantity x size (size x size was removed on purpose).
 - **Resolutions tool:** data lives in `GROUPS` in `js/resolution.js`. Ultrawide "21:9" panels reduce to 64:27, 43:18, or 12:5, and 1366x768 is 683:384; those rows carry `nominal: true`, and the lookup treats anything within `MARKETED_TOLERANCE_PCT` (3%, in `js/ui/display.js`) as a nominal match. Standard groups are at least about 6% apart, so do not raise the tolerance much. Compare reduced ratios, never the group key string (16:10 reduces to 8:5).
 - **Errors:** a tool's logic throws an `Error` with a plain-language message; `Calc.UI.live` shows it in the tool's `.error` element. The app logs nothing on success.
@@ -34,10 +36,11 @@ How the calculator presents itself and behaves to visitors and to contributors. 
 - **Brand:** colors, fonts, header, and buttons copy ilhs.app. Only the brand palette is used: `--bg`, `--surface`, `--surface-2`, `--line`, `--text`, `--muted`, `--accent` (teal), `--accent-ink`, `--accent-soft`, `--amber` (warnings), `--red` (errors). No greens or second accents. `--field-line` is a mix of `--muted` and `--line` for form field borders.
 - **Contrast:** all text pairs meet WCAG AA (4.5:1) in both themes; form field borders meet 3:1 (WCAG 1.4.11) through `--field-line` `[TESTED]` (2026-11-25).
 - **Themes:** dark by default, light when the system asks for it. Printing always uses the light palette.
-- **Type and sizing:** fonts Familjen Grotesk (headings), Source Sans 3 (body), JetBrains Mono (values). Font sizes only from the ILHS Shared Sizing Spec tokens. Every button and link at least 44 x 44 px. Corners: 10 px cards, 8 px buttons, 6 px code and tags. No shadows.
-- **Copy:** Title Case for headings, buttons, and UI labels (result labels and table headers go through `Calc.UI.titleCase`). No emoji or exclamation marks. Do not spell out ILHS. ILHS is a free and open source software company: no sales or "hire us" copy.
-- **Phones:** key/value results stack the label above the value so addresses never break mid-value.
-- **Print:** menus, buttons, and notes are hidden. The Wi-Fi QR Code tool prints as a one-page sign: heading, QR code, network name, and the password when chosen.
+- **Type and sizing:** fonts Familjen Grotesk (headings), Source Sans 3 (body), JetBrains Mono (values). Font sizes only from the ILHS Shared Sizing Spec tokens: tool titles `--fs-h2`, card headings `--fs-h3`, labels, buttons, and result tables `--fs-nav`, inputs `--fs-body` (never under 16 px, or iPhones zoom on focus). Every button and link at least 44 x 44 px. Corners: 10 px cards, 8 px buttons, 6 px code and tags. No shadows.
+- **Copy:** Title Case for headings, buttons, and UI labels, with articles, short conjunctions, and prepositions lowercase in the middle ("PoE Budget and UPS Runtime", "Is This IP in That Subnet?"). Result labels and table headers go through `Calc.UI.titleCase`, which applies the same rule. No emoji or exclamation marks. Do not spell out ILHS. ILHS is a free and open source software company: no sales or "hire us" copy.
+- **Phones:** key/value results stack the label above the value so addresses never break mid-value. On wider screens key/value tables use fixed columns (label 34%, copy button 5 rem) so long values wrap in place and short ones stay on one line.
+- **Print:** menus, buttons, and notes are hidden. The Wi-Fi QR Code tool prints as a one-page sign: optional title, "Wi-Fi", QR code, network name, and the password when chosen.
+- **External links:** Quick Links and reference links open in a new tab with `rel="noopener noreferrer"`.
 - **Brand check before publishing:** the brand guide (`org/brand/BRANDING.md`), sizing spec (`org/brand/SIZING.md`), and org rules (`org/conventions.md`) are in the private `ILikeHostingServices/ilhs-internal` repository. When the sizing spec changes, update `css/style.css` and `docs/shared/ilhs-sizing-tokens.css` together. Re-check with `tests/browser-conformance.js` (sizing at every test size, zoom, headings, axe-core WCAG 2.2 AA) and `tests/browser-e2e.js`.
 
 ## Principles

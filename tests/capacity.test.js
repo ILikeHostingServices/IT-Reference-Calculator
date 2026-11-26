@@ -21,6 +21,23 @@ test("downtime and composite availability", () => {
   assert.throws(() => C.downtime(101), /at most 100/);
 });
 
+test("power and heat", () => {
+  const r = C.powerHeat({ watts: 1000, powerFactor: 0.9, volts: 120 });
+  assert.equal(Math.round(r.btu), 3412);
+  assert.equal(Math.round(r.va), 1111);
+  assert.equal(r.amps.toFixed(2), "9.26");
+  assert.equal(r.breaker, 15, "9.26 A / 0.8 = 11.6 A, so a 15 A breaker");
+  assert.equal(C.powerHeat({ watts: 3000, powerFactor: 1, volts: 120 }).breaker, 35);
+  assert.throws(() => C.powerHeat({ watts: 100, powerFactor: 1.2, volts: 120 }), /between 0 and 1/);
+});
+
+test("switch ports", () => {
+  const r = C.switchPorts({ devices: 100, growthPct: 20, portsPerSwitch: 48, reservedPerSwitch: 2 });
+  assert.deepEqual(r, { needed: 120, switches: 3, usablePorts: 138, spare: 18, totalPorts: 144 });
+  assert.equal(C.switchPorts({ devices: 0, growthPct: 0, portsPerSwitch: 24, reservedPerSwitch: 0 }).switches, 1);
+  assert.throws(() => C.switchPorts({ devices: 10, growthPct: 0, portsPerSwitch: 8, reservedPerSwitch: 8 }), /at least one port/);
+});
+
 test("formatDuration", () => {
   assert.equal(C.formatDuration(3661), "1 h 1 min 1 s");
   assert.equal(C.formatDuration(0.25), "250 ms");

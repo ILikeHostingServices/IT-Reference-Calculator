@@ -1,8 +1,34 @@
-CHANGELOG.md v2.2.0 (Last Rev: 2026-11-25)
+CHANGELOG.md v2.3.0 (Last Rev: 2026-11-25)
 
 # Changelog
 
 Newest first. Versions are Major.Minor.Patch, always three places. Dates are YYYY-MM-DD.
+
+## v2.3.0 - 2026-11-25
+
+Owner feedback from testing 2.2.0 on staging.
+
+### Added
+- **IPv6 Toolkit:** is this address in that prefix, EUI-64 addresses (moved from the IPv6 Planner), and a random unique local (ULA) /48 generator.
+- **IP Reference:** public DNS resolvers (IPv4 and IPv6, with what each filters), NTP servers, test servers (public IP, speed, IPv6 readiness, iperf3), and reserved IPv4 and IPv6 ranges. The resolver tables moved here from the IPv4 and IPv6 Subnet pages.
+- **Quick Links:** other useful sites and free tools (Shodan, Censys, SecurityTrails, crt.sh, MxToolbox, VirusTotal, AbuseIPDB, BGP tools, SSL Labs, Angry IP Scanner, Nmap, Wireshark, and more), opening in a new tab.
+- **Power and Heat:** BTU/hr, cooling tons, VA, amps at a chosen voltage, and the smallest breaker under the 80% rule.
+- **Switch Port Planner:** ports needed with growth headroom and how many switches, with ports held back for uplinks or stacking.
+- **Clear All** and **Restore Examples** buttons on tools with example rows (Subnet Planner, Storage / RAM, Uptime / SLA, PoE and UPS).
+- Wi-Fi QR Code: an optional sign title (for example "Family Home") printed above "Wi-Fi".
+- Footer link to the source code on GitHub.
+
+### Changed
+- **Example values are placeholders:** boxes show a grey example and the tool shows its result, but typing replaces the example instead of having to delete it first. Settings that link to each other (chmod, Number Bases, password length) keep real values.
+- **Network menu order:** Subnet Planner, IPv4 Subnet, IPv4 Toolkit, IPv6 Subnet, IPv6 Toolkit, MAC Address, Port Reference, IP Reference, Quick Links, SSL Certificate Checker. The IPv6 Planner's prefix split is now part of Subnet Planner; old `#v6plan` links open Subnet Planner.
+- Resolutions moved from its own Display group into Utilities.
+- **Title case:** articles, short conjunctions, and prepositions are lowercase in the middle of titles and labels ("PoE Budget and UPS Runtime", "DNS and Email").
+- **Sizing:** tool titles use the h2 size (24 to 32 px instead of 30 to 44 px); buttons are 44 px tall with smaller text; cards, form labels, and result tables are more compact; text boxes are 16 px or larger so iPhones do not zoom in when one is tapped.
+- PoE class choices show the watts first, so the useful part is visible in a narrow box.
+- **Copy Results** now includes check lists (email tools) and a link back to the tool with the same inputs, and says "No results yet." instead of copying only the title. On Wi-Fi QR Code it copies the network name and security type, never the password.
+
+### Fixed
+- Result values such as "8 h 45 min 58 s" wrapped onto two lines in narrow cards, and long IPv6 addresses widened the page at tablet widths: key/value tables now use fixed columns.
 
 ## v2.2.0 - 2026-11-25
 

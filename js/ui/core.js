@@ -1,4 +1,4 @@
-/* js/ui/core.js v1.0.1 (Last Rev: 2026-11-25) */
+/* js/ui/core.js v1.1.0 (Last Rev: 2026-11-25) */
 /* UI core - shared DOM helpers for every tool: errors, key/value and data tables with copy buttons,
    unit pickers, editable row lists, clipboard, toasts, and the tool registry that app.js drives.
    Tool files (js/ui/*.js) call Calc.UI.register(id, { init, getState, setState }). */
@@ -10,12 +10,17 @@ Calc.UI = (function () {
   const $ = id => document.getElementById(id);
   const tools = {};
 
-  // ILHS brand: Title Case for UI labels (every word capitalized). Leaves units and terms such as
-  // "(s)", "MB/s", "x", "chmod", and anything already capitalized or containing digits untouched.
+  // Title Case for UI labels: every word capitalized except articles, short conjunctions, and
+  // prepositions in the middle ("PoE Budget and UPS Runtime"). Leaves units and terms such as "(s)",
+  // "MB/s", "x", "chmod", and anything already capitalized or containing digits untouched.
   const KEEP_LOWER = new Set(["s", "ms", "x", "l", "setuid", "setgid", "chmod", "ls", "vs", "i"]);
+  const MINOR = new Set(["a", "an", "the", "and", "but", "or", "nor", "as", "at", "by", "for", "from", "in", "into", "of", "on", "per", "to", "via", "with"]);
   function titleCase(text) {
-    return String(text).replace(/(^|[\s(]|(?<=[A-Za-z])-)([a-z][a-z']*)(?![A-Za-z0-9.])/g,
-      (m, pre, word) => (KEEP_LOWER.has(word) ? m : pre + word[0].toUpperCase() + word.slice(1)));
+    return String(text).replace(/(^|[\s(]|(?<=[A-Za-z])-)([a-z][a-z']*)(?![A-Za-z0-9.])/g, (m, pre, word, offset, all) => {
+      const first = offset === 0, last = !/[A-Za-z]/.test(all.slice(offset + m.length));
+      if (KEEP_LOWER.has(word) || (MINOR.has(word) && !first && !last)) return m;
+      return pre + word[0].toUpperCase() + word.slice(1);
+    });
   }
 
   function register(id, def) {
@@ -50,9 +55,13 @@ Calc.UI = (function () {
     return run;
   }
 
-  // Number from an input; null when blank or not a finite number.
+  // What an input means: its value, or its placeholder (the example shown in the empty box) when blank.
+  // Example values live in placeholders so people can just start typing.
+  const val = el => (String(el.value).trim() === "" ? el.placeholder || "" : el.value);
+
+  // Number from an input (or its placeholder); null when blank or not a finite number.
   function num(el) {
-    const v = String(el.value).trim();
+    const v = String(val(el)).trim();
     if (v === "") return null;
     const n = Number(v);
     return isFinite(n) ? n : null;
@@ -308,7 +317,8 @@ Calc.UI = (function () {
     container.addEventListener("input", onChange);
     container.addEventListener("change", onChange);
     initialRows.forEach(addRow);
-    return { addRow: v => { const r = addRow(v); onChange(); return r; }, rows, set, serialize, deserialize };
+    // clear: one empty line to start from; restore: the example lines.
+    return { addRow: v => { const r = addRow(v); onChange(); return r; }, rows, set, serialize, deserialize, clear: () => set([{}]), restore: () => set(initialRows) };
   }
 
   function debounce(fn, ms) {
@@ -317,7 +327,7 @@ Calc.UI = (function () {
   }
 
   return {
-    $, tools, register, titleCase, showError, hideError, live, num, need, toast, copyText, copyButton,
+    $, tools, register, titleCase, showError, hideError, live, val, num, need, toast, copyText, copyButton,
     renderKV, renderData, renderIssues, renderBox, el, populateUnitSelect, populateRateSelect, rateFactor,
     formatBps, formatBoth, makeList, debounce,
   };

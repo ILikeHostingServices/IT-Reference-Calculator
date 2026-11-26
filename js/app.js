@@ -1,4 +1,4 @@
-/* js/app.js v1.0.1 (Last Rev: 2026-11-25) */
+/* js/app.js v1.1.0 (Last Rev: 2026-11-25) */
 /* app.js - page shell: builds the grouped tool menu from the <section class="tool"> elements, routes
    between tools with the URL hash (#tool?field=value), keeps share links in sync with the inputs,
    adds Copy Link / Copy Results buttons, runs the Ctrl+K search, and fills in the footer.
@@ -112,17 +112,25 @@
   }, 300);
 
   /* ---------- Tool header buttons ---------- */
+  // Copy Results: the tool name, every visible result (tables, boxes, outputs, check lists, and any
+  // text the tool adds itself), then a link that reopens the tool with the same inputs.
   function resultsText(section) {
+    const tool = section.dataset.tool;
     const parts = [section.querySelector(".tool-head h2").textContent];
-    section.querySelectorAll(".result-table:not([hidden]), .result-box:not([hidden]), .output:not([hidden])").forEach(node => {
-      if (node.closest("[hidden]")) return;
+    section.querySelectorAll(".result-table:not([hidden]), .result-box:not([hidden]), .output:not([hidden]), .issues").forEach(node => {
+      if (node.closest("[hidden]") || node.closest(".print-only")) return;
       if (node.tagName === "TABLE") {
         node.querySelectorAll("tr").forEach(tr => {
-          const cells = [...tr.children].filter(c => !c.classList.contains("copy-cell")).map(c => c.textContent.trim());
+          const cells = [...tr.children].filter(c => !c.classList.contains("copy-cell")).map(c => c.innerText.trim().replace(/\s*\n\s*/g, ", "));
           if (cells.join("")) parts.push(cells.join("\t"));
         });
-      } else parts.push(node.innerText.trim());
+      } else if (node.tagName === "UL") node.querySelectorAll("li").forEach(li => parts.push(`- ${li.textContent.trim()}`));
+      else parts.push(node.innerText.trim());
     });
+    const def = U.tools[tool], extra = def && def.resultsText && def.resultsText();
+    if (extra) parts.push(extra);
+    if (parts.length === 1) parts.push("No results yet.");
+    parts.push("", `Link: ${location.origin}${location.pathname}${hashFor(tool, currentState(tool))}`);
     return parts.join("\n");
   }
   sections.forEach(section => {
@@ -139,6 +147,16 @@
     copy.type = "button";
     copy.addEventListener("click", () => U.copyText(resultsText(section), "Results copied"));
     actions.append(link, copy);
+    // Tools with example rows (row lists) get Clear All and Restore Examples.
+    const def = U.tools[section.dataset.tool];
+    if (def && def.clearAll) {
+      [["Clear All", "clearAll"], ["Restore Examples", "restoreExamples"]].forEach(([label, fn]) => {
+        const b = U.el("button", "btn small", label);
+        b.type = "button";
+        b.addEventListener("click", () => { def[fn](); syncHash(); });
+        actions.appendChild(b);
+      });
+    }
     head.appendChild(actions);
     section.addEventListener("input", syncHash);
     section.addEventListener("change", syncHash);
@@ -160,7 +178,7 @@
     const [tool, query] = location.hash.slice(1).split("?");
     const params = Object.fromEntries(new URLSearchParams(query || ""));
     // Old links and legacy tab names keep working.
-    const aliases = { "": DEFAULT_TOOL, resolutions: "resolution", subnet: "ipv4", vlsm: "planner" };
+    const aliases = { "": DEFAULT_TOOL, resolutions: "resolution", subnet: "ipv4", vlsm: "planner", v6plan: "planner" };
     return { id: toolIds.includes(tool) ? tool : aliases[tool] || DEFAULT_TOOL, params };
   }
 
