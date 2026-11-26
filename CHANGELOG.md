@@ -1,8 +1,13 @@
-CHANGELOG.md v2.4.1 (Last Rev: 2026-11-25)
+CHANGELOG.md v2.4.2 (Last Rev: 2026-11-26)
 
 # Changelog
 
 Newest first. Versions are Major.Minor.Patch, always three places. Dates are YYYY-MM-DD.
+
+## v2.4.2 - 2026-11-26
+
+### Changed
+- Footer follows the shared ILHS Site Footer (Sizing Spec v2), the same on ilhs.app, calc.ilhs.app, and sslchecker.ilhs.app. The lines are: the app's tagline with the version and build time; then FOSS For All with the copyright; then info@ilhs.app and the GitHub link. The last two join into one line from 600 px wide. The "Want a tool added or found a mistake?" question is gone; the email link stays.
 
 ## v2.4.1 - 2026-11-25
 

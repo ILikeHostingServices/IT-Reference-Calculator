@@ -1,4 +1,4 @@
-/* style.css v3.0.1 (Last Rev: 2026-11-25)
+/* style.css v3.0.2 (Last Rev: 2026-11-26)
    IT Reference Calculator styles. Colors, fonts, header, and buttons follow the ILHS brand as used on
    ilhs.app (ILikeHostingServices/ILHS-Primary-Website site/assets/css/site.css). Dark first; light follows
    the system setting. Every size comes from the ILHS Shared Sizing Spec block below, pinned in
@@ -322,18 +322,19 @@ body.is-home .layout { grid-template-columns: minmax(0, 1fr); }
 .toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%); background: var(--surface-2); color: var(--text); border: 1px solid var(--line); border-radius: 0.5rem; padding: 0.625rem 1rem; font-size: var(--fs-small); z-index: 40; }
 
 /* ---------- Footer ---------- */
-.app-footer { border-top: 1px solid var(--line); padding-block: 1rem 1.25rem; text-align: center; color: var(--muted); font-size: var(--fs-small); }
-.app-footer p { margin: 0.125rem 0; }
-.app-footer .tagline { font-size: var(--fs-nav); font-style: italic; }
-/* One inline line of footer facts and links (Sizing Spec v2: footer at most 120 px desktop, 200 px phone). */
-.app-footer .meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 1rem; }
-.app-footer .links { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 0 1rem; }
+/* ILHS Site Footer (Sizing Spec v2.0.0, "Site Footer"): the same on ilhs.app and every app site. */
+.app-footer { border-top: 1px solid var(--line); padding-block: 1rem 1.25rem; display: grid; gap: 0.25rem; text-align: center; color: var(--muted); font-size: var(--fs-small); }
+.app-footer p { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 1rem; margin: 0; }
+.app-footer .brand-contact { display: grid; gap: 0.25rem; }
+.app-footer .foss { font: 700 var(--fs-label)/1.6 var(--mono); color: var(--accent); }
 .app-footer a { color: var(--muted); display: inline-flex; align-items: center; min-height: var(--tap-inline); }
-/* Phones: one short centered line per item instead of a wrapped row (version, question, then the two links). */
-@media (max-width: 599px) {
-  .app-footer .meta { flex-direction: column; align-items: center; }
-}
 .app-footer a:hover { color: var(--text); }
+@media (min-width: 600px) {
+  .app-footer .brand-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 1rem; }
+}
+@media (max-width: 599px) {
+  .app-footer .site-line { flex-direction: column; align-items: center; }
+}
 
 @media (max-width: 599px) {
   /* Phones: data tables become stacked rows (first cell as the row title, then "Header: value" lines), so
