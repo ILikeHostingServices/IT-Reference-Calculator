@@ -1,4 +1,4 @@
-/* tests/utilities.test.js v1.0.0 (Last Rev: 2026-11-13) */
+/* tests/utilities.test.js v1.0.1 (Last Rev: 2026-11-25) */
 "use strict";
 const test = require("node:test");
 const assert = require("node:assert/strict");
@@ -91,4 +91,10 @@ test("encodings, hashes, JWT, Wi-Fi string", async () => {
   assert.deepEqual(E.decodeJwt(jwt).payload, { sub: "42" });
   assert.equal(E.wifiString({ ssid: "Cafe;Guest", pass: 'p:a"ss', sec: "WPA", hidden: true }), 'WIFI:T:WPA;S:Cafe\\;Guest;P:p\\:a\\"ss;H:true;;');
   assert.equal(E.wifiString({ ssid: "Open", pass: "", sec: "nopass", hidden: false }), "WIFI:T:nopass;S:Open;;");
+  assert.equal(E.wifiProblem({ ssid: "Guest", pass: "correct horse", sec: "WPA" }), "");
+  assert.equal(E.wifiProblem({ ssid: "Guest", pass: "a".repeat(64).replace(/a/g, "f"), sec: "WPA" }), "", "64 hex digits is a raw key");
+  assert.match(E.wifiProblem({ ssid: "Guest", pass: "short", sec: "WPA" }), /8 to 63/);
+  assert.match(E.wifiProblem({ ssid: "Guest", pass: "x".repeat(64), sec: "WPA" }), /8 to 63/);
+  assert.match(E.wifiProblem({ ssid: "", pass: "", sec: "nopass" }), /network name/);
+  assert.match(E.wifiProblem({ ssid: "x".repeat(33), pass: "", sec: "nopass" }), /32 bytes/);
 });

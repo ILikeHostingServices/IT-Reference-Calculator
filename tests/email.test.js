@@ -1,4 +1,4 @@
-/* tests/email.test.js v1.0.0 (Last Rev: 2026-11-13) */
+/* tests/email.test.js v1.0.0 (Last Rev: 2026-11-12) */
 "use strict";
 const test = require("node:test");
 const assert = require("node:assert/strict");

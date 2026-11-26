@@ -1,4 +1,4 @@
-/* tests/site.test.js v1.0.0 (Last Rev: 2026-11-13) */
+/* tests/site.test.js v1.1.0 (Last Rev: 2026-11-25) */
 "use strict";
 /* Site integrity: brand sizing block, offline cache list, script order, and the no-dash writing rule. */
 const test = require("node:test");
@@ -7,12 +7,15 @@ const fs = require("fs");
 const path = require("path");
 
 const root = path.join(__dirname, "..");
-const read = f => fs.readFileSync(path.join(root, f), "utf8");
+// Line endings normalized: a Windows checkout (core.autocrlf) may have CRLF in some files and LF in others.
+const read = f => fs.readFileSync(path.join(root, f), "utf8").replace(/\r\n/g, "\n");
 const html = read("index.html");
 
 test("style.css carries the pinned ILHS Shared Sizing Spec block unchanged", () => {
   const pinned = read("docs/shared/ilhs-sizing-tokens.css");
-  const block = pinned.slice(pinned.indexOf("/* ILHS Shared Sizing Spec"), pinned.indexOf("/* ILHS Shared Sizing Spec v1.0.1 end */") + "/* ILHS Shared Sizing Spec v1.0.1 end */".length);
+  // Any spec version: from the start marker through the matching end marker.
+  const start = pinned.indexOf("/* ILHS Shared Sizing Spec v"), endMark = pinned.indexOf(" end */", start);
+  const block = pinned.slice(start, endMark + " end */".length);
   assert.ok(block.length > 200);
   assert.ok(read("css/style.css").includes(block), "css/style.css differs from docs/shared/ilhs-sizing-tokens.css");
 });

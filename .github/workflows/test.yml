@@ -1,19 +1,20 @@
-# .github/workflows/test.yml v1.0.0 (Last Rev: 2026-11-13)
-# test.yml - runs the unit and site-integrity tests (Node's built-in runner, no dependencies) on every
-# push and pull request. Same command as local: node --test tests/*.test.js
+# .github/workflows/test.yml v1.1.0 (Last Rev: 2026-11-12)
+# Runs the unit, Worker, and site-integrity tests (Node's built-in runner, no dependencies) on every pull
+# request and on pushes to staging and main. Same command as local: node --test tests/*.test.js
 name: Tests
 on:
-  push:
-    branches: [main]
   pull_request:
+  push:
+    branches: [main, staging]
 permissions:
   contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
       - run: node --test tests/*.test.js

@@ -1,4 +1,4 @@
-/* tests/load.js v1.0.0 (Last Rev: 2026-11-13) */
+/* tests/load.js v1.0.0 (Last Rev: 2026-11-12) */
 /* Test loader: runs the browser modules in Node the same way the page does (plain scripts that attach
    to window.Calc), in load order. Usage: const Calc = require("./load"); */
 "use strict";

@@ -1,4 +1,4 @@
-/* tests/network.test.js v1.0.0 (Last Rev: 2026-11-13) */
+/* tests/network.test.js v1.1.0 (Last Rev: 2026-11-25) */
 "use strict";
 const test = require("node:test");
 const assert = require("node:assert/strict");
@@ -65,12 +65,52 @@ test("MAC formats, bits, and EUI-64", () => {
 test("IPv6 split and EUI-64 address", () => {
   const r = Calc.IPv6Plan.split("2001:db8:abcd::", 48, 64, 3);
   assert.equal(r.count, 65536n);
-  assert.deepEqual(r.subnets, ["2001:db8:abcd::/64", "2001:db8:abcd:1::/64", "2001:db8:abcd:2::/64"]);
-  assert.equal(r.last, "2001:db8:abcd:ffff::/64");
+  assert.deepEqual(r.subnets.map(s => s.cidr), ["2001:db8:abcd::/64", "2001:db8:abcd:1::/64", "2001:db8:abcd:2::/64"]);
+  assert.equal(r.last.cidr, "2001:db8:abcd:ffff::/64");
   assert.throws(() => Calc.IPv6Plan.split("2001:db8::", 64, 48), /longer/);
+  const mid = Calc.IPv6Plan.split("2001:db8:abcd::", 48, 64, 2, 43);
+  assert.deepEqual(mid.subnets.map(s => [s.number, s.id, s.cidr]), [[43n, "2a", "2001:db8:abcd:2a::/64"], [44n, "2b", "2001:db8:abcd:2b::/64"]]);
+  assert.throws(() => Calc.IPv6Plan.split("2001:db8:abcd::", 48, 64, 2, 65537), /from 1 to 65,536/);
+  assert.equal(Calc.IPv6Plan.split("2001:db8::", 62, 64, 16).last, null, "no separate last entry when every subnet is listed");
   const e = Calc.IPv6Plan.eui64Address("2001:db8:abcd:12::", "00:1A:2B:3C:4D:5E");
   assert.equal(e.address, "2001:db8:abcd:12:21a:2bff:fe3c:4d5e");
   assert.equal(e.linkLocal, "fe80::21a:2bff:fe3c:4d5e");
+});
+
+test("IPv6 in prefix and ULA prefix", () => {
+  const P = Calc.IPv6Plan;
+  assert.equal(P.inPrefix("2001:db8:abcd:12::1", "2001:db8:abcd::/48").inside, true);
+  assert.equal(P.inPrefix("2001:db8:abce::1", "2001:db8:abcd::/48").inside, false);
+  assert.equal(P.inPrefix("2001:db8::1", "2001:db8:abcd::/48").last, "2001:db8:abcd:ffff:ffff:ffff:ffff:ffff");
+  assert.throws(() => P.inPrefix("2001:db8::1", "2001:db8::"), /prefix length/);
+  const u = P.ulaPrefix([0x12, 0x34, 0x56, 0x78, 0x9a]);
+  assert.deepEqual(u, { prefix: "fd12:3456:789a::/48", firstSubnet: "fd12:3456:789a::/64", globalId: "123456789a" });
+  assert.throws(() => P.ulaPrefix([1, 2, 3]), /5 random bytes/);
+});
+
+test("IPv6 input forms, address types, and reverse DNS", () => {
+  const V = Calc.IPv6;
+  assert.equal(V.compress(V.parseIp("fe80::1%eth0")), "fe80::1", "zone ID dropped");
+  assert.equal(V.compress(V.parseIp("[2001:db8::1]")), "2001:db8::1", "brackets dropped");
+  assert.equal(V.compress(V.parseIp("::ffff:192.0.2.1")), "::ffff:c000:201", "dotted IPv4 tail");
+  assert.throws(() => V.parseIp("::ffff:192.0.2.300"), /IPv4 part/);
+  const type = a => V.addressType(V.parseIp(a));
+  assert.deepEqual(type("::ffff:192.0.2.1"), { type: type("::ffff:192.0.2.1").type, embeddedIPv4: "192.0.2.1" });
+  assert.equal(type("64:ff9b::c633:6407").embeddedIPv4, "198.51.100.7");
+  assert.equal(type("2002:c000:204::1").embeddedIPv4, "192.0.2.4");
+  assert.match(type("2001:db8::1").type, /Documentation/);
+  assert.match(type("2001:0::1").type, /Teredo/);
+  assert.match(type("fd00::1").type, /Unique local/);
+  assert.match(type("fe80::1").type, /Link-local/);
+  assert.match(type("ff02::1").type, /Multicast, link-local scope/);
+  assert.match(type("2606:4700::1111").type, /Global unicast/);
+  assert.match(type("::1").type, /Loopback/);
+  assert.match(type("4000::").type, /Reserved/);
+  // RFC 3849 example.
+  assert.equal(V.ptrName(V.parseIp("2001:db8::567:89ab")), "b.a.9.8.7.6.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa");
+  const info = V.subnetInfo("2001:db8:abcd::1", 48);
+  assert.equal(info.subnets64, 65536n);
+  assert.equal(V.subnetInfo("2001:db8::1", 64).subnets64, null);
 });
 
 test("port data is well formed", () => {

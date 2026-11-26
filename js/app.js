@@ -1,4 +1,4 @@
-/* js/app.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/app.js v1.3.3 (Last Rev: 2026-11-26) */
 /* app.js - page shell: builds the grouped tool menu from the <section class="tool"> elements, routes
    between tools with the URL hash (#tool?field=value), keeps share links in sync with the inputs,
    adds Copy Link / Copy Results buttons, runs the Ctrl+K search, and fills in the footer.
@@ -10,17 +10,26 @@
   const sections = [...document.querySelectorAll("section.tool")];
   const toolIds = sections.map(s => s.dataset.tool);
   const DEFAULT_TOOL = toolIds[0];
-  const EXTERNAL = [{ group: "Network", title: "SSL Certificate Checker", href: "https://sslchecker.syshost.app/" }];
+  const EXTERNAL = [{ group: "Network", title: "SSL Certificate Checker", href: "https://sslchecker.ilhs.app/" }];
   let current = null;
 
   /* ---------- Tool menu ---------- */
   const nav = $("toolnav");
   const groups = [];
-  sections.forEach(s => {
+  sections.filter(s => s.dataset.group).forEach(s => {
     let g = groups.find(x => x.name === s.dataset.group);
     if (!g) groups.push(g = { name: s.dataset.group, items: [] });
-    g.items.push({ id: s.dataset.tool, title: s.dataset.title });
+    g.items.push({ id: s.dataset.tool, title: s.dataset.title, summary: s.dataset.summary });
   });
+  // Home (the overview, the default page) sits above the groups.
+  const homeUl = document.createElement("ul");
+  const homeLi = document.createElement("li");
+  const homeA = U.el("a", "", "Home: All Tools");
+  homeA.href = "#home";
+  homeA.dataset.tool = "home";
+  homeLi.appendChild(homeA);
+  homeUl.appendChild(homeLi);
+  nav.appendChild(homeUl);
   groups.forEach(g => {
     const wrap = U.el("div", "group");
     wrap.appendChild(U.el("p", "nav-group", g.name));
@@ -45,9 +54,30 @@
     nav.appendChild(wrap);
   });
 
+  /* ---------- Home: every tool by group, with its one-line summary ---------- */
+  const homeGrid = $("home-grid");
+  groups.forEach(g => {
+    const card = U.el("div", "card");
+    card.appendChild(U.el("h3", "", g.name));
+    const ul = U.el("ul", "tool-list");
+    const add = (title, href, summary, external) => {
+      const li = document.createElement("li");
+      const a = U.el("a", external ? "ext" : "", title);
+      a.href = href;
+      if (external) a.rel = "noopener";
+      li.append(a, U.el("span", "", summary));
+      ul.appendChild(li);
+    };
+    g.items.forEach(item => add(item.title, `#${item.id}`, item.summary));
+    EXTERNAL.filter(x => x.group === g.name).forEach(x => add(x.title, x.href, "Decode pasted certificates, chains, and .ovpn files", true));
+    card.appendChild(ul);
+    homeGrid.appendChild(card);
+  });
+
   // The menu is always open beside the tools on wide screens and collapsible on narrow ones.
   const navWrap = $("toolnav-wrap");
   const wide = window.matchMedia("(min-width: 960px)");
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   const syncNav = () => { navWrap.open = wide.matches; };
   wide.addEventListener("change", syncNav);
   syncNav();
@@ -112,20 +142,28 @@
   }, 300);
 
   /* ---------- Tool header buttons ---------- */
+  // Copy Results: the tool name, every visible result (tables, boxes, outputs, check lists, and any
+  // text the tool adds itself), then a link that reopens the tool with the same inputs.
   function resultsText(section) {
+    const tool = section.dataset.tool;
     const parts = [section.querySelector(".tool-head h2").textContent];
-    section.querySelectorAll(".result-table:not([hidden]), .result-box:not([hidden]), .output:not([hidden])").forEach(node => {
-      if (node.closest("[hidden]")) return;
+    section.querySelectorAll(".result-table:not([hidden]), .result-box:not([hidden]), .output:not([hidden]), .issues").forEach(node => {
+      if (node.closest("[hidden]") || node.closest(".print-only")) return;
       if (node.tagName === "TABLE") {
         node.querySelectorAll("tr").forEach(tr => {
-          const cells = [...tr.children].filter(c => !c.classList.contains("copy-cell")).map(c => c.textContent.trim());
+          const cells = [...tr.children].filter(c => !c.classList.contains("copy-cell")).map(c => c.innerText.trim().replace(/\s*\n\s*/g, ", "));
           if (cells.join("")) parts.push(cells.join("\t"));
         });
-      } else parts.push(node.innerText.trim());
+      } else if (node.tagName === "UL") node.querySelectorAll("li").forEach(li => parts.push(`- ${li.textContent.trim()}`));
+      else parts.push(node.innerText.trim());
     });
+    const def = U.tools[tool], extra = def && def.resultsText && def.resultsText();
+    if (extra) parts.push(extra);
+    if (parts.length === 1) parts.push("No results yet.");
+    parts.push("", `Link: ${location.origin}${location.pathname}${hashFor(tool, currentState(tool))}`);
     return parts.join("\n");
   }
-  sections.forEach(section => {
+  sections.filter(s => s.dataset.tool !== "home").forEach(section => {
     const head = section.querySelector(".tool-head");
     const actions = U.el("div", "tool-actions");
     const link = U.el("button", "btn small", "Copy Link");
@@ -139,11 +177,24 @@
     copy.type = "button";
     copy.addEventListener("click", () => U.copyText(resultsText(section), "Results copied"));
     actions.append(link, copy);
+    // Tools with example rows (row lists) get Clear All and Restore Examples.
+    const def = U.tools[section.dataset.tool];
+    if (def && def.clearAll) {
+      [["Clear all", "clearAll"], ["Restore Examples", "restoreExamples"]].forEach(([label, fn]) => {
+        const b = U.el("button", "btn small", label);
+        b.type = "button";
+        b.addEventListener("click", () => { def[fn](); syncHash(); });
+        actions.appendChild(b);
+      });
+    }
     head.appendChild(actions);
     section.addEventListener("input", syncHash);
     section.addEventListener("change", syncHash);
     section.addEventListener("click", e => { if (e.target.closest(".remove-row, .chip, [id$='-add']")) syncHash(); });
   });
+
+  // Static reference tables (IP Reference) get their header labels for the stacked phone layout.
+  document.querySelectorAll(".data-table").forEach(U.labelCells);
 
   /* ---------- Init every tool, then route ---------- */
   sections.forEach(section => {
@@ -157,13 +208,11 @@
   });
 
   function parseHash() {
-    const raw = decodeURIComponent(location.hash.slice(1));
     const [tool, query] = location.hash.slice(1).split("?");
     const params = Object.fromEntries(new URLSearchParams(query || ""));
     // Old links and legacy tab names keep working.
-    const aliases = { "": DEFAULT_TOOL, resolutions: "resolution", subnet: "ipv4", vlsm: "planner" };
-    const id = toolIds.includes(tool) ? tool : aliases[tool] || (raw ? null : DEFAULT_TOOL);
-    return { id: id || DEFAULT_TOOL, params };
+    const aliases = { "": DEFAULT_TOOL, resolutions: "resolution", subnet: "ipv4", vlsm: "planner", v6plan: "planner" };
+    return { id: toolIds.includes(tool) ? tool : aliases[tool] || DEFAULT_TOOL, params };
   }
 
   function activate(id, { focus } = {}) {
@@ -174,10 +223,13 @@
       else a.removeAttribute("aria-current");
     });
     const section = $(`t-${id}`);
-    document.title = `${section.dataset.title} | IT Reference Calculator | ILHS`;
+    document.title = id === "home" ? "IT Reference Calculator | ILHS" : `${section.dataset.title} | IT Reference Calculator | ILHS`;
     if (!wide.matches) navWrap.open = false;
+    document.body.classList.toggle("is-home", id === "home");
     if (focus) {
-      const first = section.querySelector("input:not([type=checkbox]), textarea, select");
+      // Jump straight into the first box only with a mouse or trackpad; on touch screens focusing a box
+      // opens the keyboard on every tool change, so focus the page content instead.
+      const first = finePointer.matches && section.querySelector("input:not([type=checkbox]), textarea, select");
       (first || $("main")).focus({ preventScroll: true });
       window.scrollTo({ top: 0 });
     }
@@ -278,8 +330,9 @@
     return valid.length ? new Date(Math.max(...valid)) : null;
   }
   const buildInfo = $("build-info");
-  buildInfo.textContent = `${Calc.APP_NAME} - v${Calc.VERSION}`;
-  newestAssetDate().then(date => { if (date) buildInfo.textContent += ` - Built ${formatEastern(date)}`; });
+  // The app name is already in the header, so the footer gives just the version and build time.
+  buildInfo.textContent = `Version ${Calc.VERSION}`;
+  newestAssetDate().then(date => { if (date) buildInfo.textContent += `, built ${formatEastern(date)}`; });
 
   /* ---------- Offline support ---------- */
   if ("serviceWorker" in navigator && (location.protocol === "https:" || ["localhost", "127.0.0.1"].includes(location.hostname))) {

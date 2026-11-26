@@ -1,4 +1,4 @@
-/* js/password.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/password.js v1.0.0 (Last Rev: 2026-11-12) */
 /* Password.js - password and passphrase generation with the browser's cryptographic random source
    (crypto.getRandomValues), plus entropy estimates. Nothing is stored or sent anywhere. */
 window.Calc = window.Calc || {};

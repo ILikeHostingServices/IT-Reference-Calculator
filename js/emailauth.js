@@ -1,4 +1,4 @@
-/* js/emailauth.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/emailauth.js v1.0.0 (Last Rev: 2026-11-12) */
 /* Emailauth.js - check and build SPF, DKIM, and DMARC records. Checks take a resolver function
    (name -> Promise<array of TXT strings>) so they can run against live DNS (Calc.DNS.txt) or test data. */
 window.Calc = window.Calc || {};

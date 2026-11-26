@@ -1,4 +1,4 @@
-/* js/ui/display.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/ui/display.js v1.1.2 (Last Rev: 2026-11-26) */
 /* UI: Display - resolutions by aspect ratio, resolution to aspect ratio lookup, and pixel density. */
 (function () {
   "use strict";
@@ -39,13 +39,13 @@
           tr.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
           tbody.appendChild(tr);
         });
+        U.labelCells(groupTable);
       }
 
       U.live([input], () => {
         results.hidden = true;
         showGroup.hidden = true;
-        if (input.value.trim() === "") return;
-        const { w, h } = Calc.Resolution.parse(input.value);
+        const { w, h } = Calc.Resolution.parse(U.val(input));
         const r = Calc.Resolution.lookup(w, h);
         const exact = `${r.ratioW}:${r.ratioH}`;
         const near = r.nearest.group;
@@ -69,7 +69,7 @@
         U.renderKV(results, rows);
         const key = r.known ? r.known.group.key : r.nearest.diffPct <= MARKETED_TOLERANCE_PCT ? near.key : null;
         if (key) {
-          showGroup.textContent = `Show All ${Calc.Resolution.getGroup(key).label} Resolutions`;
+          showGroup.textContent = `Show all ${Calc.Resolution.getGroup(key).label} Resolutions`;
           showGroup.dataset.group = key;
           showGroup.hidden = false;
         }
@@ -77,8 +77,7 @@
 
       U.live([input, $("res-diag")], () => {
         $("res-ppi-results").hidden = true;
-        if (input.value.trim() === "") return;
-        const { w, h } = Calc.Resolution.parse(input.value);
+        const { w, h } = Calc.Resolution.parse(U.val(input));
         const p = Calc.Capacity.ppi(w, h, U.need($("res-diag"), "a screen size"));
         const ft = p.retinaDistanceIn / 12;
         U.renderKV($("res-ppi-results"), [

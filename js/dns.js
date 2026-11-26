@@ -1,4 +1,4 @@
-/* js/dns.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/dns.js v1.0.0 (Last Rev: 2026-11-12) */
 /* DNS.js - DNS lookups from the browser over DNS-over-HTTPS (JSON API). Queries go to Cloudflare's
    public resolver, falling back to Google's if Cloudflare cannot be reached. This is the only part
    of the site that sends anything off the page: the name being looked up and the record type. */

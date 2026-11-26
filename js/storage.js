@@ -1,4 +1,4 @@
-/* js/storage.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/storage.js v1.0.0 (Last Rev: 2026-11-12) */
 /* Storage.js - storage/RAM math on plain byte counts (Number).
    Unit conversion is handled by Calc.Units; this module only does the arithmetic
    behind the Storage / RAM tab's "Add it up" and "Compare" tools. */

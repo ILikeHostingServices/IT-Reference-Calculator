@@ -1,44 +1,46 @@
-/* style.css v2.0.1 (Last Rev: 2026-11-13)
+/* style.css v3.0.2 (Last Rev: 2026-11-26)
    IT Reference Calculator styles. Colors, fonts, header, and buttons follow the ILHS brand as used on
    ilhs.app (ILikeHostingServices/ILHS-Primary-Website site/assets/css/site.css). Dark first; light follows
    the system setting. Every size comes from the ILHS Shared Sizing Spec block below, pinned in
-   docs/shared/ilhs-sizing-tokens.css; tests/brand.test.js fails if the two differ. Never edit the block in place. */
+   docs/shared/ilhs-sizing-tokens.css; tests/site.test.js fails if the two differ. Never edit the block in place. */
 
 @font-face { font-family: "Familjen Grotesk"; font-weight: 500; font-display: swap; src: url("../assets/fonts/familjen-grotesk-500.woff2") format("woff2"); }
 @font-face { font-family: "Familjen Grotesk"; font-weight: 700; font-display: swap; src: url("../assets/fonts/familjen-grotesk-700.woff2") format("woff2"); }
 @font-face { font-family: "Source Sans 3"; font-weight: 200 900; font-display: swap; src: url("../assets/fonts/source-sans-3-var.woff2") format("woff2"); }
 @font-face { font-family: "JetBrains Mono"; font-weight: 100 800; font-display: swap; src: url("../assets/fonts/jetbrains-mono-var.woff2") format("woff2"); }
 
-/* ILHS Shared Sizing Spec v1.0.1 start: from ilhs-internal org/brand/SIZING.md, do not edit here */
+/* ILHS Shared Sizing Spec v2.0.0 start: from ilhs-internal org/brand/SIZING.md, do not edit here */
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* Phones 0.85x -> 1x at 800 px; 1x to 1920 px; then up to 1.25x at 3840 x 2160. */
-  font-size: max(clamp(0.85rem, 0.7rem + 0.6vw, 1rem), min(0.75rem + 0.2083vw, 0.75rem + 0.3704vh, 1.25rem));
+  /* Phones 0.85x -> 1x at 800 px; 1x to 1920 px; then up to 1.15x at 3840 x 2160. */
+  font-size: max(clamp(0.85rem, 0.7rem + 0.6vw, 1rem), min(0.85rem + 0.125vw, 0.85rem + 0.2222vh, 1.15rem));
 }
 :root {
-  --fs-small: clamp(0.8125rem, 0.7851rem + 0.112vw, 0.875rem);   /* 13 -> 14 px */
+  --fs-small: clamp(0.8125rem, 0.7851rem + 0.112vw, 0.875rem);    /* 13 -> 14 px */
   --fs-label: 0.8125rem;                                          /* 13 px */
-  --fs-nav: clamp(0.875rem, 0.8476rem + 0.112vw, 0.9375rem);     /* 14 -> 15 px */
-  --fs-body: clamp(1rem, 0.9726rem + 0.112vw, 1.0625rem);        /* 16 -> 17 px */
-  --fs-lede: clamp(1.0625rem, 1.008rem + 0.225vw, 1.1875rem);    /* 17 -> 19 px */
-  --fs-h3: clamp(1.125rem, 1.07rem + 0.225vw, 1.25rem);          /* 18 -> 20 px */
-  --fs-card: clamp(1.25rem, 1.195rem + 0.225vw, 1.375rem);       /* 20 -> 22 px */
-  --fs-h2: clamp(1.5rem, 1.281rem + 0.899vw, 2rem);              /* 24 -> 32 px */
-  --fs-h1: clamp(1.875rem, 1.492rem + 1.57vw, 2.75rem);          /* 30 -> 44 px */
-  --fs-hero: clamp(2.125rem, 1.522rem + 2.47vw, 3.5rem);         /* 34 -> 56 px */
+  --fs-nav: clamp(0.875rem, 0.8476rem + 0.112vw, 0.9375rem);      /* 14 -> 15 px */
+  --fs-body: clamp(1rem, 0.9726rem + 0.112vw, 1.0625rem);         /* 16 -> 17 px */
+  --fs-lede: clamp(1.0625rem, 1.0351rem + 0.112vw, 1.125rem);     /* 17 -> 18 px */
+  --fs-h3: clamp(1.0625rem, 1.0077rem + 0.225vw, 1.1875rem);      /* 17 -> 19 px */
+  --fs-card: clamp(1.125rem, 1.0702rem + 0.225vw, 1.25rem);       /* 18 -> 20 px */
+  --fs-h2: clamp(1.3125rem, 1.1756rem + 0.562vw, 1.625rem);       /* 21 -> 26 px */
+  --fs-h1: clamp(1.625rem, 1.4059rem + 0.899vw, 2.125rem);        /* 26 -> 34 px */
+  --fs-hero: clamp(1.875rem, 1.4916rem + 1.573vw, 2.75rem);       /* 30 -> 44 px */
 
   --wrap-max: 75rem;                                              /* 1200 px with gutters */
-  --measure: 42rem;                                              /* 672 px reading width */
-  --gutter: clamp(1rem, 0.3427rem + 2.7vw, 2.5rem);              /* 16 -> 40 px */
-  --section-pad: clamp(2.5rem, 1.404rem + 4.49vw, 5rem);         /* 40 -> 80 px */
-  --hero-pad: clamp(2.5rem, 0.9663rem + 6.29vw, 6rem);           /* 40 -> 96 px */
-  --card-pad: clamp(1rem, 0.5618rem + 1.8vw, 2rem);              /* 16 -> 32 px */
-  --inset-pad: clamp(0.875rem, 0.6011rem + 1.12vw, 1.5rem);      /* 14 -> 24 px */
-  --gap: clamp(0.75rem, 0.4213rem + 1.35vw, 1.5rem);             /* 12 -> 24 px */
-  --tap: max(2.75rem, 44px);
+  --measure: 42rem;                                               /* 672 px reading width */
+  --gutter: clamp(1rem, 0.5618rem + 1.798vw, 2rem);               /* 16 -> 32 px */
+  --section-pad: clamp(2rem, 1.3427rem + 2.697vw, 3.5rem);        /* 32 -> 56 px */
+  --hero-pad: clamp(2rem, 1.1236rem + 3.596vw, 4rem);             /* 32 -> 64 px */
+  --card-pad: clamp(1rem, 0.7809rem + 0.899vw, 1.5rem);           /* 16 -> 24 px */
+  --inset-pad: clamp(0.75rem, 0.5309rem + 0.899vw, 1.25rem);      /* 12 -> 20 px */
+  --gap: clamp(0.75rem, 0.5309rem + 0.899vw, 1.25rem);            /* 12 -> 20 px */
+  --tap: max(2.75rem, 44px);                                      /* buttons, fields, menu items */
+  --tap-inline: max(1.5rem, 24px);                                /* text links in lines and footers */
+  --header-h: max(3.5rem, 56px);                                  /* one-row site header */
 }
-/* ILHS Shared Sizing Spec v1.0.1 end */
+/* ILHS Shared Sizing Spec v2.0.0 end */
 
 :root {
   /* Color: dark (default), same values as ilhs.app */
@@ -57,6 +59,10 @@ html {
   --display: "Familjen Grotesk", "Segoe UI", system-ui, sans-serif;
   --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", Consolas, "SFMono-Regular", monospace;
+
+  /* Form field borders: --line alone is about 1.4:1 against the page, under the 3:1 that WCAG 1.4.11
+     asks of input boundaries, so fields mix in --muted (3:1 or more in both themes). */
+  --field-line: color-mix(in srgb, var(--muted) 65%, var(--line));
 
   --radius: 0.625rem;
   --sidebar: 15rem;
@@ -96,21 +102,24 @@ kbd { font-size: var(--fs-label); border: 1px solid var(--line); border-bottom-w
 
 /* ---------- Header (matches ilhs.app) ---------- */
 .top { border-bottom: 1px solid var(--line); background: var(--surface); }
-.top .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1.5rem; padding-block: 0.625rem; }
-.brand-row { display: flex; align-items: center; gap: 0.75rem 1rem; flex-wrap: wrap; min-width: 0; }
+.top .wrap { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 0.75rem; min-height: var(--header-h); padding-block: 0.25rem; }
+.brand-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: nowrap; min-width: 0; }
 .brand { display: inline-flex; align-items: center; gap: 0.625rem; min-height: var(--tap); color: var(--text); text-decoration: none; }
-.brand img { width: 1.875rem; height: 1.875rem; display: block; }
+.brand img { width: 1.75rem; height: 1.75rem; display: block; }
 .wordmark { font: 800 1.25rem/1 var(--mono); letter-spacing: .02em; }
 .wordmark::after { content: ""; display: inline-block; width: .55em; height: .9em; margin-left: .12em; vertical-align: -.08em; background: var(--accent); }
-.app-title { font-size: var(--fs-h3); font-weight: 700; padding-left: 1rem; border-left: 1px solid var(--line); }
-.top-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.app-title { font-size: var(--fs-nav); font-weight: 700; padding-left: 0.75rem; border-left: 1px solid var(--line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.top-actions { display: flex; flex-wrap: nowrap; align-items: center; gap: 0.5rem; flex: none; }
 .top-actions a { color: var(--muted); text-decoration: none; font-size: var(--fs-nav); display: inline-flex; align-items: center; min-height: var(--tap); padding-inline: 0.5rem; }
 .top-actions a:hover { color: var(--text); }
 .search-btn { display: inline-flex; align-items: center; gap: 0.5rem; min-height: var(--tap); padding: 0 0.875rem; border: 1px solid var(--line); border-radius: 0.5rem; background: var(--bg); color: var(--muted); font: inherit; font-size: var(--fs-nav); cursor: pointer; }
 .search-btn:hover { color: var(--text); border-color: var(--accent); }
+/* Phones: the header stays one row (Sizing Spec v2 page budget): the ILHS mark stands in for the wordmark,
+   the ilhs.app link goes (the mark already links there), and Search loses its shortcut hint. */
 @media (max-width: 639px) {
-  .app-title { padding-left: 0; border-left: 0; width: 100%; font-size: var(--fs-body); }
+  .wordmark, .top-actions .site-link { display: none; }
   .search-btn kbd { display: none; }
+  .search-btn { padding: 0 0.75rem; }
 }
 
 /* ---------- Layout: tool list beside the active tool ---------- */
@@ -139,6 +148,7 @@ kbd { font-size: var(--fs-label); border: 1px solid var(--line); border-bottom-w
 .tool { display: none; min-width: 0; }
 .tool.active { display: block; }
 .tool-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.75rem 1rem; margin-bottom: 0.75rem; }
+/* Tool titles at the h2 size (24 to 32 px): the 44 px page-title size overpowered the tools (owner, 2026-11-25). */
 .tool-head h2 { font-size: var(--fs-h1); letter-spacing: -.01em; }
 .tool-intro { color: var(--muted); max-width: var(--measure); margin-bottom: 1rem; }
 .tool-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
@@ -153,14 +163,17 @@ kbd { font-size: var(--fs-label); border: 1px solid var(--line); border-bottom-w
 
 /* ---------- Forms ---------- */
 .form-row { display: flex; align-items: center; gap: 0.5rem 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
-.form-row > label:first-child { flex: 0 0 13rem; font-size: var(--fs-small); color: var(--muted); }
+.form-row > label:first-child { flex: 0 0 12rem; font-size: var(--fs-nav); color: var(--muted); }
+/* Example values live in placeholders; keep them readable (WCAG AA on --bg in both themes). */
+::placeholder { color: var(--muted); opacity: 1; }
 .form-row input, .form-row select, .form-row textarea, .field {
   flex: 1 1 10rem; min-width: 0; min-height: var(--tap); padding: 0.5rem 0.75rem;
-  border: 1px solid var(--line); border-radius: 0.5rem; background: var(--bg); color: var(--text); font: inherit;
+  border: 1px solid var(--field-line); border-radius: 0.5rem; background: var(--bg); color: var(--text); font: inherit;
 }
 .form-row select { flex-grow: 0.5; }
 .form-row input[type="checkbox"], .form-row input[type="radio"] { flex: 0 0 auto; min-height: 0; width: 1.125rem; height: 1.125rem; accent-color: var(--accent); }
-textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vertical; font-family: var(--mono); font-size: var(--fs-small); line-height: 1.5; }
+/* 16 px or more, or iPhones zoom the page when the box is tapped. */
+textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vertical; font-family: var(--mono); font-size: var(--fs-body); line-height: 1.5; }
 .mono-input { font-family: var(--mono) !important; }
 .checks { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin-bottom: 0.75rem; }
 .checks label { display: inline-flex; align-items: center; gap: 0.5rem; min-height: var(--tap); cursor: pointer; }
@@ -170,9 +183,9 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 .unit-pair select { flex: 0 0 auto; }
 
 .btn, .secondary-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.375rem; min-height: max(3rem, 44px);
-  padding: 0.625rem 1.25rem; border-radius: 0.5rem; border: 1px solid var(--line); background: var(--surface-2);
-  color: var(--text); font: inherit; font-size: var(--fs-body); font-weight: 600; line-height: 1.25; cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.375rem; min-height: var(--tap);
+  padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid var(--line); background: var(--surface-2);
+  color: var(--text); font: inherit; font-size: var(--fs-nav); font-weight: 600; line-height: 1.25; cursor: pointer; text-decoration: none;
 }
 .btn:hover, .secondary-btn:hover { border-color: var(--accent); }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
@@ -184,22 +197,31 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 .hint, .muted-msg { color: var(--muted); font-size: var(--fs-small); margin-bottom: 0.75rem; }
 .muted-msg { font-style: italic; }
 .notes { color: var(--muted); font-size: var(--fs-small); margin-top: 0.75rem; }
+/* Links inside hints and notes still get the 44 px tap height (ILHS brand rule). */
+.hint a, .notes a { display: inline-flex; align-items: center; min-height: var(--tap-inline); }
 .section-subheading { margin-top: 1.5rem; font-size: var(--fs-h3); }
 
 /* ---------- Results ---------- */
-.result-table { width: 100%; border-collapse: collapse; margin-top: 0.75rem; background: var(--bg); border: 1px solid var(--line); border-radius: 0.5rem; overflow: hidden; font-size: var(--fs-small); }
+.result-table { width: 100%; border-collapse: collapse; margin-top: 0.75rem; background: var(--bg); border: 1px solid var(--line); border-radius: 0.5rem; overflow: hidden; font-size: var(--fs-nav); }
 .result-table th { text-align: left; padding: 0.5rem 0.75rem; font-size: var(--fs-label); color: var(--muted); border-bottom: 1px solid var(--line); font-weight: 600; }
 .result-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
 .result-table tr:last-child td { border-bottom: none; }
 .result-table tbody tr:nth-child(even) { background: color-mix(in srgb, var(--surface-2) 60%, transparent); }
-.kv td:first-child { color: var(--muted); width: 40%; }
-.kv td:nth-child(2) { font-family: var(--mono); word-break: break-word; }
-.kv td.copy-cell { width: 1%; white-space: nowrap; text-align: right; padding-block: 0.25rem; }
+/* Fixed columns: long values (IPv6 addresses) wrap inside their column instead of widening the page, and
+   short ones ("8 h 45 min 58 s") keep their room because the label and copy columns cannot grow. */
+.kv { table-layout: fixed; }
+.kv td:first-child { color: var(--muted); width: 34%; }
+.kv td:nth-child(2) { font-family: var(--mono); overflow-wrap: anywhere; }
+.kv td.copy-cell { width: 5rem; white-space: nowrap; text-align: right; padding-block: 0.25rem; }
 .copy-btn { border: 1px solid transparent; background: none; color: var(--muted); font: inherit; font-size: var(--fs-label); cursor: pointer; border-radius: 0.375rem; padding: 0.25rem 0.625rem; min-height: var(--tap); min-width: var(--tap); }
 .copy-btn:hover, .copy-btn:focus-visible { color: var(--accent); border-color: var(--line); }
 .copy-btn.done { color: var(--accent); }
-.data-table td { word-break: break-word; }
-.data-table td.mono, .data-table .mono { font-family: var(--mono); white-space: nowrap; word-break: normal; }
+/* overflow-wrap, not word-break: a narrow column keeps whole words and the table scrolls instead. */
+.data-table td { overflow-wrap: break-word; }
+/* JetBrains Mono looks about one step larger than Source Sans at the same size, so mono values in tables
+   use the next token down to sit evenly beside the text around them. */
+.data-table td.mono, .data-table .mono { font-family: var(--mono); font-size: var(--fs-small); white-space: nowrap; word-break: normal; }
+.kv td:nth-child(2), .unit-table td { font-size: var(--fs-small); }
 .table-scroll { overflow-x: auto; }
 .table-scroll .result-table { min-width: 34rem; }
 
@@ -240,14 +262,14 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 .chip { min-height: var(--tap); min-width: var(--tap); padding: 0.25rem 0.75rem; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--text); font: inherit; font-size: var(--fs-small); cursor: pointer; }
 .chip:hover { border-color: var(--accent); color: var(--accent); }
 .storage-row, .list-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
-.storage-row input, .storage-row select, .list-row input, .list-row select { min-height: var(--tap); padding: 0.5rem 0.625rem; border: 1px solid var(--line); border-radius: 0.5rem; background: var(--bg); color: var(--text); font: inherit; min-width: 0; }
+.storage-row input, .storage-row select, .list-row input, .list-row select { min-height: var(--tap); padding: 0.5rem 0.625rem; border: 1px solid var(--field-line); border-radius: 0.5rem; background: var(--bg); color: var(--text); font: inherit; min-width: 0; }
 .storage-row .qty-input, .list-row .qty-input { flex: 0 0 4.5rem; }
 .storage-row .times { color: var(--muted); }
 .storage-row .amount-input { flex: 1 1 5rem; }
 .storage-row .unit-select { flex: 0 0 6.5rem; }
 .storage-row .label-input, .list-row .name-input { flex: 2 1 8rem; }
 .list-row .num-input { flex: 1 1 6rem; }
-.list-row select { flex: 1 1 10rem; }
+.list-row select { flex: 1 1 13rem; }
 .remove-row { background: none; border: 1px solid transparent; color: var(--red); cursor: pointer; font-size: var(--fs-h3); min-width: var(--tap); min-height: var(--tap); border-radius: 0.5rem; }
 .remove-row:hover { border-color: var(--line); }
 
@@ -260,6 +282,27 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 /* ---------- Ports ---------- */
 .port-table td:first-child { font-family: var(--mono); white-space: nowrap; }
 .port-table td:nth-child(2) { white-space: nowrap; }
+
+/* ---------- Home ---------- */
+.home-grid { columns: 18rem; column-gap: var(--gap); }
+.home-grid > .card { break-inside: avoid; margin-bottom: var(--gap); }
+/* Home is the menu, so the side menu (and the phone "All Tools" box) steps aside and Home uses the full width. */
+body.is-home .toolnav-wrap { display: none; }
+body.is-home .layout { grid-template-columns: minmax(0, 1fr); }
+.tool-list { list-style: none; margin: 0; padding: 0; }
+.tool-list li { display: flex; flex-direction: column; border-bottom: 1px solid var(--line); padding-bottom: 0.25rem; }
+.tool-list li:last-child { border-bottom: 0; }
+.tool-list a { display: inline-flex; align-items: center; min-height: var(--tap); font-weight: 600; text-decoration: none; }
+.tool-list a:hover { text-decoration: underline; }
+.tool-list span { color: var(--muted); font-size: var(--fs-small); margin-top: -0.5rem; padding-bottom: 0.25rem; }
+
+/* ---------- Quick Links ---------- */
+.link-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; }
+.link-list li { display: flex; flex-direction: column; padding: 0.25rem 0; border-bottom: 1px solid var(--line); }
+.link-list li:last-child { border-bottom: 0; }
+.link-list a { display: inline-flex; align-items: center; min-height: var(--tap); font-weight: 600; }
+.link-list a::after { content: " \2197"; color: var(--muted); margin-left: 0.25rem; }
+.link-list span { color: var(--muted); font-size: var(--fs-small); margin-top: -0.375rem; padding-bottom: 0.25rem; }
 
 /* ---------- QR ---------- */
 .qr-box { display: flex; flex-wrap: wrap; gap: var(--gap); align-items: flex-start; margin-top: 0.75rem; }
@@ -279,20 +322,72 @@ textarea.field, .form-row textarea { width: 100%; min-height: 8rem; resize: vert
 .toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%); background: var(--surface-2); color: var(--text); border: 1px solid var(--line); border-radius: 0.5rem; padding: 0.625rem 1rem; font-size: var(--fs-small); z-index: 40; }
 
 /* ---------- Footer ---------- */
-.app-footer { border-top: 1px solid var(--line); padding-block: 1.5rem 2.5rem; text-align: center; color: var(--muted); font-size: var(--fs-small); }
-.app-footer p { margin: 0.2rem 0; }
-.app-footer p:first-child { font-size: var(--fs-body); font-style: italic; }
-.app-footer .feedback a { color: var(--muted); display: inline-flex; align-items: center; min-height: var(--tap); }
+/* ILHS Site Footer (Sizing Spec v2.0.0, "Site Footer"): the same on ilhs.app and every app site. */
+.app-footer { border-top: 1px solid var(--line); padding-block: 1rem 1.25rem; display: grid; gap: 0.25rem; text-align: center; color: var(--muted); font-size: var(--fs-small); }
+.app-footer p { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 1rem; margin: 0; }
+.app-footer .brand-contact { display: grid; gap: 0.25rem; }
+.app-footer .foss { font: 700 var(--fs-label)/1.6 var(--mono); color: var(--accent); }
+.app-footer a { color: var(--muted); display: inline-flex; align-items: center; min-height: var(--tap-inline); }
+.app-footer a:hover { color: var(--text); }
+@media (min-width: 600px) {
+  .app-footer .brand-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 1rem; }
+}
+@media (max-width: 599px) {
+  .app-footer .site-line { flex-direction: column; align-items: center; }
+}
 
 @media (max-width: 599px) {
+  /* Phones: data tables become stacked rows (first cell as the row title, then "Header: value" lines), so
+     nothing scrolls sideways. The labels come from Calc.UI.labelCells. The chmod checkbox grid stays a grid. */
+  .table-scroll .result-table { min-width: 0; }
+  .data-table:not(#chmod-grid) thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .data-table:not(#chmod-grid), .data-table:not(#chmod-grid) tbody, .data-table:not(#chmod-grid) tr { display: block; }
+  .data-table:not(#chmod-grid) tr { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--line); }
+  .data-table:not(#chmod-grid) tr:last-child { border-bottom: 0; }
+  .data-table:not(#chmod-grid) td { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.5rem; padding: 0.125rem 0; border: 0; white-space: normal; overflow-wrap: anywhere; }
+  .data-table:not(#chmod-grid) td::before { content: attr(data-label); color: var(--muted); font-family: var(--body); font-size: var(--fs-label); }
+  .data-table:not(#chmod-grid) td:first-child { display: block; font-weight: 600; padding-bottom: 0.25rem; }
+  .data-table:not(#chmod-grid) td:first-child::before { content: none; }
+  .data-table:not(#chmod-grid) td:empty { display: none; }
+  .card { margin-bottom: 0.75rem; }
+  .tool-intro, .hint { margin-bottom: 0.5rem; }
   .unit-grid { grid-template-columns: 1fr; }
   .form-row > label:first-child { flex-basis: 100%; }
-  .kv td:first-child { width: 45%; }
+  /* Phones: label on its own line, value and copy button under it, so addresses do not break mid-value. */
+  .kv tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; border-bottom: 1px solid var(--line); }
+  .kv tr:last-child { border-bottom: 0; }
+  .kv td { border-bottom: 0; }
+  .kv td:first-child { grid-column: 1 / -1; width: auto; padding-bottom: 0; }
+  .kv td:nth-child(2) { align-self: center; }
   .storage-row, .list-row { padding-bottom: 0.5rem; border-bottom: 1px dashed var(--line); }
 }
 
+/* ---------- Wi-Fi sign (print only) ---------- */
+.print-only { display: none; }
+
 @media print {
-  .top, .toolnav-wrap, .tool-actions, .app-footer, .copy-btn, .copy-cell { display: none !important; }
-  .layout { display: block; }
-  body { background: #fff; color: #000; }
+  /* Print in the light palette whatever the screen theme, so text never comes out light on white paper. */
+  /* Selectors match the specificity of the theme rules above so these win by coming later. */
+  :root:not([data-theme="none"]), :root[data-theme] {
+    --bg: #ffffff; --surface: #ffffff; --surface-2: #ffffff; --line: #d5dde6;
+    --text: #111820; --muted: #4f5d6e; --accent: #0f766e; --accent-ink: #ffffff;
+    --accent-soft: #e0f4f1; --amber: #9a5b00; --red: #b42318;
+    color-scheme: light;
+  }
+  .top, .toolnav-wrap, .tool-actions, .app-footer, .copy-btn, .copy-cell, .skip, .btn-row, .privacy-note { display: none !important; }
+  .layout { display: block; padding: 0; }
+  .card, .result-box, .result-table { break-inside: avoid; }
+  .table-scroll { overflow: visible; }
+
+  /* Wi-Fi QR Code prints as a sign: the code, the network name, and (if chosen) the password. */
+  #t-wifiqr.active > :not(.wifi-sign) { display: none !important; }
+  #t-wifiqr.active > .wifi-sign { display: block; }
 }
+.wifi-sign { text-align: center; padding-top: 0.5in; color: var(--text); }
+.wifi-sign .sign-title { font: 700 var(--fs-hero)/1.15 var(--display); margin: 0 0 0.25in; color: var(--text); }
+.wifi-sign .sign-sub { font: 700 var(--fs-h2)/1.2 var(--display); margin: -0.15in 0 0.25in; color: var(--muted); }
+.wifi-sign img { width: 3.5in; height: 3.5in; image-rendering: pixelated; }
+.wifi-sign dl { display: grid; grid-template-columns: auto auto; justify-content: center; gap: 0.1in 0.25in; margin: 0.3in 0 0; font-size: var(--fs-h2); text-align: left; }
+.wifi-sign dt { color: var(--muted); }
+.wifi-sign dd { margin: 0; font-family: var(--mono); font-weight: 700; overflow-wrap: anywhere; }
+.wifi-sign > p:last-child { margin-top: 0.3in; font-size: var(--fs-lede); color: var(--muted); }

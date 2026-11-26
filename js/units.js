@@ -1,4 +1,4 @@
-/* js/units.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/units.js v1.0.1 (Last Rev: 2026-11-25) */
 /* Units.js - binary (KiB/MiB/...) and decimal (KB/MB/...) byte conversion helpers.
    Preferred default is binary (matches how most OSes report capacity). */
 window.Calc = window.Calc || {};
@@ -46,10 +46,6 @@ Calc.Units = (function () {
   }
 
   // Convert directly between two units.
-  function convert(amount, fromUnit, toUnit) {
-    return fromBytes(toBytes(amount, fromUnit), toUnit);
-  }
-
   // Pick the "nicest" unit for a byte count within a given system (binary/decimal),
   // i.e. the largest unit where the value is still >= 1 (falls back to B for tiny values).
   function bestUnit(bytes, system) {
@@ -91,7 +87,6 @@ Calc.Units = (function () {
     factorFor,
     toBytes,
     fromBytes,
-    convert,
     bestUnit,
     formatBytes,
     formatBoth,

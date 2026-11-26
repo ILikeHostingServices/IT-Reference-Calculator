@@ -1,4 +1,4 @@
-/* js/net.js v1.0.0 (Last Rev: 2026-11-13) */
+/* js/net.js v1.0.0 (Last Rev: 2026-11-12) */
 /* Net.js - IPv4 planning helpers built on Calc.IPv4: CIDR parsing, "is this IP in that subnet",
    range to CIDR blocks, Cisco-style ACL wildcards, VLSM subnet planning, and route summarization.
    Addresses are unsigned 32-bit integers held in Numbers (safe up to 2^53). */

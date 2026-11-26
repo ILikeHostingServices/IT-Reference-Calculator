@@ -1,7 +1,10 @@
-// wrangler.jsonc v1.0.0 (Last Rev: 2026-11-13)
-// Cloudflare Workers config. Workers Builds runs `npx wrangler versions upload` (branches)
-// and `npx wrangler deploy` (main) against this file. "name" must match the Worker in the
-// dashboard. Custom domains are managed in the dashboard, not here.
+// wrangler.jsonc v1.1.0 (Last Rev: 2026-11-12)
+// Cloudflare Workers config for calc.ilhs.app, live and staging (ILHS website baseline, section 3).
+//   Live:    Worker `calculator` (legacy name, kept), branch `main`, deploy command `npx wrangler deploy --env=""`
+//   Staging: Worker `calculator-staging`, branch `staging`, deploy command `npx wrangler deploy --env staging`
+// "name" must match the Worker in the dashboard. Custom domains and Cloudflare Access are dashboard
+// settings, not here; see docs/DEPLOYMENT.md. Bindings and vars are not inherited by env.staging,
+// so every one is repeated there.
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "calculator",
@@ -10,16 +13,37 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
-    // Run the Worker on every request so non-primary hostnames get redirected.
+    // Run the Worker on every request so the redirect and security headers always apply.
     "run_worker_first": true
   },
-  // Match the dashboard: workers.dev and preview URLs are turned off.
+  // calc.ilhs.app is the only public address: no workers.dev URL and no branch preview URLs
+  // (changes are tested on the staging site instead).
   "workers_dev": false,
   "preview_urls": false,
   // Upload/deploy time of this version; the Worker sends it as Last-Modified for the footer.
   "version_metadata": { "binding": "CF_VERSION_METADATA" },
   "vars": {
     // Every other custom domain on this Worker 301-redirects here. Empty disables redirects.
-    "PRIMARY_HOST": "calc.ilhs.app"
+    "PRIMARY_HOST": "calc.ilhs.app",
+    // "1" sends noindex and a disallow-all robots.txt (staging only).
+    "NOINDEX": ""
+  },
+
+  "env": {
+    "staging": {
+      "name": "calculator-staging",
+      "assets": {
+        "directory": ".",
+        "binding": "ASSETS",
+        "run_worker_first": true
+      },
+      "workers_dev": false,
+      "preview_urls": false,
+      "version_metadata": { "binding": "CF_VERSION_METADATA" },
+      "vars": {
+        "PRIMARY_HOST": "calc-staging.ilhs.app",
+        "NOINDEX": "1"
+      }
+    }
   }
 }

@@ -1,0 +1,5 @@
+# robots.txt v1.0.0 (Last Rev: 2026-11-12)
+# Lets every crawler index calc.ilhs.app. On staging the Worker answers /robots.txt with "Disallow: /" instead,
+# and Cloudflare Access keeps crawlers out.
+User-agent: *
+Allow: /
