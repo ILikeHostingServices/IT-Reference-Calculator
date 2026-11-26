@@ -1,4 +1,4 @@
-ROADMAP.md v1.1.0 (Last Rev: 2026-11-25)
+ROADMAP.md v1.1.1 (Last Rev: 2026-11-26)
 
 # Roadmap
 
@@ -14,7 +14,6 @@ Open questions for the owner (moved from the former `MEMORY.md`):
 
 - **Analytics:** ilhs.app allows only cookieless analytics, announced on the site. Cloudflare Web Analytics would need a site token and a CSP update. Not added.
 - **Brand guide domain table:** `BRANDING.md` section 2 still lists the calculator under legacy `*.syshost.app` utilities. calc.ilhs.app has been the primary domain since 2026-10-29; the guide should record that, and whether ilhs.app may link to the calculator.
-- **SSL Certificate Checker link:** the menu links to sslchecker.syshost.app, which the brand guide calls a legacy utility. Keep, move under ilhs.app, or drop.
 - **Website listing:** the ILHS website agent should link calc.ilhs.app from ilhs.app.
 
 ## Later
