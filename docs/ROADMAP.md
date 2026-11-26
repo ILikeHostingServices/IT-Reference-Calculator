@@ -1,4 +1,4 @@
-ROADMAP.md v1.1.1 (Last Rev: 2026-11-26)
+ROADMAP.md v1.2.0 (Last Rev: 2026-11-26)
 
 # Roadmap
 
@@ -6,7 +6,7 @@ Direction, not a task list. Finished work moves to `CHANGELOG.md`.
 
 ## Now
 
-- v2.3.0 (2026-11-25): owner feedback from staging (menu order, IPv6 Toolkit, IP Reference, Quick Links, Power and Heat, Switch Port Planner, placeholders, sizing, title case, Copy Results). Pull request into `staging`, then owner testing on calc-staging.ilhs.app, then `staging` into `main`.
+- Release 2.4.5 to calc.ilhs.app (owner approved, 2026-11-26): everything from 2.2.0 through 2.4.5, tested on calc-staging.ilhs.app.
 
 ## Next
 

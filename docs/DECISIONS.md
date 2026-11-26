@@ -1,4 +1,4 @@
-DECISIONS.md v1.5.0 (Last Rev: 2026-11-26)
+DECISIONS.md v1.5.1 (Last Rev: 2026-11-26)
 
 # Decisions
 
@@ -35,7 +35,7 @@ Entry format: ID, date (YYYY-MM-DD), decision, why, evidence label, how to undo.
 - Date: 2026-11-25
 - Decision: Adopt ILHS Shared Sizing Spec v2.0.0 (smaller headline and spacing tokens, 1.15x big-screen cap, one-row 56 px header, footer budget, 24 px text links, 44 px controls). Tool titles return to the page-title token (`--fs-h1`, now 34 px at desktop). The calculator opens on a Home page listing every tool.
 - Why: The owner found both ilhs.app and calc.ilhs.app oversized (header, footer, headlines) and wanted an overview page before the menu.
-- Evidence: `[USER]`; `[TESTED]` 2026-11-25 at 1920 x 1080: header 57 px, footer 91 px, title 34 px; at 375 px: header 57 px (was 139), footer 100 px (was 197).
+- Evidence: `[USER]`; `[TESTED]` 2026-11-25 at 1920 x 1080: header 57 px, footer 91 px, title 34 px; at 375 px: header 57 px (was 139), footer 100 px (was 197). The owner approved Sizing Spec v2.0.0 on 2026-11-26 (ILHS-Internal PR 1, merged).
 - Undo: Pin the v1.0.1 token block again and remove the Home section; record that here.
 
 ## D-016 - Network Menu Order And Merged Planners
