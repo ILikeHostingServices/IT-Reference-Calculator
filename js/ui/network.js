@@ -1,4 +1,4 @@
-/* js/ui/network.js v1.2.0 (Last Rev: 2026-11-25) */
+/* js/ui/network.js v1.2.1 (Last Rev: 2026-11-25) */
 /* UI: Network tools - subnet planner (IPv4 VLSM, route summarization, IPv6 prefix split), IPv4 subnet,
    IPv4 toolkit, IPv6 subnet, IPv6 toolkit, MAC address, and port reference. IP Reference and
    Quick Links are static pages with no code. */
@@ -242,6 +242,7 @@
           [String(p.port), p.proto, p.service, p.note].forEach(t => { const td = document.createElement("td"); td.textContent = t; tr.appendChild(td); });
           tbody.appendChild(tr);
         });
+        U.labelCells($("ports-table"));
         count.textContent = term ? `${list.length} of ${Calc.Ports.length} ports match.` : `${Calc.Ports.length} common ports.`;
       });
     },

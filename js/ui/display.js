@@ -1,4 +1,4 @@
-/* js/ui/display.js v1.1.0 (Last Rev: 2026-11-25) */
+/* js/ui/display.js v1.1.1 (Last Rev: 2026-11-25) */
 /* UI: Display - resolutions by aspect ratio, resolution to aspect ratio lookup, and pixel density. */
 (function () {
   "use strict";
@@ -39,6 +39,7 @@
           tr.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
           tbody.appendChild(tr);
         });
+        U.labelCells(groupTable);
       }
 
       U.live([input], () => {
