@@ -1,8 +1,13 @@
-CHANGELOG.md v2.4.2 (Last Rev: 2026-11-26)
+CHANGELOG.md v2.4.3 (Last Rev: 2026-11-26)
 
 # Changelog
 
 Newest first. Versions are Major.Minor.Patch, always three places. Dates are YYYY-MM-DD.
+
+## v2.4.3 - 2026-11-26
+
+### Changed
+- The SSL Certificate Checker link (menu and Home) now goes to https://sslchecker.ilhs.app/, the checker's new home (sslchecker.syshost.app redirects there). Its Home summary now matches what it does: decode pasted certificates, chains, and .ovpn files.
 
 ## v2.4.2 - 2026-11-26
 

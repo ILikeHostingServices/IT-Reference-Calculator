@@ -1,4 +1,4 @@
-/* js/app.js v1.3.1 (Last Rev: 2026-11-25) */
+/* js/app.js v1.3.2 (Last Rev: 2026-11-26) */
 /* app.js - page shell: builds the grouped tool menu from the <section class="tool"> elements, routes
    between tools with the URL hash (#tool?field=value), keeps share links in sync with the inputs,
    adds Copy Link / Copy Results buttons, runs the Ctrl+K search, and fills in the footer.
@@ -10,7 +10,7 @@
   const sections = [...document.querySelectorAll("section.tool")];
   const toolIds = sections.map(s => s.dataset.tool);
   const DEFAULT_TOOL = toolIds[0];
-  const EXTERNAL = [{ group: "Network", title: "SSL Certificate Checker", href: "https://sslchecker.syshost.app/" }];
+  const EXTERNAL = [{ group: "Network", title: "SSL Certificate Checker", href: "https://sslchecker.ilhs.app/" }];
   let current = null;
 
   /* ---------- Tool menu ---------- */
@@ -69,7 +69,7 @@
       ul.appendChild(li);
     };
     g.items.forEach(item => add(item.title, `#${item.id}`, item.summary));
-    EXTERNAL.filter(x => x.group === g.name).forEach(x => add(x.title, x.href, "Check a website's TLS certificate and chain", true));
+    EXTERNAL.filter(x => x.group === g.name).forEach(x => add(x.title, x.href, "Decode pasted certificates, chains, and .ovpn files", true));
     card.appendChild(ul);
     homeGrid.appendChild(card);
   });
