@@ -1,10 +1,18 @@
-DECISIONS.md v1.2.0 (Last Rev: 2026-11-25)
+DECISIONS.md v1.3.0 (Last Rev: 2026-11-26)
 
 # Decisions
 
 Newest first. Never delete an entry. To change a decision, add a new entry that supersedes it and note the old ID. Do not relitigate a recorded decision unless new evidence invalidates it.
 
 Entry format: ID, date (YYYY-MM-DD), decision, why, evidence label, how to undo. Entries D-001 to D-011 were moved here from the former `MEMORY.md` and `CLAUDE.md` on 2026-11-25.
+
+## D-018 - Shared ILHS Site Footer (Updates D-006)
+
+- Date: 2026-11-26
+- Decision: Use the Site Footer defined in Sizing Spec v2 on every ILHS site. Here that is the tagline "It will not get any easier than this" with the version and build time; then `FOSS For All` and the copyright; then info@ilhs.app and the GitHub link. The feedback question from D-006 is dropped; the contact address stays.
+- Why: The owner compared ilhs.app, calc, and sslchecker on Edge and Firefox phones and wanted the footer consistent across all three.
+- Evidence: `[USER]`
+- Undo: Restore the 2.4.1 footer markup and CSS.
 
 ## D-017 - Sizing Spec v2 And A Home Page (Supersedes D-014)
 
