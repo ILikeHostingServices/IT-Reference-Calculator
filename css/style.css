@@ -1,4 +1,4 @@
-/* style.css v3.0.0 (Last Rev: 2026-11-25)
+/* style.css v3.0.1 (Last Rev: 2026-11-25)
    IT Reference Calculator styles. Colors, fonts, header, and buttons follow the ILHS brand as used on
    ilhs.app (ILikeHostingServices/ILHS-Primary-Website site/assets/css/site.css). Dark first; light follows
    the system setting. Every size comes from the ILHS Shared Sizing Spec block below, pinned in
@@ -327,7 +327,12 @@ body.is-home .layout { grid-template-columns: minmax(0, 1fr); }
 .app-footer .tagline { font-size: var(--fs-nav); font-style: italic; }
 /* One inline line of footer facts and links (Sizing Spec v2: footer at most 120 px desktop, 200 px phone). */
 .app-footer .meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 1rem; }
+.app-footer .links { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 0 1rem; }
 .app-footer a { color: var(--muted); display: inline-flex; align-items: center; min-height: var(--tap-inline); }
+/* Phones: one short centered line per item instead of a wrapped row (version, question, then the two links). */
+@media (max-width: 599px) {
+  .app-footer .meta { flex-direction: column; align-items: center; }
+}
 .app-footer a:hover { color: var(--text); }
 
 @media (max-width: 599px) {

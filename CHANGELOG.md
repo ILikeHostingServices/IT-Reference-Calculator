@@ -1,8 +1,13 @@
-CHANGELOG.md v2.4.0 (Last Rev: 2026-11-25)
+CHANGELOG.md v2.4.1 (Last Rev: 2026-11-25)
 
 # Changelog
 
 Newest first. Versions are Major.Minor.Patch, always three places. Dates are YYYY-MM-DD.
+
+## v2.4.1 - 2026-11-25
+
+### Fixed
+- Footer on phones: one short centered line per item (version and build time, the feedback question, then the email and GitHub links) instead of a long third line that wrapped unevenly to the screen edges. The footer now says "Version 2.4.1, built ..."; the app name is already in the header.
 
 ## v2.4.0 - 2026-11-25
 
