@@ -1,4 +1,4 @@
-DEPLOYMENT.md v1.1.1 (Last Rev: 2026-11-25)
+DEPLOYMENT.md v1.2.0 (Last Rev: 2026-11-25)
 
 # Deploying calc.ilhs.app (Live And Staging)
 
@@ -44,6 +44,8 @@ GitHub only offers branch protection on private repositories with a paid plan. I
    - **API token:** create a new token for this Worker only.
    - **Branch control:** turn off builds for non-production branches, so only `staging` builds (previews are off for every ILHS site, baseline rule 13).
 2. Let the first build finish. Do not attach a domain yet.
+3. **Check the branch the first build used.** The import screen has no branch field, so the first build runs from the repository's default branch, `main`. `main` has no `env.staging` block until staging is merged into it, so Wrangler warns "No environment found" and deploys the live settings: `PRIMARY_HOST` = calc.ilhs.app, and calc-staging.ilhs.app then redirects to calc.ilhs.app after the Access login `[TESTED]` (2026-11-25). Set **Production branch** to `staging` (Settings > Builds), then start a build of `staging`: push or merge a commit to `staging`, or add a Deploy Hook and POST to it. Changing the branch alone does not rebuild.
+4. Confirm in Settings > Variables and Secrets: `PRIMARY_HOST` = `calc-staging.ilhs.app` and `NOINDEX` = `1`. Do not set them by hand; every build replaces them from `wrangler.jsonc`.
 
 ## Step 4: Require A Login For Staging (Before The Domain)
 

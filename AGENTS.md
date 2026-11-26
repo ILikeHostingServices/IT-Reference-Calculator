@@ -1,4 +1,4 @@
-AGENTS.md v1.0.0 (Last Rev: 2026-11-25)
+AGENTS.md v1.0.1 (Last Rev: 2026-11-25)
 
 # IT-Reference-Calculator - Agent Guide
 
@@ -56,7 +56,7 @@ A doc that says "Not Applicable: reason" is a valid answer, not a gap.
 
 - **Release flow: staging first.** Branch from `staging`, open the pull request into `staging`, merge when checks are green. The owner tests on calc-staging.ilhs.app; only after the owner approves, open a pull request from `staging` into `main`. Never push or force-push `staging` or `main` directly, and never open a change pull request straight into `main`.
 - **Merging:** merge commits only (no squash or rebase), as ILHS-Owner, only when every check is green, using the full head commit SHA.
-- **Git identity:** `ILHS-Owner <337515992+ILHS-Owner@users.noreply.github.com>` with a `Co-Authored-By` trailer for Claude. `main` was rewritten once (2026-11-12, owner approved); never rewrite shared history again without explicit approval.
+- **Git identity:** `ILHS-Owner <337515992+ILHS-Owner@users.noreply.github.com>` with a `Co-Authored-By` trailer for Claude. `main` was rewritten once (2026-11-12) and `staging` once (2026-11-25, a merge commit re-authored to ILHS-Owner), both owner approved; never rewrite shared history again without explicit approval. The `gh` CLI on the owner's machine defaults to another account: check `gh auth status` and switch to ILHS-Owner before merging.
 - **Adding a tool:** follow "Adding A Tool" in `docs/DESIGN.md` (logic module and tests, section in `index.html`, `Calc.UI.register`, `sw.js` ASSETS, version and changelog).
 - **Network calls:** only `js/dns.js` talks to the internet. A new host must go into `connect-src` in `worker/index.js` and the tool's `.privacy-note`.
 - **No inline scripts or styles** in `index.html` (the CSP forbids them; `tests/site.test.js` checks). Setting `element.style.x` from JS is fine.
